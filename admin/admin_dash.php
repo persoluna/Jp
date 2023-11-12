@@ -12,7 +12,7 @@ if (!isset($_SESSION['admin_id'])) {
 ?>
 
 <body>
-
+<a href="add_chapter.php">Add chapter</a>
 <h1>Warucomu.....<?php echo $_SESSION['admin_name']; ?></h1>
 
 </body>
