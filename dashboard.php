@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-
 <body>
 
 <h1>Warucomu.....<?php echo $_SESSION['user_name']; ?></h1>
