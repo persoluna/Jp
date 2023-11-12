@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <div class="card shadow">
                         <div class="card-body">
-                            <h2 class="card-title text-center mb-4">Sign Up</h2>
+                            <h2 class="card-title text-center mb-4">Login</h2>
                             <form method="POST">
 
                                 <!-- Email input -->
@@ -52,7 +52,6 @@ if (isset($_POST['submit'])) {
                                     <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;" name="submit">Login</button>
                                     <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="register.php" class="link-danger">Register</a></p>
                                 </div>
-
                             </form>
                         </div>
                     </div>

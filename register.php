@@ -14,7 +14,6 @@ if (isset($_POST['submit'])) {
 ?>
 
 <body>
-
     <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-lg-7">
