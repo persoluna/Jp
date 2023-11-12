@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="img1">
-                    <img src="assets/japan.png" class="img-fluid" alt="Sample image">
+                    <img src="assets/j.png" class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <div class="card shadow">

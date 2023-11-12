@@ -17,7 +17,8 @@ include("include/navbar.php");
     }
 
     .img1 {
-      width: 400px;
+      padding-top: 30px;
+      width: 600px;
       height: 500px;
       object-fit: contain;
       object-position: top center;
