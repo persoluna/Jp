@@ -4,7 +4,6 @@ include("include/header.php");
 include("../config/db.php");
 
 if (!isset($_SESSION['admin_id'])) {
-
     $_SESSION['login_redirect_message'] = 'You need to log in to access the dashboard';
     header("location: login.php");
     exit();

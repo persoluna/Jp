@@ -10,6 +10,11 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 // Check for success message and display it
+if (isset($_SESSION['updated_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['updated_message'] . '</div>';
+    unset($_SESSION['updated_message']); // Remove the message after displaying it
+}
+// Check for success message and display it
 if (isset($_SESSION['deleted_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['deleted_message'] . '</div>';
     unset($_SESSION['deleted_message']); // Remove the message after displaying it
@@ -23,12 +28,15 @@ if (isset($_SESSION['error_message'])) {
 
 ?>
 
-<div class="container">
+<div class="container mt-4100">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Chapters</h4>
+                    <h4>All Chapters</h4>
+                    <a href="admin_dash.php">Dashboard</a>
+                    <br>
+                    <a href="add_chapter.php">add-chapter</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
@@ -65,9 +73,10 @@ if (isset($_SESSION['error_message'])) {
                                         </td>
 
                                         <td>
-                                            <a href="edit_chapter.php?id=<?= $item['id']; ?>" class="btn btn-secondary">Edit</a>
+                                            <a href="edit_chapter.php?chapter_id=<?= $item['chapter_id']; ?>" class="btn btn-secondary">Edit</a>
                                             <form action="action.php" method="POST">
-                                                <input type="hidden" name="chapter_id" value="<?= $item['id']; ?>">
+                                                <input type="hidden" name="chapter_id" value="<?= $item['chapter_id']; ?>">
+                                                <br>
                                                 <button type="submit" class="btn btn-secondary" name="delete_chapter_btn">Delete</button>
                                             </form>
                                         </td>
