@@ -30,9 +30,9 @@ if (isset($_SESSION['error_message'])) {
         <div class="card">
           <div class="card-header">
             <h4>Add Chapter</h4>
-            <a href="admin_dash.php">Dashboard</a>
+            <a href="admin_dash.php" class="btn btn-primary">Dashboard</a>
             <br>
-            <a href="all_chapters.php">all chapters</a>
+            <a href="all_chapters.php" class="btn btn-primary">all chapters</a>
           </div>
           <div class="card-body">
             <form action="action.php" method="POST" enctype="multipart/form-data">

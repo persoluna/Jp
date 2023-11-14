@@ -59,7 +59,6 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </section>
-
 </body>
 
 </html>

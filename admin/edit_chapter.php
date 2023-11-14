@@ -30,7 +30,7 @@ if (!isset($_SESSION['admin_id'])) {
                     <div class="card">
                         <div class="card-header">
                             <h4>Edit chapter</h4>
-                            <strong><a href="all_chapters.php">back</a></strong>
+                            <strong><a href="all_chapters.php" class="btn btn-primary">back</a></strong>
                         </div>
                         <div class="card-body">
                             <form action="action.php" method="POST" enctype="multipart/form-data">

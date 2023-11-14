@@ -8,6 +8,8 @@ if (!isset($_SESSION['admin_id'])) {
   exit();
 }
 
+
+
 // Check if the "Add Chapter" form is submitted
 if (isset($_POST['add_chapter'])) {
   // Retrieve data from the form using mysqli_real_escape_string for security
@@ -86,25 +88,94 @@ if (isset($_POST['add_chapter'])) {
 } else if (isset($_POST['delete_chapter_btn'])) {
   $chapter_id = mysqli_real_escape_string($con, $_POST['chapter_id']);
 
-  $chapter_query = "SELECT * FROM chapters WHERE chapter_id='$chapter_id' ";
-  $chapter_query_run = mysqli_query($con, $chapter_query);
-  $chapter_data = mysqli_fetch_array($chapter_query_run);
+  // Fetch flashcards associated with the chapter
+  $flashcard_query = "SELECT * FROM flashcards WHERE chapter_id='$chapter_id'";
+  $flashcard_query_run = mysqli_query($con, $flashcard_query);
+
+  // Delete the associated flashcards
+  while ($flashcard_data = mysqli_fetch_array($flashcard_query_run)) {
+      $flashcard_id = $flashcard_data['id'];
+      $delete_flashcard_query = "DELETE FROM flashcards WHERE id=?";
+      $stmt = mysqli_prepare($con, $delete_flashcard_query);
+      mysqli_stmt_bind_param($stmt, 'i', $flashcard_id);
+      $delete_flashcard_query_run = mysqli_stmt_execute($stmt);
+  }
+
+  // Fetch image associated with the chapter
+  $image_query = "SELECT image FROM chapters WHERE chapter_id='$chapter_id'";
+  $image_query_run = mysqli_query($con, $image_query);
+  $chapter_data = mysqli_fetch_array($image_query_run);
   $image = $chapter_data['image'];
 
+  // Now delete the chapter
   $delete_query = "DELETE FROM chapters WHERE chapter_id=?";
   $stmt = mysqli_prepare($con, $delete_query);
   mysqli_stmt_bind_param($stmt, 'i', $chapter_id);
   $delete_query_run = mysqli_stmt_execute($stmt);
+
   if ($delete_query_run) {
-    if (file_exists("uploads/" . $image)) {
-      unlink("uploads/" . $image);
-    }
-    $_SESSION['deleted_message'] = 'Deleted successfully';
-    header("Location: all_chapters.php");
+      // Delete the associated image file
+      if (file_exists("uploads/" . $image)) {
+          unlink("uploads/" . $image);
+      }
+      $_SESSION['deleted_message'] = 'Deleted successfully';
+      header("Location: all_chapters.php");
+      exit();
+  } else {
+      $_SESSION['error_message'] = 'Something went wrong';
+      header("Location: add_chapter.php");
+      exit();
+  }
+}
+elseif (isset($_POST['add_flashcard_btn'])) {
+  $chapter_id = $_POST['chapter_id'];
+  $question = $_POST['question'];
+  $answer = $_POST['answer'];
+
+  $flashcard_query = "INSERT INTO flashcards (chapter_id,question, answer) VALUES ('$chapter_id','$question', '$answer')";
+  $flashcard_query_run = mysqli_query($con, $flashcard_query);
+
+  if ($flashcard_query_run) {
+    $_SESSION['added_message'] = 'Added successfully';
+    header("Location: flashcard/flashcards.php");
     exit();
   } else {
     $_SESSION['error_message'] = 'Something went wrong';
-    header("Location: add_chapter.php");
+    header("Location: flashcard/add_flashcard.php");
+    exit();
+  }
+}
+if (isset($_POST['update_flashcard_btn'])) {
+  $flashcard_id = $_POST['flashcard_id'];
+  $new_question = $_POST['new_question'];
+  $new_answer = $_POST['new_answer'];
+
+  $update_flashcard_query = "UPDATE flashcards SET question='$new_question', answer='$new_answer' WHERE id='$flashcard_id'";
+  $update_flashcard_query_run = mysqli_query($con, $update_flashcard_query);
+
+  if ($update_flashcard_query_run) {
+    $_SESSION['updated_message'] = 'updated successfully';
+    header("Location: flashcard/flashcards.php");
+    exit();
+  } else {
+    $_SESSION['error_message'] = 'Something went wrong';
+    header("Location: flashcard/flashcards.php");
+    exit();
+  }
+}
+if (isset($_POST['delete_flashcard_btn'])) {
+  $flashcard_id = mysqli_real_escape_string($con, $_POST['flashcard_id']);
+
+  $delete_flashcard_query = "DELETE FROM flashcards WHERE id='$flashcard_id'";
+  $delete_flashcard_query_run = mysqli_query($con, $delete_flashcard_query);
+
+  if ($delete_flashcard_query_run) {
+    $_SESSION['deleted_message'] = 'Deleted successfully';
+    header("Location: flashcard/flashcards.php");
+    exit();
+  } else {
+    $_SESSION['problem_message'] = 'Something went wrong while deleting the flashcard';
+    header("Location: flashcard/flashcards.php");
     exit();
   }
 }

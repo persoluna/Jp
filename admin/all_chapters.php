@@ -34,9 +34,11 @@ if (isset($_SESSION['error_message'])) {
             <div class="card">
                 <div class="card-header">
                     <h4>All Chapters</h4>
-                    <a href="admin_dash.php">Dashboard</a>
+                    <a href="admin_dash.php" class="btn btn-primary">Dashboard</a>
                     <br>
-                    <a href="add_chapter.php">add-chapter</a>
+                    <br>
+                    <a href="add_chapter.php" class="btn btn-primary">add-chapter</a>
+                    <a href="flashcard/flashcards.php" class="btn btn-primary">Flashcards</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
