@@ -44,7 +44,6 @@ if (!isset($_SESSION['admin_id'])) {
                                         echo "<td>{$user['name']}</td>";
                                         echo "<td>{$user['email']}</td>";
                                         echo "<td>{$user['password']}</td>";
-
                                         echo "</tr>";
                                     }
                                 } else {
@@ -58,7 +57,6 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
