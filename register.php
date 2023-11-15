@@ -5,10 +5,14 @@ include("config/db.php");
 if (isset($_POST['submit'])) {
     extract($_POST);
 
-    $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+    // Set default status to 'new' for new registrations
+    $status = 'new';
+
+    $sql = "INSERT INTO user (name, email, password, status) VALUES ('$name', '$email', '$password', '$status')";
     $result = mysqli_query($con, $sql);
+
     if ($result) {
-        header("location:login.php");
+        header("location: login.php");
     }
 }
 ?>
@@ -40,10 +44,8 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
 </body>
 
 </html>

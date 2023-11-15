@@ -29,12 +29,13 @@ if (!isset($_SESSION['admin_id'])) {
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Password</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="user_table">
                                 <?php
                                 // Fetch user data from the database
-                                $user_query = "SELECT id, name, email, password FROM users";
+                                $user_query = "SELECT id, name, email, password, status FROM user";
                                 $user_result = mysqli_query($con, $user_query);
 
                                 if ($user_result) {
@@ -44,10 +45,11 @@ if (!isset($_SESSION['admin_id'])) {
                                         echo "<td>{$user['name']}</td>";
                                         echo "<td>{$user['email']}</td>";
                                         echo "<td>{$user['password']}</td>";
+                                        echo "<td id='status_{$user['id']}'>{$user['status']}</td>"; // Add an id to the status cell
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='3'>Error fetching user data.</td></tr>";
+                                    echo "<tr><td colspan='6'>Error fetching user data.</td></tr>";
                                 }
                                 ?>
                             </tbody>
@@ -57,6 +59,53 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         </div>
     </div>
+    <script>
+        function updateUserStatus(userId, newStatus) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'login.php?updateStatus=true&userId=' + userId + '&newStatus=' + newStatus, true);
+            xhr.send();
+
+            xhr.onload = function() {
+                if (xhr.status != 200) {
+                    console.error('Error updating user status. Status code: ' + xhr.status);
+                } else {
+                    document.getElementById('status_' + userId).innerHTML = newStatus;
+                }
+            };
+        }
+
+        // Heartbeat function
+        function heartbeat() {
+            // Make an AJAX request to get the latest user status
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'get_latest_user_status.php', true);
+
+            // Send the request
+            xhr.send();
+
+            // This will be called after the response is received
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    // Update the user status in the table
+                    // You may need to reload the entire table or just update the specific cells
+                    // depending on your requirements
+                    // For example:
+                    var userStatusData = JSON.parse(xhr.responseText);
+                    for (var userId in userStatusData) {
+                        document.getElementById('status_' + userId).innerHTML = userStatusData[userId];
+                    }
+                }
+            };
+
+            // Schedule the next heartbeat after a certain interval (e.g., 5 seconds)
+            setTimeout(heartbeat, 5000);
+        }
+
+        // Start the heartbeat when the page is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            heartbeat();
+        });
+    </script>
 </body>
 
 </html>

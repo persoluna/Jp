@@ -6,7 +6,7 @@ include("config/db.php");
 if (isset($_POST['submit'])) {
     extract($_POST);
 
-    $sql = "SELECT id, name FROM users WHERE email='$email' AND password='$password'";
+    $sql = "SELECT id, name FROM user WHERE email='$email' AND password='$password'";
     $result = mysqli_query($con, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
@@ -16,12 +16,30 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['user_name'] = $row['name'];
 
-        header("location: dashboard.php"); // Redirect to the user's dashboard
+        // Update user status to 'Online'
+        $userId = $_SESSION['user_id'];
+        $newStatus = 'Online';
+
+        $updateQuery = "UPDATE user SET status = '$newStatus' WHERE id = $userId";
+        $updateResult = mysqli_query($con, $updateQuery);
+
+        if ($updateResult) {
+            // Status updated successfully
+            echo "User status updated to 'Online'";
+
+            // Redirect to the user's dashboard or another page
+            header("location: dashboard.php");
+            exit();
+        } else {
+            // Error updating user status
+            echo "Error updating user status!";
+        }
     } else {
         echo "Wrong username or password";
     }
 }
 ?>
+
 
 <body>
     <section class="vh-100">
