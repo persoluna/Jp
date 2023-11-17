@@ -6,40 +6,27 @@ include("config/db.php");
 if (isset($_POST['submit'])) {
     extract($_POST);
 
-    $sql = "SELECT id, name FROM user WHERE email='$email' AND password='$password'";
-    $result = mysqli_query($con, $sql);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-
-        // Login successful
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['user_id'] = $row['id'];
-        $_SESSION['user_name'] = $row['name'];
-
-        // Update user status to 'Online'
-        $userId = $_SESSION['user_id'];
-        $newStatus = 'Online';
-
-        $updateQuery = "UPDATE user SET status = '$newStatus' WHERE id = $userId";
-        $updateResult = mysqli_query($con, $updateQuery);
-
-        if ($updateResult) {
-            // Status updated successfully
-            echo "User status updated to 'Online'";
-
-            // Redirect to the user's dashboard or another page
-            header("location: dashboard.php");
-            exit();
-        } else {
-            // Error updating user status
-            echo "Error updating user status!";
-        }
+    // Basic email validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Invalid email address";
     } else {
-        echo "Wrong username or password";
+        // Check if the user with the provided email and password exists
+        $sql = "SELECT id, name FROM user WHERE email='$email' AND password='$password'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Login successful
+            $row = mysqli_fetch_assoc($result);
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['user_name'] = $row['name'];
+
+            header('Location: dashboard.php');
+        } else {
+            echo "Wrong username or password";
+        }
     }
 }
 ?>
-
 
 <body>
     <section class="vh-100">
@@ -53,17 +40,15 @@ if (isset($_POST['submit'])) {
                         <div class="card-body">
                             <h2 class="card-title text-center mb-4">Login</h2>
                             <form method="POST">
-
-                                <!-- Email input -->
                                 <label class="form-label" for="email">Email address</label>
                                 <div class="form-outline mb-4">
-                                    <input type="email" id="email" class="form-control form-control-lg" name="email" placeholder="Enter a valid email address" />
+                                    <input type="email" id="email" class="form-control form-control-lg" name="email" placeholder="Enter a valid email address" required />
                                 </div>
 
                                 <!-- Password input -->
                                 <label class="form-label" for="password">Password</label>
                                 <div class="form-outline mb-3">
-                                    <input type="password" id="password" class="form-control form-control-lg" name="password" placeholder="Enter password" />
+                                    <input type="password" id="password" class="form-control form-control-lg" name="password" placeholder="Enter password" required />
                                 </div>
 
                                 <div class="text-center text-lg-start mt-4 pt-2">
