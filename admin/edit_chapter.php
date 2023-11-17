@@ -40,6 +40,10 @@ if (!isset($_SESSION['admin_id'])) {
                                         <label for="">Name</label>
                                         <input type="text" name="name" value="<?= $data['name'] ?>" placeholder="Enter chapter Name" class="form-control">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="">Slug</label>
+                                        <input type="text" name="slug" value="<?= $data['slug'] ?>" placeholder="Enter slug" class="form-control">
+                                    </div>
                                     <div class="col-md-12">
                                         <label for="">Description</label>
                                         <textarea rows="3" name="description" placeholder="Enter description" class="form-control"><?= $data['description'] ?></textarea>

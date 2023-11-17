@@ -8,7 +8,6 @@ if (!isset($_SESSION['admin_id'])) {
     header("location: login.php");
     exit();
 }
-
 ?>
 
 <body>
@@ -59,13 +58,10 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         </div>
     </div>
-
-    <!-- ... (your existing HTML code) ... -->
-
     <script>
         // Heartbeat function
         function heartbeat() {
-            // Make an AJAX request to get the latest user activity status
+            // Makes an AJAX request to get the latest user activity status
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'get_latest_user_status.php', true);
 
@@ -78,7 +74,6 @@ if (!isset($_SESSION['admin_id'])) {
                     // Update the user activity status in the table
                     // You may need to reload the entire table or just update the specific cells
                     // depending on your requirements
-                    // For example:
                     var userStatusData = JSON.parse(xhr.responseText);
                     for (var userId in userStatusData) {
                         var activityStatusCell = document.getElementById('activity_status_' + userId);
@@ -94,8 +89,8 @@ if (!isset($_SESSION['admin_id'])) {
                 }
             };
 
-            // Schedule the next heartbeat after a certain interval (e.g., 5 seconds)
-            setTimeout(heartbeat, 3000);
+            // Schedule the next heartbeat after a certain interval
+            setTimeout(heartbeat, 10000); // 10 seconds
         }
 
         // Start the heartbeat when the page is loaded
@@ -103,11 +98,6 @@ if (!isset($_SESSION['admin_id'])) {
             heartbeat();
         });
     </script>
-
-    <!-- ... (your existing HTML code) ... -->
-
-
-
 </body>
 
 </html>

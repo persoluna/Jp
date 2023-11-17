@@ -14,6 +14,7 @@ if (!isset($_SESSION['admin_id'])) {
 if (isset($_POST['add_chapter'])) {
   // Retrieve data from the form using mysqli_real_escape_string for security
   $name = mysqli_real_escape_string($con, $_POST['name']);
+  $slug = mysqli_real_escape_string($con, $_POST['slug']);
   $description = mysqli_real_escape_string($con, $_POST['description']);
   $status = isset($_POST['status']) ? '1' : '0';
   $popular = isset($_POST['popular']) ? '1' : '0';
@@ -29,10 +30,10 @@ if (isset($_POST['add_chapter'])) {
   $filename = time() . '.' . $image_ext;
 
   // Construct the SQL query using prepared statements
-  $chap_query = "INSERT INTO chapters (name, description, status, popular, image) VALUES (?, ?, ?, ?, ?)";
+  $chap_query = "INSERT INTO chapters (name, slug, description, status, popular, image) VALUES (?, ?, ?, ?, ?)";
 
   $stmt = mysqli_prepare($con, $chap_query);
-  mysqli_stmt_bind_param($stmt, 'sssss', $name, $description, $status, $popular, $filename);
+  mysqli_stmt_bind_param($stmt, 'sssss', $name, $slug, $description, $status, $popular, $filename);
   $chap_query_run = mysqli_stmt_execute($stmt);
 
   if ($chap_query_run) {
@@ -50,6 +51,7 @@ if (isset($_POST['add_chapter'])) {
 } else if (isset($_POST['update_chapter_btn'])) {
   $chapter_id = $_POST['chapter_id'];
   $name = $_POST['name'];
+  $slug = $_POST['slug'];
   $description = $_POST['description'];
   $status = isset($_POST['status']) ? '1' : '0';
   $popular = isset($_POST['popular']) ? '1' : '0';
@@ -65,7 +67,7 @@ if (isset($_POST['add_chapter'])) {
   }
   $path = "uploads";
 
-  $update_query = "UPDATE chapters SET name='$name', description='$description',
+  $update_query = "UPDATE chapters SET name='$name', slug='$slug', description='$description',
   status='$status', popular='$popular', image='$update_filename' WHERE chapter_id='$chapter_id' ";
 
   $update_query_run = mysqli_query($con, $update_query);
