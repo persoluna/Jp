@@ -8,8 +8,6 @@ if (!isset($_SESSION['user_id'])) {
     header("location: login.php");
     exit();
 }
-
-
 ?>
 
 <!-- to remove the blue line under the text -->
@@ -49,6 +47,8 @@ if (!isset($_SESSION['user_id'])) {
                                                 <img src="admin/uploads/<?= $item['image']; ?>" alt="Chapters Image" class="w-100">
                                                 <hr>
                                                 <p><?= $item['description']; ?></p>
+                                                <!-- Add the Favorite button -->
+                                                <button class="btn btn-primary" onclick="markAsFavorite(event, <?= $item['chapter_id']; ?>)" title="mark this chapter as favorite">Favorite</button>
                                             </div>
                                         </div>
                                     </a>
@@ -64,8 +64,9 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    
+
     <script src="activity_tracking.js"></script>
+    <script src="fav_chp.js"></script>
     <script>
         // Start the activity tracking
         startHeartbeat(<?php echo $_SESSION['user_id']; ?>);

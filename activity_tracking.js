@@ -15,7 +15,7 @@ function startHeartbeat(userId) {
         sendActivityUpdate(userId);
 
         // Scheduling the next heartbeat after a certain interval
-        setTimeout(heartbeat, 15000); // 15 seconds
+        setTimeout(heartbeat, 5000); // 5 seconds
     }
 
     // Start the heartbeat when the page is loaded

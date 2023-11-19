@@ -17,6 +17,9 @@
           <a class="nav-link" href="chapters.php">Chapters</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="favorite_chapters.php">Favorite Chapters</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="register.php">Register</a>
         </li>
       </ul>

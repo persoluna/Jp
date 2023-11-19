@@ -30,10 +30,10 @@ if (isset($_POST['add_chapter'])) {
   $filename = time() . '.' . $image_ext;
 
   // Construct the SQL query using prepared statements
-  $chap_query = "INSERT INTO chapters (name, slug, description, status, popular, image) VALUES (?, ?, ?, ?, ?)";
+  $chap_query = "INSERT INTO chapters (name, slug, description, status, popular, image) VALUES (?, ?, ?, ?, ?, ?)";
 
   $stmt = mysqli_prepare($con, $chap_query);
-  mysqli_stmt_bind_param($stmt, 'sssss', $name, $slug, $description, $status, $popular, $filename);
+  mysqli_stmt_bind_param($stmt, 'ssssss', $name, $slug, $description, $status, $popular, $filename);
   $chap_query_run = mysqli_stmt_execute($stmt);
 
   if ($chap_query_run) {
