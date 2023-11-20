@@ -1,5 +1,3 @@
-// fav_chp.js
-
 function markAsFavorite(event, chapterId) {
     // Prevent the default behavior of the button
     event.preventDefault();

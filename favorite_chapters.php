@@ -36,28 +36,31 @@ $result = mysqli_query($con, $query);
                     <div class="row">
                         <?php
                         if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<div class='col-md-3 md-2'>";
-                            echo "<a href='cards.php?chapters={$row['slug']}'>";
-                            echo "<div class='card shadow'>";
-                            echo "<div class='card-body'>";
-                            echo "<h4>{$row['name']}</h4>";
-                            echo "<img src='admin/uploads/{$row['image']}' alt='Chapters Image' class='w-100'>";
-                            echo "<hr>";
-                            echo "<p>{$row['description']}</p>";
-                            echo "<button class='btn btn-danger' onclick='unmarkAsFavorite(event, {$row['chapter_id']})' title='unmark this chapter as favorite'>Unfavorite</button>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "</a>";
-                            echo "</div>";
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<div class='col-md-3 md-2'>";
+                                echo "<a href='cards.php?chapters={$row['slug']}'>";
+                                echo "<div class='card shadow'>";
+                                echo "<div class='card-body'>";
+                                echo "<h4>{$row['name']}</h4>";
+                                echo "<img src='admin/uploads/{$row['image']}' alt='Chapters Image' class='w-100'>";
+                                echo "<hr>";
+                                echo "<p>{$row['description']}</p>";
+                                echo "<form action='unmark_as_favorite.php' method='post'>";
+                                echo "<input type='hidden' name='chapter_id' value='{$row['chapter_id']}'>";
+                                echo "<button type='submit' class='btn btn-danger' title='unmark this chapter as favorite'>Unfavorite</button>";
+                                echo "</form>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                                echo "</div>";
                             }
-                            }  else {
-                                    echo "You have no favorite chapters yet";
-                            }
+                        } else {
+                            echo "You have no favorite chapters yet";
+                        }
                         ?>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 

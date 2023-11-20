@@ -8,20 +8,31 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if (isset($_GET['chapterId'])) {
-    $chapterId = $_GET['chapterId'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $chapterId = isset($_POST['chapter_id']) ? $_POST['chapter_id'] : null;
     $userId = $_SESSION['user_id'];
 
-    // Delete the favorite record from the favorites table
-    $deleteQuery = "DELETE FROM favorites WHERE user_id = $userId AND chapter_id = $chapterId";
-    $deleteResult = mysqli_query($con, $deleteQuery);
+    if ($chapterId !== null) {
+        // Delete the favorite record from the favorites table
+        $deleteQuery = "DELETE FROM favorites WHERE user_id = ? AND chapter_id = ?";
+        $stmt = mysqli_prepare($con, $deleteQuery);
 
-    if ($deleteResult) {
-        // Redirect back to the favorite chapters page
-        header("location: favorite_chapters.php");
-        exit();
+        // Bind parameters
+        mysqli_stmt_bind_param($stmt, 'ii', $userId, $chapterId);
+
+        $deleteResult = mysqli_stmt_execute($stmt);
+
+        if ($deleteResult) {
+            // Redirect back to the favorite chapters page
+            header("location: favorite_chapters.php");
+            exit();
+        } else {
+            echo "Error removing chapter from favorites!";
+        }
     } else {
-        echo "Error removing chapter from favorites!";
+        echo "Invalid chapter ID";
     }
+} else {
+    echo "Invalid request method";
 }
 ?>
