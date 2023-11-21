@@ -2,14 +2,12 @@
 session_start();
 include("include/header.php");
 include("../config/db.php");
-
 if (!isset($_SESSION['admin_id'])) {
     $_SESSION['login_redirect_message'] = 'You need to log in to access the dashboard';
     header("location: login.php");
     exit();
 }
 ?>
-
 <body>
     <div class="container mt-4">
         <div class="row">
@@ -35,7 +33,6 @@ if (!isset($_SESSION['admin_id'])) {
                                 // Fetch user data from the database
                                 $user_query = "SELECT id, name, email, password, activity_status FROM user";
                                 $user_result = mysqli_query($con, $user_query);
-
                                 if ($user_result) {
                                     while ($user = mysqli_fetch_assoc($user_result)) {
                                         echo "<tr>";
@@ -50,7 +47,6 @@ if (!isset($_SESSION['admin_id'])) {
                                     echo "<tr><td colspan='6'>Error fetching user data.</td></tr>";
                                 }
                                 ?>
-
                             </tbody>
                         </table>
                     </div>

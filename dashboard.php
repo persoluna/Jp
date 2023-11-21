@@ -25,11 +25,10 @@ if (isset($_POST['logout'])) {
     session_destroy();
 
     // Redirect to the login page
-    header("location: login.php");
+    header("location: index.php");
     exit();
 }
 ?>
-
 <body>
     <h1>Welcome, <?php echo $_SESSION['user_name']; ?>!</h1>
 
