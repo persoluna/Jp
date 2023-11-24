@@ -10,9 +10,17 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
 
+  <?php
+  if (isset($_SESSION['user_id'])) {
+    // User is logged in, include the activity tracking script
+    echo '<script src="activity_tracking.js"></script>';
+    echo '<script>startHeartbeat(' . $_SESSION['user_id'] . ')</script>';
+  }
+  ?>
+
   <!-- Add this to your HTML body -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog"> <!-- Added modal-lg class to make the modal larger -->
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="loginModalLabel">Welcome!</h5>

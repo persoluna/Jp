@@ -39,30 +39,105 @@ if (isset($_POST['submit'])) {
     <title>Japanese Vocabulary</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            background: url('../assets/gl.gif') fixed center;
+            background-size: cover;
+        }
+
+        .card {
+            background: transparent;
+            border: none;
+            /* Remove the border to make it completely transparent */
+        }
+
+        .card-body {
+            background: none;
+            /* Remove any additional background styling for the card body */
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.5) !important;
+            /* Adjust the alpha value for transparency */
+            border: 1px solid #ced4da;
+            /* Add a border to the transparent input fields */
+        }
+
+        @keyframes runText {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        .card-title {
+            animation: runText 3s linear infinite;
+            white-space: nowrap;
+        }
+
+        /* styles for the button */
+        .custom-button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .custom-button {
+            background-color: #4b0082;
+            /* Dark purple */
+            color: #ffffff;
+            padding: 7px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-button:hover {
+            background-color: #ffffff;
+            color: #4b0082;
+        }
+    </style>
+
 </head>
 
 <body>
+    <br>
+    <br>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-7">
+            <div class="col-lg-4">
                 <div class="card shadow">
                     <div class="card-body">
-                        <h2 class="card-title text-center mb-4">Admin Login</h2>
+                        <h2 class="card-title text-center mb-4">
+                            <strong>ADMIN LOGIN</strong>
+                        </h2>
+                        <br>
                         <form method="POST">
                             <div class="mb-3">
-                                <label class="form-label">Email address</label>
-                                <input type="email" class="form-control" aria-describedby="emailHelp" name="email">
+                                <input type="email" class="form-control" aria-describedby="emailHelp" name="email" placeholder="Enter your Email">
                             </div>
+                            <br>
                             <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password">
+                                <input type="password" class="form-control" name="password" placeholder="Enter your Password">
                             </div>
-                            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                            <br>
+                            <div class="custom-button-container">
+                                <button type="submit" class="custom-button" name="submit">Submit</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </body>

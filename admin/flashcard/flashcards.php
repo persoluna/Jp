@@ -12,27 +12,27 @@ if (!isset($_SESSION['admin_id'])) {
 // Check for success message and display it
 if (isset($_SESSION['added_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['added_message'] . '</div>';
-    unset($_SESSION['added_message']); // Remove the message after displaying it
+    unset($_SESSION['added_message']);
 }
 // Check for success message and display it
 if (isset($_SESSION['updated_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['updated_message'] . '</div>';
-    unset($_SESSION['updated_message']); // Remove the message after displaying it
+    unset($_SESSION['updated_message']);
 }
 // Check for success message and display it
 if (isset($_SESSION['error_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['error_message'] . '</div>';
-    unset($_SESSION['error_message']); // Remove the message after displaying it
+    unset($_SESSION['error_message']);
 }
 // Check for success message and display it
 if (isset($_SESSION['deleted_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['deleted_message'] . '</div>';
-    unset($_SESSION['deleted_message']); // Remove the message after displaying it
+    unset($_SESSION['deleted_message']);
 }
 // Check for success message and display it
 if (isset($_SESSION['problem_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['problem_message'] . '</div>';
-    unset($_SESSION['problem_message']); // Remove the message after displaying it
+    unset($_SESSION['problem_message']);
 }
 ?>
 
@@ -42,8 +42,8 @@ if (isset($_SESSION['problem_message'])) {
             <div class="card">
                 <div class="card-header">
                     <h4>Flashcards</h4>
+                    <a href="../admin_dash.php" class="btn btn-primary">Dashboard</a>
                     <a href="add_flashcard.php" class="btn btn-primary">add_flashcard</a>
-                    <a href="../all_chapters.php" class="btn btn-primary">chapter</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
