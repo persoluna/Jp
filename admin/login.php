@@ -63,31 +63,14 @@ if (isset($_POST['submit'])) {
             /* Add a border to the transparent input fields */
         }
 
-        @keyframes runText {
-            0% {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-        }
-
-        .card-title {
-            animation: runText 3s linear infinite;
-            white-space: nowrap;
-        }
-
         /* styles for the button */
         .custom-button-container {
             text-align: center;
             margin-top: 10px;
+        }
+
+        .card-title {
+            text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
         }
 
         .custom-button {

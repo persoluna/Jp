@@ -2,6 +2,8 @@
 session_start();
 include("include/header.php");
 include("../config/db.php");
+include("include/sidebar.php");
+
 if (!isset($_SESSION['admin_id'])) {
     $_SESSION['login_redirect_message'] = 'You need to log in to access the dashboard';
     header("location: login.php");
@@ -12,8 +14,7 @@ if (!isset($_SESSION['admin_id'])) {
 <body>
     <div class="container mt-4">
         <div class="row">
-            <?php include("include/sidebar.php"); ?>
-            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="col-md-9 col-lg-10 px-md-4">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">

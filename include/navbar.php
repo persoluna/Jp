@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand" href="index.php">
-            <img src="assets/nazi.gif" alt="Bootstrap" width="55" height="34">
+            <img src="assets/gon.gif" alt="Bootstrap" width="55" height="34">
         </a>
     </div>
     <div class="container-fluid">

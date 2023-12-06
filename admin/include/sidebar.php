@@ -1,75 +1,74 @@
-<!-- Sidebar -->
-<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-    <div class="position-sticky">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="admin_dash.php">
-                    Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="all_chapters.php">
-                    All Chapters
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="flashcard/flashcards.php">
-                    All Flashcards
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="add_chapter.php">
-                    Add chapter
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="flashcard/add_flashcard.php">
-                    Add flashcard
-                </a>
-            </li>
-            <!-- Add more sidebar items as needed -->
-        </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="admin_dash.php">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="all_chapters.php">All Chapters</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="flashcard/flashcards.php">All Flashcards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="add_chapter.php">Add Chapter</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="flashcard/add_flashcard.php">Add Flashcard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="quiz/quiz_lesson.php">Add Quiz Lesson</a>
+        </li>
+      </ul>
     </div>
+
+  </div>
 </nav>
-
 <style>
-    /* Custom CSS for the sidebar and navbar shadows */
-    #sidebar {
-        height: 100vh;
-        /* Set the height to 100% of the viewport height */
-        border-right: 1px solid #ddd;
-        padding-top: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ccc;
+  }
+
+  .nav-item {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+  }
+
+  .nav-link {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover {
+    color: #fff !important;
+  }
+
+  .navbar-toggler {
+    border: none !important;
+    padding: 6px 8px !important;
+    font-size: 16px;
+  }
+
+  @media (min-width: 992px) {
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+      padding-right: 2rem;
+      padding-left: 3rem;
     }
 
-    .navbar {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Add shadow to the navbar */
-    }
-
-    .nav-link {
-        color: black !important;
-        /* Set the text color to black */
-    }
-
-    .nav-link:hover {
-        background-color: #f8f9fa !important;
-        /* Change background color on hover */
-    }
-
-    .nav-item {
-        background-color: cornflowerblue;
-        margin-bottom: 10px;
-        /* Add some bottom margin to each item */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Add shadow to each item */
-        border-radius: 8px;
-        /* Add border-radius for rounded corners */
-    }
-
-    /* Optional: Increase padding for a better visual appearance */
-    .nav-item a {
-        padding: 10px;
-        display: block;
-    }
+  }
 </style>
