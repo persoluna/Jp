@@ -11,6 +11,9 @@
           <a class="nav-link" href="admin_dash.php">Dashboard</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="quiz.php">All Quiz</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="all_chapters.php">All Chapters</a>
         </li>
         <li class="nav-item">
@@ -67,7 +70,7 @@
 
     .navbar-expand-lg .navbar-nav .nav-link {
       padding-right: 2rem;
-      padding-left: 3rem;
+      padding-left: 2rem;
     }
 
   }

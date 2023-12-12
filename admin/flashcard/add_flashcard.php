@@ -23,6 +23,8 @@ if (isset($_SESSION['error_message'])) {
             <div class="card">
                 <div class="card-header">
                     <h4>Add Flashcard</h4>
+                    <br>
+                    <a href="../admin_dash.php" class="btn btn-primary">Back to Dashboard</a>
                 </div>
                 <div class="card-body">
                     <form action="../action.php" method="POST">

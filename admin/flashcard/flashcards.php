@@ -42,8 +42,8 @@ if (isset($_SESSION['problem_message'])) {
             <div class="card">
                 <div class="card-header">
                     <h4>Flashcards</h4>
-                    <a href="../admin_dash.php" class="btn btn-primary">Dashboard</a>
-                    <a href="add_flashcard.php" class="btn btn-primary">add_flashcard</a>
+                    <a href="../admin_dash.php" class="btn btn-primary">Back to Dashboard</a>
+                    <a href="add_flashcard.php" class="btn btn-primary">Add flashcards</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped">

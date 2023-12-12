@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="card">
                     <div class="card-header">
                         <h4>Create Quiz Lesson</h4>
+                        <a href="../admin_dash.php" class="btn btn-primary">Back to Dashboard</a>
                     </div>
                     <div class="card-body">
                         <form method="POST">
