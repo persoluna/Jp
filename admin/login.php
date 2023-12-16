@@ -2,10 +2,8 @@
 session_start();
 include("../config/db.php");
 
-// Check if the session variable is set for login redirection
 if (isset($_SESSION['login_redirect_message'])) {
     echo '<div class="alert alert-warning">' . $_SESSION['login_redirect_message'] . '</div>';
-    // Unset the session variable to avoid displaying it again
     unset($_SESSION['login_redirect_message']);
 }
 
@@ -48,22 +46,17 @@ if (isset($_POST['submit'])) {
         .card {
             background: transparent;
             border: none;
-            /* Remove the border to make it completely transparent */
         }
 
         .card-body {
             background: none;
-            /* Remove any additional background styling for the card body */
         }
 
         .form-control {
             background: rgba(255, 255, 255, 0.5) !important;
-            /* Adjust the alpha value for transparency */
             border: 1px solid #ced4da;
-            /* Add a border to the transparent input fields */
         }
 
-        /* styles for the button */
         .custom-button-container {
             text-align: center;
             margin-top: 10px;
@@ -75,7 +68,6 @@ if (isset($_POST['submit'])) {
 
         .custom-button {
             background-color: #4b0082;
-            /* Dark purple */
             color: #ffffff;
             padding: 7px 20px;
             border: none;

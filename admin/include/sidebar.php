@@ -17,16 +17,16 @@
           <a class="nav-link" href="all_chapters.php">All Chapters</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="flashcard/flashcards.php">All Flashcards</a>
+          <a class="nav-link" href="flashcards.php">All Flashcards</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="add_chapter.php">Add Chapter</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="flashcard/add_flashcard.php">Add Flashcard</a>
+          <a class="nav-link" href="add_flashcard.php">Add Flashcard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="quiz/quiz_lesson.php">Add Quiz Lesson</a>
+          <a class="nav-link" href="quiz_lesson.php">Add Quiz Lesson</a>
         </li>
       </ul>
     </div>

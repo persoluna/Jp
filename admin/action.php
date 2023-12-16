@@ -29,7 +29,7 @@ if (isset($_POST['add_chapter'])) {
   $image_ext = pathinfo($image, PATHINFO_EXTENSION);
   $filename = time() . '.' . $image_ext;
 
-  // Construct the SQL query using prepared statements
+  // the SQL query using prepared statements
   $chap_query = "INSERT INTO chapters (name, slug, description, status, popular, image) VALUES (?, ?, ?, ?, ?, ?)";
 
   $stmt = mysqli_prepare($con, $chap_query);
@@ -139,11 +139,11 @@ elseif (isset($_POST['add_flashcard_btn'])) {
 
   if ($flashcard_query_run) {
     $_SESSION['added_message'] = 'Added successfully';
-    header("Location: flashcard/flashcards.php");
+    header("Location: flashcards.php");
     exit();
   } else {
     $_SESSION['error_message'] = 'Something went wrong';
-    header("Location: flashcard/add_flashcard.php");
+    header("Location: add_flashcard.php");
     exit();
   }
 }
@@ -157,11 +157,11 @@ if (isset($_POST['update_flashcard_btn'])) {
 
   if ($update_flashcard_query_run) {
     $_SESSION['updated_message'] = 'updated successfully';
-    header("Location: flashcard/flashcards.php");
+    header("Location: flashcards.php");
     exit();
   } else {
     $_SESSION['error_message'] = 'Something went wrong';
-    header("Location: flashcard/flashcards.php");
+    header("Location: flashcards.php");
     exit();
   }
 }
@@ -173,11 +173,11 @@ if (isset($_POST['delete_flashcard_btn'])) {
 
   if ($delete_flashcard_query_run) {
     $_SESSION['deleted_message'] = 'Deleted successfully';
-    header("Location: flashcard/flashcards.php");
+    header("Location: flashcards.php");
     exit();
   } else {
     $_SESSION['problem_message'] = 'Something went wrong while deleting the flashcard';
-    header("Location: flashcard/flashcards.php");
+    header("Location: flashcards.php");
     exit();
   }
 }

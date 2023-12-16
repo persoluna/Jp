@@ -10,6 +10,27 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
+// Check if a delete action is requested
+if (isset($_GET['delete_id'])) {
+    $deleteId = $_GET['delete_id'];
+
+    // Delete options for the quiz lesson
+    $deleteOptionsSql = "DELETE FROM options_multiple_choice WHERE question_id IN (SELECT question_id FROM questions WHERE qlesson_id = $deleteId)";
+    mysqli_query($con, $deleteOptionsSql);
+
+    $deleteOptionsOrderTypeSql = "DELETE FROM options_order_type WHERE question_id IN (SELECT question_id FROM questions WHERE qlesson_id = $deleteId)";
+    mysqli_query($con, $deleteOptionsOrderTypeSql);
+
+    // Delete questions for the quiz lesson
+    $deleteQuestionsSql = "DELETE FROM questions WHERE qlesson_id = $deleteId";
+    mysqli_query($con, $deleteQuestionsSql);
+
+    // Delete the quiz lesson
+    $deleteQuizLessonSql = "DELETE FROM quizlessons WHERE qlesson_id = $deleteId";
+    mysqli_query($con, $deleteQuizLessonSql);
+}
+
+// Fetch quiz lessons data
 $sql = "SELECT q.qlesson_id, q.title, COUNT(qu.question_id) AS num_questions 
         FROM quizlessons q 
         LEFT JOIN questions qu ON q.qlesson_id = qu.qlesson_id  
@@ -42,6 +63,7 @@ if (!$result) {
                         <td><?php echo $row['num_questions']; ?></td>
                         <td>
                             <a href="edit_quiz.php?id=<?php echo $row['qlesson_id']; ?>" class="btn btn-primary">Edit</a>
+                            <a href="?delete_id=<?php echo $row['qlesson_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this quiz lesson?')">Delete</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>

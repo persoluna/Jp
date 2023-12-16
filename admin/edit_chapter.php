@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('include/header.php');
+include('include/sidebar.php');
 include('../config/db.php');
 
 if (!isset($_SESSION['admin_id'])) {
@@ -30,7 +31,6 @@ if (!isset($_SESSION['admin_id'])) {
                     <div class="card">
                         <div class="card-header">
                             <h4>Edit chapter</h4>
-                            <strong><a href="all_chapters.php" class="btn btn-primary">back</a></strong>
                         </div>
                         <div class="card-body">
                             <form action="action.php" method="POST" enctype="multipart/form-data">

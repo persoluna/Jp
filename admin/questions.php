@@ -1,63 +1,64 @@
 <?php
 session_start();
-include("../include/header.php");
-include("../../config/db.php");
+include("include/header.php");
+include("include/sidebar.php");
+include("../config/db.php");
 
-// Get quiz lesson ID and number of questions from session
+// *Get quiz lesson ID and number of questions from session
 $quizLessonId = $_SESSION['quiz_lesson_id'];
 $numMultiQuestions = $_SESSION['num_multi_questions'];
 $numOrderQuestions = $_SESSION['num_order_questions'];
 
-// Initialize variables
+// *Initialize variables
 $questionText = '';
 $optionTexts = [];
 $isCorrect = [];
 
-// Handle form submission 
+// *Handle form submission 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Insert questions
+    // *Insert questions
     for ($i = 1; $i <= $numMultiQuestions + $numOrderQuestions; $i++) {
 
-        // Get question text
+        // *Get question text
         $questionText = $_POST['question_' . $i];
 
-        // Insert question 
+        // *Insert question 
         $sql = "INSERT INTO questions (qlesson_id, question_text)  
                 VALUES ($quizLessonId, '$questionText')";
 
         if (mysqli_query($con, $sql)) {
 
-            // Get last inserted question ID
+            // *Get last inserted question ID
             $questionId = mysqli_insert_id($con);
 
-            // Insert options for multiple choice questions
+            // *Insert options for multiple choice questions
             if ($i <= $numMultiQuestions) {
 
                 for ($j = 1; $j <= 4; $j++) {
 
-                    // Get option text and if correct
+                    // *Get option text and if correct
                     $optionTexts[$j] = $_POST['option_' . $i . "_" . $j];
                     $isCorrect[$j] = isset($_POST['is_correct_' . $i . "_" . $j]) ? 1 : 0;
 
-                    // Insert option
+                    // *Insert option
                     $sql = "INSERT INTO options_multiple_choice (question_id, option_text, is_correct)
                             VALUES ($questionId, '{$optionTexts[$j]}', {$isCorrect[$j]})";
 
                     mysqli_query($con, $sql);
                 }
             }
-            // Insert options for order type questions
+            // *Insert options for order type questions
             else {
 
-                // Get option texts 
+                // *Get option texts 
                 $optionTexts = [
                     $_POST["option_{$i}_1"], $_POST["option_{$i}_2"],
                     $_POST["option_{$i}_3"], $_POST["option_{$i}_4"],
                     $_POST["option_{$i}_5"], $_POST["option_{$i}_6"]
                 ];
 
-                // Insert options 
+                // *Insert options 
                 $sql = "INSERT INTO options_order_type (question_id, option_1, option_2, 
                         option_3, option_4, option_5, option_6)  
                         VALUES ($questionId, '{$optionTexts[0]}', '{$optionTexts[1]}',
@@ -71,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    header("location: quiz_created.php");
+    header("location: quiz.php");
     exit();
 }
 ?>

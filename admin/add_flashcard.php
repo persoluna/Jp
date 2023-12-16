@@ -1,7 +1,8 @@
 <?php
 session_start();
-include('../include/header.php');
-include("../../config/db.php");
+include('include/header.php');
+include('include/sidebar.php');
+include("../config/db.php");
 
 if (!isset($_SESSION['admin_id'])) {
     $_SESSION['login_redirect_message'] = 'You need to log in to access the dashboard';
@@ -9,10 +10,10 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Check for success message and display it
+// * Check for success message and display it
 if (isset($_SESSION['error_message'])) {
     echo '<div class="alert alert-success">' . $_SESSION['error_message'] . '</div>';
-    unset($_SESSION['error_message']); // Remove the message after displaying it
+    unset($_SESSION['error_message']);
 }
 
 ?>
@@ -24,10 +25,9 @@ if (isset($_SESSION['error_message'])) {
                 <div class="card-header">
                     <h4>Add Flashcard</h4>
                     <br>
-                    <a href="../admin_dash.php" class="btn btn-primary">Back to Dashboard</a>
                 </div>
                 <div class="card-body">
-                    <form action="../action.php" method="POST">
+                    <form action="action.php" method="POST">
                         <div class="row">
                             <div class="col-md-12">
                                 <div>

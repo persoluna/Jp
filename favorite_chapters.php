@@ -55,7 +55,7 @@ $result = mysqli_query($con, $query);
                                 echo "</div>";
                             }
                         } else {
-                            echo "You have no favorite chapters yet";
+                            echo "<img src='assets/error.gif' alt='Bootstrap' width='50' height='500'>";
                         }
                         ?>
                     </div>

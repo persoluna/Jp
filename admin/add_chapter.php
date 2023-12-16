@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("include/header.php");
+include("include/sidebar.php");
 include("../config/db.php");
 
 if (!isset($_SESSION['admin_id'])) {
@@ -9,16 +10,14 @@ if (!isset($_SESSION['admin_id'])) {
   exit();
 }
 
-// Check for success message and display it
 if (isset($_SESSION['success_message'])) {
   echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
-  unset($_SESSION['success_message']); // Remove the message after displaying it
+  unset($_SESSION['success_message']);
 }
 
-// Check for error message and display it
 if (isset($_SESSION['error_message'])) {
   echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
-  unset($_SESSION['error_message']); // Remove the message after displaying it
+  unset($_SESSION['error_message']);
 }
 ?>
 
@@ -30,7 +29,6 @@ if (isset($_SESSION['error_message'])) {
         <div class="card">
           <div class="card-header">
             <h4>Add Chapter</h4>
-            <a href="admin_dash.php" class="btn btn-primary">Dashboard</a>
           </div>
           <div class="card-body">
             <form action="action.php" method="POST" enctype="multipart/form-data">
