@@ -45,7 +45,7 @@ $horizontalGap = 30;
                 $direction *= -1;
               }
             ?>
-            <div class="quiz-lesson" onclick="location.href='quiz_details.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'"
+            <div class="quiz-lesson" onclick="location.href='quiz_page.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'"
               onmouseover="hoverLesson(this)"
               onmouseout="unhoverLesson(this)"
               style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>">
