@@ -93,25 +93,23 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
 
                             <ul class="order-type-options">
                                 <?php while ($ot_option = mysqli_fetch_assoc($result_ot_options)) : ?>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_1']; ?>
-                                    </li>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_2']; ?>
-                                    </li>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_3']; ?>
-                                    </li>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_4']; ?>
-                                    </li>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_5']; ?>
-                                    </li>
-                                    <li onclick="selectOrderTypeOption(this, <?php echo $index; ?>)">
-                                        <?php echo $ot_option['option_6']; ?>
-                                    </li>
-                                    <!-- Repeat for other options -->
+                                    <?php
+                                    // Create an array of options for the current question
+                                    $options = array(
+                                        $ot_option['option_1'],
+                                        $ot_option['option_2'],
+                                        $ot_option['option_3'],
+                                        $ot_option['option_4'],
+                                        $ot_option['option_5'],
+                                        $ot_option['option_6']
+                                    );
+                                    // Shuffle the array of options
+                                    shuffle($options);
+                                    // Display the shuffled options in the list
+                                    foreach ($options as $option) {
+                                        echo "<li onclick=\"selectOrderTypeOption(this, $index)\">$option</li>";
+                                    }
+                                    ?>
                                 <?php endwhile; ?>
                             </ul>
                         <?php endif; ?>
@@ -200,6 +198,9 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         let selectedOptionId = null;
         let selectedOrderTypeOptions = [];
         let questionsOptions = <?php echo json_encode($questionsOptions); ?>;
+        let userSubmittedAnswer = false;
+        let totalScore = 0;
+        let totalXP = 0;
 
         function showActiveQuestion() {
             const allQuestions = document.querySelectorAll('.question-container');
@@ -214,56 +215,71 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
 
         function showNextQuestion() {
             const nextButton = document.querySelector(`#next-button-${currentQuestionIndex}`);
-            nextButton.style.display = 'none'; // Hide the "Next" button for the current question
+            nextButton.style.display = 'none';
 
             currentQuestionIndex++;
-            selectedOptionId = null; // Reset selected option for the new question
-            selectedOrderTypeOptions[currentQuestionIndex] = []; // Reset selected order-type options
+            selectedOptionId = null;
+            selectedOrderTypeOptions[currentQuestionIndex] = [];
+            userSubmittedAnswer = false;
 
             showActiveQuestion();
         }
 
+        function submitTotalXP(xp) {
+            fetch('insert_xp.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `score=${xp}`,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response if needed
+                    console.log('XP Submitted:', data);
+                })
+                .catch(error => {
+                    console.error('Fetch Error:', error);
+                });
+        }
+
         function selectMultipleChoiceOption(optionElement) {
-            // Remove the active class from all options in the same group
+            if (userSubmittedAnswer) {
+                return;
+            }
+
             const btnGroup = optionElement.parentElement;
             btnGroup.querySelectorAll(".btn-secondary").forEach(option => {
                 option.classList.remove("active");
             });
 
-            // Add the active class to the selected option
             optionElement.classList.add("active");
-
-            // Set the selected option ID
             selectedOptionId = optionElement.dataset.optionId;
         }
 
         function selectOrderTypeOption(optionElement, questionIndex) {
-            // Get the respective question's drop area
+            if (userSubmittedAnswer) {
+                return;
+            }
+
             const dropArea = document.querySelector("#dropped-options-" + questionIndex + " ul");
-
-            // Move the selected option to the drop area
             dropArea.appendChild(optionElement);
-
-            // Store the selected option in the array
             selectedOrderTypeOptions[questionIndex] = Array.from(dropArea.children).map(option => option.textContent);
         }
 
         function unselectOrderTypeOption(event, questionIndex) {
-            // Get the clicked option
+            if (userSubmittedAnswer) {
+                return;
+            }
+
             const clickedOption = event.target;
-
-            // Get the respective question's original list
             const originalList = document.querySelector("#dropped-options-" + questionIndex + " + .order-type-options");
-
-            // Move the clicked option back to the original list
             originalList.appendChild(clickedOption);
-
-            // Update the stored selected options array
-            selectedOrderTypeOptions[questionIndex] = Array.from(dropArea.children).map(option => option.textContent);
+            selectedOrderTypeOptions[questionIndex] = Array.from(originalList.children).map(option => option.textContent);
         }
 
         function checkMultipleChoiceOption() {
-            if (selectedOptionId !== null) {
+            if (selectedOptionId !== null && !userSubmittedAnswer) {
                 fetch('quiz_handler.php', {
                         method: 'POST',
                         headers: {
@@ -273,22 +289,29 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Display response on the quiz page
                         displayAnswerMessage(data.correct, data.correct_option_id);
                         showNextButton(data.correct);
+                        calculateScore(data.correct);
+
+                        // Call the new function to check if it's the last question
+                        checkIfLastQuestion();
                     })
                     .catch(error => {
                         console.error('Fetch Error:', error);
                     });
             } else {
-                console.error('No option selected');
+                console.error('No option selected or user has already submitted an answer');
+            }
+        }
+
+        function checkIfLastQuestion() {
+            if (currentQuestionIndex === questionsOptions.length - 1) {
+                submitTotalXP(totalXP);
             }
         }
 
         function checkOrderTypeOptions() {
             const selectedOptions = selectedOrderTypeOptions[currentQuestionIndex];
-
-            // Sanitize and trim the text values
             const sanitizedOptions = selectedOptions.map(option => ({
                 text: option.trim().replace(/\\n/g, '')
             }));
@@ -302,39 +325,61 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Display response on the quiz page
                     displayAnswerMessage(data.correct);
                     showNextButton(data.correct);
+                    calculateScore(data.correct);
+
+                    // Call the new function to check if it's the last question
+                    checkIfLastQuestion();
                 })
                 .catch(error => {
                     console.error('Fetch Error:', error);
                 });
         }
 
+        function calculateScore(isCorrect) {
+            const questionScore = isCorrect ? 5 : -1;
+            totalScore += questionScore;
 
+            // Convert to XP
+            const xpEarned = questionScore * 2;
+            totalXP += xpEarned;
+
+            console.log('Total Score:', totalScore);
+            console.log('Total XP:', totalXP);
+        }
 
         function displayAnswerMessage(isCorrect, correctOptionId) {
             const answerMessage = document.querySelector(`#answer-message-${currentQuestionIndex}`);
             if (isCorrect) {
                 answerMessage.textContent = 'Correct!';
             } else {
-                answerMessage.textContent = `Wrong! Answer`;
+                answerMessage.textContent = `Wrong! Answer: ${correctOptionId}`;
             }
         }
 
-        function showNextButton(isCorrect) {
+        function showNextButton() {
             const nextButton = document.querySelector(`#next-button-${currentQuestionIndex}`);
-            if (isCorrect) {
-                nextButton.style.display = 'block';
-            } else {
-                nextButton.style.display = 'none';
-            }
+            nextButton.style.display = 'block';
+            userSubmittedAnswer = true;
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             showActiveQuestion();
         });
+
+        window.addEventListener('beforeunload', function(e) {
+            const confirmationMessage = 'Are you sure you want to leave? Your progress may be lost.';
+            e.returnValue = confirmationMessage;
+            return confirmationMessage;
+        });
+
+        window.addEventListener('unload', function() {
+            window.removeEventListener('beforeunload', function() {});
+        });
     </script>
+
+
 
 </body>
 

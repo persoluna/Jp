@@ -21,6 +21,11 @@ if (isset($_POST['submit'])) {
             $result = mysqli_query($con, $sql);
 
             if ($result) {
+                // Insert default XP record for the new user
+                $newUserId = mysqli_insert_id($con);
+                $insertXPSql = "INSERT INTO user_xp (user_id) VALUES ($newUserId)";
+                mysqli_query($con, $insertXPSql);
+
                 header("location: login.php");
             }
         }
