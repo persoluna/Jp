@@ -80,8 +80,22 @@ if (isset($_GET['chapters'])) {
     ?>
     <script src="activity_tracking.js"></script>
     <script>
-        // Start the activity tracking
-        startHeartbeat(<?php echo $_SESSION['user_id']; ?>);
+        // Get PHP userId session variable
+        var userId = <?php echo $_SESSION['user_id']; ?>;
+
+        // On page load, set status to active
+        updateStatusOnPageLoad(userId);
+
+        // On page unload, set status to inactive
+        updateStatusOnPageUnload(userId);
     </script>
-    </body>
-</html>
+    <style>
+        .card-back {
+            background-color: #fff;
+            color: #333;
+            transform: rotateY(180deg);
+        }
+    </style>
+        </body>
+
+        </html>

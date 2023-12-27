@@ -27,28 +27,28 @@ $horizontalGap = 30;
     <div class="row justify-content-center">
       <div class="col-12">
         <div class="quiz-container d-flex flex-column align-items-center">
+          <div class="chapters" onclick="location.href='chapters.php'" onmouseover=" hoverLesson1(this)" onmouseout="unhoverLesson1(this)" ">
+          <span class=" quiz-lesson-title">Chapters</span>
+          </div>
           <?php
-            $prevXPos = 0;
-            $prevYPos = 0;
-            $direction = 1; // 1 for right, -1 for left
+          $prevXPos = 0;
+          $prevYPos = 0;
+          $direction = 1; // 1 for right, -1 for left
           ?>
           <?php foreach ($quizLessons as $i => $quizLesson) : ?>
             <?php
-              // Calculate positions for a snake-like pattern
-              $xPos = $prevXPos + ($direction * $horizontalGap);
-              $yPos = $i * $verticalGap;
-              $prevXPos = $xPos;
-              $prevYPos = $yPos;
+            // Calculate positions for a snake-like pattern
+            $xPos = $prevXPos + ($direction * $horizontalGap);
+            $yPos = $i * $verticalGap;
+            $prevXPos = $xPos;
+            $prevYPos = $yPos;
 
-              // Alternate the direction after every two lessons
-              if (($i + 1) % 2 === 0) {
-                $direction *= -1;
-              }
+            // Alternate the direction after every two lessons
+            if (($i + 1) % 2 === 0) {
+              $direction *= -1;
+            }
             ?>
-            <div class="quiz-lesson" onclick="location.href='quiz_page.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'"
-              onmouseover="hoverLesson(this)"
-              onmouseout="unhoverLesson(this)"
-              style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>">
+            <div class="quiz-lesson" onclick="location.href='quiz_page.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>">
               <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
               <span class="quiz-lesson-title"><?php echo $quizLesson['title']; ?></span>
             </div>
@@ -63,6 +63,26 @@ $horizontalGap = 30;
       position: relative;
       margin-top: 5vh;
       margin-left: 20vh;
+    }
+
+    .chapters {
+      border-radius: 50%;
+      width: 11vw;
+      height: 11vw;
+      background-color: #008080;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.3s;
+      position: absolute;
+      transform: translate(300%, -20%);
+    }
+
+    .chapters:hover {
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
     }
 
     .quiz-lesson {
@@ -99,6 +119,14 @@ $horizontalGap = 30;
   </style>
 
   <script>
+    function hoverLesson1(element) {
+      element.style.backgroundColor = "#006666";
+    }
+
+    function unhoverLesson1(element) {
+      element.style.backgroundColor = "#008080";
+    }
+
     function hoverLesson(element) {
       element.style.backgroundColor = "#2c3e50";
     }
@@ -106,6 +134,17 @@ $horizontalGap = 30;
     function unhoverLesson(element) {
       element.style.backgroundColor = "#3498db";
     }
+  </script>
+  <script src="activity_tracking.js"></script>
+  <script>
+    // Get PHP userId session variable
+    var userId = <?php echo $_SESSION['user_id']; ?>;
+
+    // On page load, set status to active
+    updateStatusOnPageLoad(userId);
+
+    // On page unload, set status to inactive
+    updateStatusOnPageUnload(userId);
   </script>
 </body>
 

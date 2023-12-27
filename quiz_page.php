@@ -40,6 +40,9 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
                     $questionsOptions[] = $question;
                 }
 
+                // Shuffle the array of questions
+                shuffle($questionsOptions);
+
                 foreach ($questionsOptions as $index => $qo) :
                 ?>
                     <div class="question-container mb-4 <?php echo ($index === 0) ? 'active' : ''; ?>">
@@ -378,7 +381,17 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
             window.removeEventListener('beforeunload', function() {});
         });
     </script>
+    <script src="activity_tracking.js"></script>
+    <script>
+        // Get PHP userId session variable
+        var userId = <?php echo $_SESSION['user_id']; ?>;
 
+        // On page load, set status to active
+        updateStatusOnPageLoad(userId);
+
+        // On page unload, set status to inactive
+        updateStatusOnPageUnload(userId);
+    </script>
 
 
 </body>

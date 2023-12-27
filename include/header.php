@@ -31,12 +31,13 @@
       }
     }
   </style>
+
   <!--index page style code-->
   <style>
-    /* Aesthetic Styling */
+    /* Aesthetic Styling for Sweet Light Theme */
     .hero-section {
-      background: linear-gradient(90deg, #04090E, #052E36);
-      color: #3FDBBF;
+      background: linear-gradient(90deg, #F9EBB2, #FFF6E5);
+      color: #333;
       padding: 100px 0;
       text-align: center;
     }
@@ -52,8 +53,8 @@
     }
 
     .benefits-section {
-      background-color: #04090E;
-      color: #3FDBBF;
+      background-color: #F9EBB2;
+      color: #333;
       padding: 50px 0;
     }
 
@@ -68,8 +69,8 @@
     }
 
     .cta-section {
-      background: linear-gradient(90deg, #04090E, #052E36);
-      color: #3FDBBF;
+      background: linear-gradient(90deg, #F9EBB2, #FFF6E5);
+      color: #333;
       padding: 50px 0;
       text-align: center;
     }
@@ -95,19 +96,19 @@
 
     .cta-section li a {
       text-decoration: none;
-      color: #3FDBBF;
+      color: #333;
       font-weight: bold;
       font-size: 1.2rem;
     }
 
     .cta-section li a:hover {
-      color: #3FDBBF;
+      color: #333;
       text-decoration: underline;
     }
 
     .about-section {
-      background-color: #04090E;
-      color: #3FDBBF;
+      background-color: #F9EBB2;
+      color: #333;
       padding: 50px 0;
     }
 
@@ -122,8 +123,8 @@
     }
 
     .contact-section {
-      background: linear-gradient(90deg, #04090E, #052E36);
-      color: #3FDBBF;
+      background: linear-gradient(90deg, #F9EBB2, #FFF6E5);
+      color: #333;
       padding: 50px 0;
       text-align: center;
     }

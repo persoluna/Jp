@@ -11,10 +11,23 @@ if (!isset($_SESSION['user_id'])) {
 <body>
 
   <?php
+
   if (isset($_SESSION['user_id'])) {
-    // User is logged in, include the activity tracking script
+
+    // User logged in
+
     echo '<script src="activity_tracking.js"></script>';
-    echo '<script>startHeartbeat(' . $_SESSION['user_id'] . ')</script>';
+
+    // Get user id
+    $userId = $_SESSION['user_id'];
+
+    echo <<<EOT
+    <script>
+      var userId = $userId;
+      updateStatusOnPageLoad(userId);  
+      updateStatusOnPageUnload(userId);
+    </script>  
+EOT;
   }
   ?>
 
@@ -31,7 +44,6 @@ if (!isset($_SESSION['user_id'])) {
             <div class="col-md-6">
               <img src="assets/crazy.gif" alt="crazy GIF" class="img-fluid">
             </div>
-            <br>
             <div class="col-md-6">
               <br>
               <div class="text-center">
@@ -51,7 +63,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="row">
         <div class="col-md-12">
           <h1>Embark on Your Japanese Language Journey</h1>
-          <p>Experience the art of learning Japanese, where language meets culture. Dive into the world of kanji, master vocabulary, and explore the beauty of hiragana and katakana.</p>
+          <p>Explore the beauty of the Japanese language through interactive quiz lessons and master vocabulary effortlessly.</p>
         </div>
       </div>
     </div>
@@ -61,8 +73,8 @@ if (!isset($_SESSION['user_id'])) {
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h2>Why Choose Our Flashcard Method?</h2>
-          <p>At Flash Cards, we believe that language learning can be both efficient and enjoyable. Our flashcard approach allows you to master Japanese vocabulary and kanji effortlessly.</p>
+          <h2>Why Choose Our Quiz Lessons?</h2>
+          <p>Our quiz lessons offer an engaging and effective way to learn Japanese. Test your knowledge, reinforce concepts, and track your progress with each quiz.</p>
         </div>
       </div>
     </div>
@@ -73,11 +85,11 @@ if (!isset($_SESSION['user_id'])) {
       <div class="row">
         <div class="col-md-12">
           <h2>Get Started on Your Japanese Journey</h2>
-          <p>Are you new to Japanese language learning? Begin your adventure with these beginner chapters</p>
+          <p>Ready to dive into the world of Japanese language learning? Begin your adventure with these interactive quiz lessons:</p>
           <ol>
-            <li><a href="chapters.php">- CHAPTERS</a></li>
+            <li><a href="Quiz.php">- QUIZ LESSONS</a></li>
           </ol>
-          <p>Start your learning journey today and experience the beauty of the Japanese language.</p>
+          <p>Start your learning journey today and experience the joy of mastering Japanese through quizzes.</p>
         </div>
       </div>
     </div>
@@ -88,7 +100,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="row">
         <div class="col-md-12">
           <h2>About Us</h2>
-          <p>At Flash Cards, we are passionate about Japanese language learning. Our team is dedicated to helping you achieve fluency in Japanese. Learn more about our mission and values.</p>
+          <p>At Flash Cards, we are dedicated to providing a unique and interactive Japanese language learning experience. Learn more about our mission and values.</p>
         </div>
       </div>
     </div>

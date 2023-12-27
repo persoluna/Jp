@@ -67,20 +67,14 @@ $result = mysqli_query($con, $query);
     <script src="activity_tracking.js"></script>
     <script src="fav_chp.js"></script>
     <script>
-        // Listen for visibility change
-        document.addEventListener('visibilitychange', function() {
+        // Get PHP userId session variable
+        var userId = <?php echo $_SESSION['user_id']; ?>;
 
-            var status = document.hidden ? 'Inactive' : 'Active';
+        // On page load, set status to active
+        updateStatusOnPageLoad(userId);
 
-            sendActivityUpdate(<?php echo $_SESSION['user_id']; ?>, status);
-
-        });
-
-        // Listen for beforeunload event
-        window.addEventListener('beforeunload', function() {
-            // Set the status to 'Inactive' before unloading
-            sendActivityUpdate(<?php echo $_SESSION['user_id']; ?>, 'Inactive');
-        });
+        // On page unload, set status to inactive
+        updateStatusOnPageUnload(userId);
     </script>
 
 </body>

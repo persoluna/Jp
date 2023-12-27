@@ -6,3 +6,14 @@ function sendActivityUpdate(userId, status) {
   xhr.send();
 
 }
+
+function updateStatusOnPageLoad() {
+  sendActivityUpdate(userId, "Active"); 
+}
+
+function updateStatusOnPageUnload() {
+  sendActivityUpdate(userId, "Inactive");
+}
+
+window.addEventListener("load", updateStatusOnPageLoad);
+window.addEventListener("beforeunload", updateStatusOnPageUnload);
