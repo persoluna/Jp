@@ -67,8 +67,20 @@ $result = mysqli_query($con, $query);
     <script src="activity_tracking.js"></script>
     <script src="fav_chp.js"></script>
     <script>
-        // Start the activity tracking
-        startHeartbeat(<?php echo $_SESSION['user_id']; ?>);
+        // Listen for visibility change
+        document.addEventListener('visibilitychange', function() {
+
+            var status = document.hidden ? 'Inactive' : 'Active';
+
+            sendActivityUpdate(<?php echo $_SESSION['user_id']; ?>, status);
+
+        });
+
+        // Listen for beforeunload event
+        window.addEventListener('beforeunload', function() {
+            // Set the status to 'Inactive' before unloading
+            sendActivityUpdate(<?php echo $_SESSION['user_id']; ?>, 'Inactive');
+        });
     </script>
 
 </body>

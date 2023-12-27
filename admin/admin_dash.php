@@ -88,7 +88,7 @@ if (!isset($_SESSION['admin_id'])) {
                 };
 
                 // Schedule the next heartbeat after a certain interval
-                setTimeout(heartbeat, 10000); // 10 seconds
+                setTimeout(heartbeat, 5000); // 10 seconds
             }
 
             // Start the heartbeat when the page is loaded

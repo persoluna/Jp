@@ -19,6 +19,9 @@
                         <a class="nav-link" href="Quiz.php">Quiz</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="SB.php">Score Board</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="chapters.php">Chapters</a>
                     </li>
                     <li class="nav-item">
