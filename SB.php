@@ -39,6 +39,17 @@ include "config/db.php";
                 <?php endwhile; ?>
             </tbody>
         </table>
+
+        <!-- Add the share button with JavaScript to open a popup window -->
+        <button onclick="shareImage()" class="btn btn-primary">Share</button>
+
+        <script>
+            function shareImage() {
+                // Open a new window with the image URL
+                var imageUrl = 'image_generator.php';
+                window.open(imageUrl, 'ImagePopup', 'width=400, height=400');
+            }
+        </script>
     </div>
     <style>
         #leaderboard {

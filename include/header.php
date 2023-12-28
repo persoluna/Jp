@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-  <?php
-  include("include/navbar.php");
-  ?>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Japanese Vocabulary</title>
@@ -139,4 +136,7 @@
       line-height: 1.5;
     }
   </style>
+  <?php
+  include("include/navbar.php");
+  ?>
 </head>
