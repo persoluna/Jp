@@ -28,6 +28,11 @@
         <li class="nav-item">
           <a class="nav-link" href="quiz_lesson.php">Add Quiz Lesson</a>
         </li>
+        <li>
+          <form method="post" action="logout.php">
+            <button type="submit" name="logout" class="dropdown-item">Logout</button>
+          </form>
+        </li>
       </ul>
     </div>
 

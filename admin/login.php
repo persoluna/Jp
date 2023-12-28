@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("../config/db.php");
+include("emailFunctions.php");
 
 if (isset($_SESSION['login_redirect_message'])) {
     echo '<div class="alert alert-warning">' . $_SESSION['login_redirect_message'] . '</div>';
@@ -21,6 +22,23 @@ if (isset($_POST['submit'])) {
         $_SESSION['admin_id'] = $row['id'];
         $_SESSION['admin_name'] = $row['name'];
 
+        // Check for users with XP greater than or equal to 5000 and email not sent
+        $xpCheckQuery = "SELECT u.id, u.name, u.email FROM user u JOIN user_xp ux ON u.id = ux.user_id WHERE ux.xp >= 5000 AND ux.email_sent = 0";
+        $xpCheckResult = mysqli_query($con, $xpCheckQuery);
+
+        // Loop through the result set
+        while ($xpRow = mysqli_fetch_assoc($xpCheckResult)) {
+            $user_id = $xpRow['id'];
+            $user_name = $xpRow['name'];
+            $user_email = $xpRow['email'];
+
+            // Call a function to send the congratulatory email
+            sendCongratulatoryEmail($user_name, $user_email);
+
+            // Update the database flag to indicate the email has been sent
+            $updateFlagQuery = "UPDATE user_xp SET email_sent = 1 WHERE user_id = $user_id";
+            mysqli_query($con, $updateFlagQuery);
+        }
         header("location: admin_dash.php");
     } else {
         echo "Wrong  username or password";

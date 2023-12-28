@@ -5,8 +5,8 @@ include("config/db.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
     $score = intval($_POST['score']);
     
-    // Retrieve the user ID from the session or your authentication mechanism
-    $userId = $_SESSION['user_id']; // Update with your actual session variable
+    // Retrieve the user ID from the session
+    $userId = $_SESSION['user_id'];
 
     // Insert or update the user's XP in the database
     $sql = "INSERT INTO user_xp (user_id, xp) VALUES ($userId, $score) ON DUPLICATE KEY UPDATE xp = xp + VALUES(xp)";

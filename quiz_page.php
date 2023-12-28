@@ -310,7 +310,10 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         function checkIfLastQuestion() {
             if (currentQuestionIndex === questionsOptions.length - 1) {
                 submitTotalXP(totalXP);
+                // Redirect to the results page using JavaScript
+                window.location.href = 'insert_xp.php';
             }
+
         }
 
         function checkOrderTypeOptions() {
@@ -372,9 +375,11 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         });
 
         window.addEventListener('beforeunload', function(e) {
-            const confirmationMessage = 'Are you sure you want to leave? Your progress may be lost.';
-            e.returnValue = confirmationMessage;
-            return confirmationMessage;
+            if (!userSubmittedAnswer) {
+                const confirmationMessage = 'Are you sure you want to leave? Your progress may be lost.';
+                e.returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
         });
 
         window.addEventListener('unload', function() {
@@ -392,7 +397,6 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         // On page unload, set status to inactive
         updateStatusOnPageUnload(userId);
     </script>
-
 
 </body>
 
