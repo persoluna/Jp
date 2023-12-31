@@ -26,6 +26,7 @@ if (isset($_POST['submit'])) {
         $xpCheckQuery = "SELECT u.id, u.name, u.email FROM user u JOIN user_xp ux ON u.id = ux.user_id WHERE ux.xp >= 5000 AND ux.email_sent = 0";
         $xpCheckResult = mysqli_query($con, $xpCheckQuery);
 
+        $emailsSentCount = 0;
         // Loop through the result set
         while ($xpRow = mysqli_fetch_assoc($xpCheckResult)) {
             $user_id = $xpRow['id'];
@@ -38,8 +39,9 @@ if (isset($_POST['submit'])) {
             // Update the database flag to indicate the email has been sent
             $updateFlagQuery = "UPDATE user_xp SET email_sent = 1 WHERE user_id = $user_id";
             mysqli_query($con, $updateFlagQuery);
+
+            $emailsSentCount++;
         }
-        header("location: admin_dash.php");
     } else {
         echo "Wrong  username or password";
     }
@@ -53,11 +55,12 @@ if (isset($_POST['submit'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Japanese Vocabulary</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         body {
-            background: url('../assets/gl.gif') fixed center;
+            background: url('../assets/giphy.gif') fixed center;
             background-size: cover;
         }
 
@@ -133,6 +136,37 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
     </div>
+    <div class="modal fade" id="popupModal" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <?php
+                    if (isset($_POST['submit']) && $result && mysqli_num_rows($result) > 0) {
+                        echo "Gmails have been sent to $emailsSentCount users.";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    $(document).ready(function() {
+        try {
+            <?php
+            if (isset($_POST['submit']) && $result && mysqli_num_rows($result) > 0) {
+                // Display popup modal
+                echo "$('#popupModal').modal('show');";
+
+                echo "setTimeout(function() {
+                    window.location.href = 'admin_dash.php';
+                }, 2000);"; // 2 seconds
+            }
+            ?>
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    });
+</script>
 
 </html>
