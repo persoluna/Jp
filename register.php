@@ -1,5 +1,4 @@
 <?php
-include("include/header.php");
 include("config/db.php");
 
 if (isset($_POST['submit'])) {
@@ -31,6 +30,7 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+include("include/header.php");
 ?>
 
 <body>

@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("include/header.php");
 include("config/db.php");
 
 if (isset($_POST['submit'])) {
@@ -19,13 +18,14 @@ if (isset($_POST['submit'])) {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['name'];
-            
+
             header('Location: dashboard.php');
         } else {
             echo "Wrong username or password";
         }
     }
 }
+include("include/header.php");
 ?>
 
 <body>
