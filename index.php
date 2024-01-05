@@ -116,7 +116,8 @@ EOT;
       </div>
     </div>
   </div>
-
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+  <script src="https://mediafiles.botpress.cloud/060f0906-9af4-46d0-a674-6c82602fa376/webchat/config.js" defer></script>
 </body>
 
 </html>

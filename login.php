@@ -10,20 +10,26 @@ if (isset($_POST['submit'])) {
         echo "Invalid email address";
     } else {
         // Check if the user with the provided email and password exists
-        $sql = "SELECT id, name FROM user WHERE email='$email' AND password='$password'";
+        $sql = "SELECT id, name, image, password FROM user WHERE email='$email'";
         $result = mysqli_query($con, $sql);
-
+        
         if ($result && mysqli_num_rows($result) > 0) {
-            // Login successful
             $row = mysqli_fetch_assoc($result);
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['user_name'] = $row['name'];
-
-            header('Location: dashboard.php');
-        } else {
-            echo "Wrong username or password";
+            $hashedPassword = $row['password'];
+        
+            if (password_verify($password, $hashedPassword)) {
+                // Login successful
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['user_name'] = $row['name'];
+                $_SESSION['profile_pic'] = $row['image'];
+        
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                echo "Wrong username or password";
+            }
         }
-    }
+    }        
 }
 include("include/header.php");
 ?>
@@ -48,7 +54,7 @@ include("include/header.php");
                                 <!-- Password input -->
                                 <label class="form-label" for="password">Password</label>
                                 <div class="form-outline mb-3">
-                                    <input type="password" id="password" class="form-control form-control-lg" name="password" placeholder="Enter password" required />
+                                    <input type="password" id="password" class="form-control form-control-lg" name="password" placeholder="Enter your password" required />
                                 </div>
 
                                 <div class="text-center text-lg-start mt-4 pt-2">

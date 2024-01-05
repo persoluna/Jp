@@ -40,14 +40,31 @@ include "config/db.php";
             </tbody>
         </table>
 
-        <!-- Add the share button with JavaScript to open a popup window -->
-        <button onclick="shareImage()" class="btn btn-primary">Share</button>
+        <!-- Add the share button with JavaScript to open a Bootstrap modal -->
+        <button onclick="openImageModal()" class="btn btn-primary">Share</button>
+
+        <!-- Bootstrap Modal for Image Popup -->
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Shared Image</h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Image content goes here -->
+                        <img src="image_generator.php" class="img-fluid" alt="Generated Image">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script>
-            function shareImage() {
-                // Open a new window with the image URL
-                var imageUrl = 'image_generator.php';
-                window.open(imageUrl, 'ImagePopup', 'width=400, height=400');
+            function openImageModal() {
+                // Open Bootstrap modal with the image
+                $('#imageModal').modal('show');
             }
         </script>
     </div>
@@ -61,6 +78,7 @@ include "config/db.php";
             text-align: center;
         }
     </style>
+
 </body>
 
 </html>

@@ -2,7 +2,6 @@
 session_start();
 include "config/db.php";
 
-// Fetch user data based on the current user's ID (adjust this based on your session structure)
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
@@ -30,15 +29,14 @@ ob_start(); // Start output buffering
 header('Content-type: image/jpeg');
 
 // Create and output the image
-$image = imagecreatefromjpeg('assets/deer2.jpg');
+$image = imagecreatefromjpeg('assets/deer3.jpg');
 $textColor = imagecolorallocate($image, 19, 21, 22);
 $title = "NihongoQuest";
 $title2 = "I have earned a wooping amount of";
-$title3 = "of 5,000 XP On NihongoQuest!";
+$title3 = "of $userXP XP On NihongoQuest!";
 imagettftext($image, 50, 0, 20, 230, $textColor, 'assets/Lato.ttf', "$title");
 imagettftext($image, 40, 0, 50, 300, $textColor, 'assets/Lato.ttf', "$title2");
 imagettftext($image, 40, 0, 50, 350, $textColor, 'assets/Lato.ttf', "$title3");
-imagettftext($image, 40, 0, 50, 400, $textColor, 'assets/Lato.ttf', "XP: $userXP");
 imagejpeg($image);
 imagedestroy($image);
 
