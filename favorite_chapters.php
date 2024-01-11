@@ -55,7 +55,7 @@ $result = mysqli_query($con, $query);
                                 echo "</div>";
                             }
                         } else {
-                            echo "<img src='assets/error.gif' alt='Bootstrap' width='50' height='500'>";
+                            echo "No chater favorite yet";
                         }
                         ?>
                     </div>
@@ -64,18 +64,7 @@ $result = mysqli_query($con, $query);
         </div>
     </div>
 
-    <script src="activity_tracking.js"></script>
     <script src="fav_chp.js"></script>
-    <script>
-        // Get PHP userId session variable
-        var userId = <?php echo $_SESSION['user_id']; ?>;
-
-        // On page load, set status to active
-        updateStatusOnPageLoad(userId);
-
-        // On page unload, set status to inactive
-        updateStatusOnPageUnload(userId);
-    </script>
 
 </body>
 

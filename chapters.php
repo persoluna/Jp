@@ -47,7 +47,6 @@ if (!isset($_SESSION['user_id'])) {
                                                 <img src="admin/uploads/<?= $item['image']; ?>" alt="Chapters Image" class="w-100">
                                                 <hr>
                                                 <p><?= $item['description']; ?></p>
-                                                <!-- Add the Favorite button -->
                                                 <button class="btn btn-primary" onclick="markAsFavorite(event, <?= $item['chapter_id']; ?>)" title="mark this chapter as favorite">Favorite</button>
                                             </div>
                                         </div>
@@ -65,18 +64,8 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
 
-    <script src="activity_tracking.js"></script>
     <script src="fav_chp.js"></script>
-    <script>
-        // Get PHP userId session variable
-        var userId = <?php echo $_SESSION['user_id']; ?>;
-
-        // On page load, set status to active
-        updateStatusOnPageLoad(userId);
-
-        // On page unload, set status to inactive
-        updateStatusOnPageUnload(userId);
-    </script>
+    
 </body>
 
 </html>

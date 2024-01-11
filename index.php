@@ -9,28 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <body>
-
-  <?php
-
-  if (isset($_SESSION['user_id'])) {
-
-    // User logged in
-
-    echo '<script src="activity_tracking.js"></script>';
-
-    // Get user id
-    $userId = $_SESSION['user_id'];
-
-    echo <<<EOT
-    <script>
-      var userId = $userId;
-      updateStatusOnPageLoad(userId);  
-      updateStatusOnPageUnload(userId);
-    </script>  
-EOT;
-  }
-  ?>
-
   <!-- Add this to your HTML body -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">

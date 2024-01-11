@@ -1,55 +1,55 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light bg-lightgreen p-3">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <img src="assets/logo.png" alt="Bootstrap" width="35" height="34">
         </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-house-fill"></i> Home</a>
                 </li>
                 <?php
-                // *Check if the user is logged in
                 if (isset($_SESSION['user_id'])) {
-                    // *User is logged in, display other links and the dropdown
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="Quiz.php">Quiz</a>
+                        <a class="nav-link" href="Quiz.php"><i class="bi bi-question-circle-fill"></i> Quiz</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="SB.php">Score Board</a>
+                        <a class="nav-link" href="SB.php"><i class="bi bi-trophy-fill"></i> Score Board</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="favorite_chapters.php">Favorite Chapters</a>
+                        <a class="nav-link" href="favorite_chapters.php"><i class="bi bi-bookmark-heart-fill"></i> Favorite Chapters</a>
                     </li>
                     <li class="nav-item btn-group text-center">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <?php echo $_SESSION['user_name']; ?>
+                            <img src="uploads/<?= $_SESSION['profile_pic']; ?>" alt="User" width="34" height="34"> <?php echo $_SESSION['user_name']; ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="dashboard.php">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="dashboard.php"><i class="bi bi-person-fill"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear-fill"></i> Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
                                 <form method="post" action="logout.php">
-                                    <button type="submit" name="logout" class="dropdown-item">Logout</button>
+                                    <button type="submit" name="logout" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
                                 </form>
                             </li>
                         </ul>
                     </li>
                 <?php
                 } else {
-                    // User is not logged in, display the Login and Register links
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
+                        <a class="nav-link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
+                        <a class="nav-link" href="register.php"><i class="bi bi-person-plus-fill"></i> Register</a>
                     </li>
                 <?php
                 }
@@ -58,3 +58,67 @@
         </div>
     </div>
 </nav>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
+    .navbar {
+        font-family: 'Roboto', sans-serif;
+        background-color: #e0ffe0;
+        /* Light green background */
+    }
+
+    .nav-link {
+        font-size: 18px;
+        font-weight: 500;
+        color: #004d00;
+        /* Dark green text color */
+        transition: color 0.3s, transform 0.3s;
+    }
+
+    .nav-link.active {
+        color: #004d00;
+        /* Dark green color for active link */
+    }
+
+    .navbar-toggler-icon {
+        background-color: #004d00;
+        /* Dark green color for the toggler icon */
+    }
+
+    .nav-link i,
+    .nav-link img {
+        margin-right: 8px;
+        padding: 4px;
+    }
+
+    .nav-link img {
+        border-radius: 50%;
+    }
+
+    .nav-link:hover {
+        color: #008000;
+        /* Change to a lighter green on hover */
+        transform: scale(1.1);
+        /* Make the text pop up a bit */
+    }
+
+    .dropdown-menu:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .dropdown-item:hover {
+        color: #008000;
+        /* Change to a lighter green on hover */
+        transition: color 0.3s, transform 0.3s;
+    }
+
+    .dropdown-item:hover i {
+        transform: scale(1.1);
+    }
+
+    .container {
+        color: #004d00;
+        /* Dark green color for container text */
+    }
+</style>

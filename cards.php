@@ -78,17 +78,6 @@ if (isset($_GET['chapters'])) {
     echo  "You thought you will get away with that huh";
 }
     ?>
-    <script src="activity_tracking.js"></script>
-    <script>
-        // Get PHP userId session variable
-        var userId = <?php echo $_SESSION['user_id']; ?>;
-
-        // On page load, set status to active
-        updateStatusOnPageLoad(userId);
-
-        // On page unload, set status to inactive
-        updateStatusOnPageUnload(userId);
-    </script>
     <style>
         .card-back {
             background-color: #fff;
