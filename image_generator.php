@@ -29,14 +29,16 @@ ob_start(); // Start output buffering
 header('Content-type: image/jpeg');
 
 // Create and output the image
-$image = imagecreatefromjpeg('assets/deer3.jpg');
+$image = imagecreatefromjpeg('assets/TEST003.jpg');
 $textColor = imagecolorallocate($image, 19, 21, 22);
 $title = "NihongoQuest";
-$title2 = "I have earned a wooping amount of";
-$title3 = "of $userXP XP On NihongoQuest!";
-imagettftext($image, 50, 0, 20, 230, $textColor, 'assets/Lato.ttf', "$title");
-imagettftext($image, 40, 0, 50, 300, $textColor, 'assets/Lato.ttf', "$title2");
-imagettftext($image, 40, 0, 50, 350, $textColor, 'assets/Lato.ttf', "$title3");
+$title2 = "I have earned";
+$title3 = "$userXP XP On";
+$title4 = "NihongoQuest!";
+imagettftext($image, 55, 0, 400, 69, $textColor, 'assets/Lato.ttf', "$title");
+imagettftext($image, 40, 0, 50, 350, $textColor, 'assets/Lato.ttf', "$title2");
+imagettftext($image, 40, 0, 50, 415, $textColor, 'assets/Lato.ttf', "$title3");
+imagettftext($image, 40, 0, 50, 475, $textColor, 'assets/Lato.ttf', "$title4");
 imagejpeg($image);
 imagedestroy($image);
 

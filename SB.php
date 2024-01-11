@@ -13,14 +13,14 @@ include "config/db.php";
             <thead class="thead-dark">
                 <tr>
                     <th>Rank</th>
-                    <th>Name</th>
+                    <th>Profile</th>
                     <th>XP</th>
                 </tr>
             </thead>
 
             <tbody>
                 <?php
-                $sql = "SELECT u.name, uxp.xp, (@rownum := @rownum + 1) AS rank 
+                $sql = "SELECT u.name, u.image, uxp.xp, (@rownum := @rownum + 1) AS rank 
                         FROM user u
                         JOIN user_xp uxp ON u.id = uxp.user_id
                         CROSS JOIN (SELECT @rownum := 0) AS init
@@ -33,7 +33,10 @@ include "config/db.php";
                 ?>
                     <tr>
                         <td><?php echo $row['rank']; ?></td>
-                        <td><?php echo $row['name']; ?></td>
+                        <td>
+                            <img src="uploads/<?php echo $row['image']; ?>" class="rounded-circle" width="50" height="50">
+                            <span><?php echo $row['name']; ?></span>
+                        </td>
                         <td><?php echo $row['xp']; ?></td>
                     </tr>
                 <?php endwhile; ?>
@@ -43,19 +46,22 @@ include "config/db.php";
         <!-- Add the share button with JavaScript to open a Bootstrap modal -->
         <button onclick="openImageModal()" class="btn btn-primary">Share</button>
 
-        <!-- Bootstrap Modal for Image Popup -->
+        <!-- Enhanced Bootstrap Modal for Image Popup -->
         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-sl" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">Shared Image</h5>
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="imageModalLabel">Share Image</h5>
                     </div>
                     <div class="modal-body">
                         <!-- Image content goes here -->
-                        <img src="image_generator.php" class="img-fluid" alt="Generated Image">
+                        <img src="image_generator.php" class="img-fluid rounded" alt="Generated Image">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <!-- Save button with download functionality -->
+                        <button type="button" class="btn btn-primary">
+                            <a href="image_generator.php" download="JapanEse.jpg" style="color: inherit; text-decoration: none;">Save changes</a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -76,6 +82,12 @@ include "config/db.php";
         th,
         td {
             text-align: center;
+        }
+
+        .rounded-circle {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ddd;
         }
     </style>
 
