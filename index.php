@@ -36,66 +36,98 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
-  <div class="hero-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Embark on Your Japanese Language Journey</h1>
-          <p>Explore the beauty of the Japanese language through interactive quiz lessons and master vocabulary effortlessly.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="hidden">
+    <h1>Embark on Your Japanese Language Journey
+      <hr>
+      <p>Explore the beauty of the Japanese language through interactive quiz lessons and master vocabulary effortlessly.</p>
+    </h1>
+  </section>
+  <br>
+  <section class="hidden">
+    <h2>Why Choose Our Quiz Lessons?
+      <hr>
+      <p>Our quiz lessons offer an engaging and effective way to learn Japanese. Test <br>your knowledge, reinforce concepts, and track your progress with each quiz.</p>
+    </h2>
+  </section>
 
-  <div class="benefits-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Why Choose Our Quiz Lessons?</h2>
-          <p>Our quiz lessons offer an engaging and effective way to learn Japanese. Test your knowledge, reinforce concepts, and track your progress with each quiz.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="hidden">
+    <h2>Get Started on Your Japanese Journey
+      <hr>
+      <p>Ready to dive into the world of Japanese language learning? Begin your adventure with these interactive quiz lessons:</p>
+      <a href="Quiz.php" style="font-size: 0.7cm; color: blue; text-decoration: none;">- QUIZ LESSONS</a>
+      <p>Start your learning journey today and experience the joy of mastering Japanese through quizzes.</p>
+    </h2>
+  </section>
 
-  <div class="cta-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Get Started on Your Japanese Journey</h2>
-          <p>Ready to dive into the world of Japanese language learning? Begin your adventure with these interactive quiz lessons:</p>
-          <ol>
-            <li><a href="Quiz.php">- QUIZ LESSONS</a></li>
-          </ol>
-          <p>Start your learning journey today and experience the joy of mastering Japanese through quizzes.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="about-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>About Us</h2>
-          <p>At Flash Cards, we are dedicated to providing a unique and interactive Japanese language learning experience. Learn more about our mission and values.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="contact-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2>Contact Us</h2>
-          <p>If you have any questions or need assistance, feel free to <a href="contact.php">contact us</a>. We're here to help you on your journey to Japanese fluency.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section class="hidden">
+    <h2>Contact Us
+      <hr>
+      <p>If you have any questions or need assistance, feel free to <a href="contact.php">contact us</a>. We're here to help you on your journey to Japanese fluency.</p>
+    </h2>
+  </section>
   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
   <script src="https://mediafiles.botpress.cloud/060f0906-9af4-46d0-a674-6c82602fa376/webchat/config.js" defer></script>
+  <!--index page style code-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap');
+
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'poppinns', sans-serif;
+      padding: 0;
+      margin: 0;
+      scrollbar-gutter: stable;
+
+    }
+
+    /* scroll bar hiden */
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    p {
+      font-size: 19px;
+      line-height: 1.5;
+      margin: 5px 0;
+      padding: 0;
+    }
+
+
+    section {
+      display: grid;
+      place-items: center;
+      align-items: center;
+      min-height: 87vh;
+    }
+
+    .hidden {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateX(-100%);
+      transition: all 2s;
+    }
+
+    .show {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateX(0);
+    }
+  </style>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        console.log(entry)
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
+        }
+      });
+    });
+    const hiddenElements = document.querySelectorAll('.hidden');
+    hiddenElements.forEach((el) => observer.observe(el));
+  </script>
 </body>
 
 </html>

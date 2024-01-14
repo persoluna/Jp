@@ -12,6 +12,11 @@ if (!isset($_SESSION['user_id'])) {
 
 <!-- to remove the blue line under the text -->
 <style>
+    /* scroll bar hiden */
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
     a {
         text-decoration: none;
     }
@@ -65,7 +70,7 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="fav_chp.js"></script>
-    
+
 </body>
 
 </html>

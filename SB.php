@@ -32,12 +32,12 @@ include "config/db.php";
                 while ($row = mysqli_fetch_assoc($result)) :
                 ?>
                     <tr>
-                        <td><?php echo $row['rank']; ?></td>
+                        <td style="font-size: 0.7cm;"><?php echo $row['rank']; ?></td>
                         <td>
                             <img src="uploads/<?php echo $row['image']; ?>" class="rounded-circle" width="50" height="50">
-                            <span><?php echo $row['name']; ?></span>
+                            <span style="font-size: 0.5cm;"><?php echo $row['name']; ?></span>
                         </td>
-                        <td><?php echo $row['xp']; ?></td>
+                        <td style="font-size: 0.5cm;"><?php echo $row['xp']; ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -60,7 +60,7 @@ include "config/db.php";
                     <div class="modal-footer">
                         <!-- Save button with download functionality -->
                         <button type="button" class="btn btn-primary">
-                            <a href="image_generator.php" download="JapanEse.jpg" style="color: inherit; text-decoration: none;">Save changes</a>
+                            <a href="image_generator.php" download="JapanEse.jpg" style="color: inherit; text-decoration: none;">Save</a>
                         </button>
                     </div>
                 </div>
@@ -75,6 +75,11 @@ include "config/db.php";
         </script>
     </div>
     <style>
+        /* scroll bar hiden */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
         #leaderboard {
             width: 100%;
         }

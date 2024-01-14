@@ -20,6 +20,11 @@ $result = mysqli_query($con, $query);
 
 <!-- to remove the blue line under the text -->
 <style>
+    /* scroll bar hiden */
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
     a {
         text-decoration: none;
     }

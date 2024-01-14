@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-lightgreen p-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-lightgreen p-2">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <img src="assets/logo.png" alt="Bootstrap" width="35" height="34">
@@ -11,19 +11,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-house-fill"></i> Home</a>
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active-page' : ''; ?>" href="index.php">
+                        <i class="bi bi-house-fill"></i>
+                        <span>Home</span>
+                    </a>
                 </li>
                 <?php
                 if (isset($_SESSION['user_id'])) {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="Quiz.php"><i class="bi bi-question-circle-fill"></i> Quiz</a>
+                        <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'Quiz.php') ? 'active-page' : ''; ?>" href="Quiz.php"><i class="bi bi-question-circle-fill"></i> Quiz</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="SB.php"><i class="bi bi-trophy-fill"></i> Score Board</a>
+                        <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'SB.php') ? 'active-page' : ''; ?>" href="SB.php"><i class="bi bi-trophy-fill"></i> Score Board</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="favorite_chapters.php"><i class="bi bi-bookmark-heart-fill"></i> Favorite Chapters</a>
+                        <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'favorite_chapters.php') ? 'active-page' : ''; ?>" href="favorite_chapters.php"><i class="bi bi-bookmark-heart-fill"></i> Favorite Chapters</a>
                     </li>
                     <li class="nav-item btn-group text-center">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,10 +49,10 @@
                 } else {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'login.php') ? 'active-page' : ''; ?>" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="register.php"><i class="bi bi-person-plus-fill"></i> Register</a>
+                        <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'register.php') ? 'active-page' : ''; ?>" href="register.php"><i class="bi bi-person-plus-fill"></i> Register</a>
                     </li>
                 <?php
                 }
@@ -63,26 +66,35 @@
 
     .navbar {
         font-family: 'Roboto', sans-serif;
-        background-color: #e0ffe0;
-        /* Light green background */
+        background-color: white;
+        text-align: center;
     }
 
     .nav-link {
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 500;
-        color: #004d00;
-        /* Dark green text color */
+        color: black;
         transition: color 0.3s, transform 0.3s;
     }
 
-    .nav-link.active {
-        color: #004d00;
-        /* Dark green color for active link */
+    .nav-item {
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    .nav-link.active-page {
+        background-color: #000000;
+        padding: 8px 15px;
+        border-radius: 19px;
+        color: #fff;
+        display: inline-block;
+        line-height: 1.5;
+        text-align: center;
+        place-items: center;
     }
 
     .navbar-toggler-icon {
-        background-color: #004d00;
-        /* Dark green color for the toggler icon */
+        background-color: blue;
     }
 
     .nav-link i,
@@ -97,9 +109,7 @@
 
     .nav-link:hover {
         color: #008000;
-        /* Change to a lighter green on hover */
         transform: scale(1.1);
-        /* Make the text pop up a bit */
     }
 
     .dropdown-menu:hover {
@@ -109,7 +119,6 @@
 
     .dropdown-item:hover {
         color: #008000;
-        /* Change to a lighter green on hover */
         transition: color 0.3s, transform 0.3s;
     }
 
@@ -119,6 +128,5 @@
 
     .container {
         color: #004d00;
-        /* Dark green color for container text */
     }
 </style>

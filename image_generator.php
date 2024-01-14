@@ -36,9 +36,9 @@ $title2 = "I have earned";
 $title3 = "$userXP XP On";
 $title4 = "NihongoQuest!";
 imagettftext($image, 55, 0, 400, 69, $textColor, 'assets/Lato.ttf', "$title");
-imagettftext($image, 40, 0, 50, 350, $textColor, 'assets/Lato.ttf', "$title2");
-imagettftext($image, 40, 0, 50, 415, $textColor, 'assets/Lato.ttf', "$title3");
-imagettftext($image, 40, 0, 50, 475, $textColor, 'assets/Lato.ttf', "$title4");
+imagettftext($image, 40, 0, 100, 380, $textColor, 'assets/Lato.ttf', "$title2");
+imagettftext($image, 40, 0, 100, 445, $textColor, 'assets/Lato.ttf', "$title3");
+imagettftext($image, 40, 0, 100, 500, $textColor, 'assets/Lato.ttf', "$title4");
 imagejpeg($image);
 imagedestroy($image);
 

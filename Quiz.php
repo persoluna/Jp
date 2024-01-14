@@ -59,6 +59,11 @@ $horizontalGap = 30;
   </div>
 
   <style>
+    /* scroll bar hiden */
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
     .quiz-container {
       position: relative;
       margin-top: 5vh;
