@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         body {
-            background: url('../assets/giphy.gif') fixed center;
+            background: url('../assets/8U8u.gif') fixed center;
             background-size: cover;
         }
 
@@ -84,11 +84,11 @@ if (isset($_POST['submit'])) {
         }
 
         .card-title {
-            text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+            text-shadow: 0 0 3px #000000, 0 0 5px #000000;
         }
 
         .custom-button {
-            background-color: #4b0082;
+            background-color: #000000;
             color: #ffffff;
             padding: 7px 20px;
             border: none;
@@ -111,7 +111,7 @@ if (isset($_POST['submit'])) {
     <br>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div class="card shadow">
                     <div class="card-body">
                         <h2 class="card-title text-center mb-4">

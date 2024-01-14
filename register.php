@@ -90,6 +90,12 @@ include("include/header.php");
             </div>
         </div>
     </div>
+    <style>
+        /* scroll bar hiden */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </body>
 
 </html>

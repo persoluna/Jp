@@ -12,24 +12,24 @@ if (isset($_POST['submit'])) {
         // Check if the user with the provided email and password exists
         $sql = "SELECT id, name, image, password FROM user WHERE email='$email'";
         $result = mysqli_query($con, $sql);
-        
+
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $hashedPassword = $row['password'];
-        
+
             if (password_verify($password, $hashedPassword)) {
                 // Login successful
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['user_name'] = $row['name'];
                 $_SESSION['profile_pic'] = $row['image'];
-        
+
                 header('Location: dashboard.php');
                 exit();
             } else {
                 echo "Wrong username or password";
             }
         }
-    }        
+    }
 }
 include("include/header.php");
 ?>
@@ -68,6 +68,12 @@ include("include/header.php");
             </div>
         </div>
     </section>
+    <style>
+        /* scroll bar hiden */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </body>
 
 </html>

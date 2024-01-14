@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-lightgreen p-2">
     <div class="container">
         <a class="navbar-brand" href="index.php">
-            <img src="assets/logo.png" alt="Bootstrap" width="35" height="34">
+            <img src="assets/Sensei.png" alt="Bootstrap" width="65" height="64">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
