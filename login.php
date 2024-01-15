@@ -73,6 +73,10 @@ include("include/header.php");
         body::-webkit-scrollbar {
             display: none;
         }
+
+        body {
+            background-color: white;
+        }
     </style>
 </body>
 
