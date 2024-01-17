@@ -8,7 +8,8 @@ include "config/db.php";
 
     <div class="container">
         <h1 class="mb-4">Leaderboard</h1>
-
+<hr>
+<br>
         <table id="leaderboard" class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>

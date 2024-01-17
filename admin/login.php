@@ -3,11 +3,32 @@ session_start();
 include("../config/db.php");
 include("emailFunctions.php");
 
+// Function to check and update user streak
+function checkAndUpdateStreak($con, $userId)
+{
+    // Get today's date
+    $todayDate = date('Y-m-d');
+
+    // Check if there's an entry for today
+    $checkStreakTodayQuery = "SELECT * FROM user_streak WHERE user_id = $userId AND last_completed_date = '$todayDate'";
+    $streakTodayResult = mysqli_query($con, $checkStreakTodayQuery);
+
+    // Check if there's an entry for yesterday
+    $yesterdayDate = date('Y-m-d', strtotime('-1 day'));
+    $checkStreakYesterdayQuery = "SELECT * FROM user_streak WHERE user_id = $userId AND last_completed_date = '$yesterdayDate'";
+    $streakYesterdayResult = mysqli_query($con, $checkStreakYesterdayQuery);
+
+    if (mysqli_num_rows($streakTodayResult) == 0 && mysqli_num_rows($streakYesterdayResult) == 0) {
+        // If no entry for today and yesterday, update the streak to zero
+        $updateStreakQuery = "UPDATE user_streak SET total_days = 0 WHERE user_id = $userId";
+        mysqli_query($con, $updateStreakQuery);
+    }
+}
+
 if (isset($_SESSION['login_redirect_message'])) {
     echo '<div class="alert alert-warning">' . $_SESSION['login_redirect_message'] . '</div>';
     unset($_SESSION['login_redirect_message']);
 }
-
 
 if (isset($_POST['submit'])) {
     extract($_POST);
@@ -21,6 +42,15 @@ if (isset($_POST['submit'])) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION['admin_id'] = $row['id'];
         $_SESSION['admin_name'] = $row['name'];
+
+        // Check and update streak for all users
+        $getAllUsersQuery = "SELECT id FROM user";
+        $allUsersResult = mysqli_query($con, $getAllUsersQuery);
+
+        while ($userRow = mysqli_fetch_assoc($allUsersResult)) {
+            $userId = $userRow['id'];
+            checkAndUpdateStreak($con, $userId);
+        }
 
         // Check for users with XP greater than or equal to 5000 and email not sent
         $xpCheckQuery = "SELECT u.id, u.name, u.email FROM user u JOIN user_xp ux ON u.id = ux.user_id WHERE ux.xp >= 5000 AND ux.email_sent = 0";
@@ -47,6 +77,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 <!doctype html>
 <html lang="en">
 

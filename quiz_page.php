@@ -195,6 +195,51 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
             /* Add your button styles */
             margin-top: 10px;
         }
+
+        .score-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 9999;
+            /* needs to be always on top */
+        }
+
+        .score-popup button {
+            /* Style the "Back to Quiz Page" button */
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .score-popup img {
+            max-width: 100%;
+            max-height: 200px;
+            /* Adjust the height as needed */
+            margin-bottom: 10px;
+        }
+
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 9998;
+        }
+
+        .blur {
+            filter: blur(20px);
+        }
     </style>
     <script>
         let currentQuestionIndex = 0;
@@ -204,6 +249,7 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         let userSubmittedAnswer = false;
         let totalScore = 0;
         let totalXP = 0;
+        let quizCompleted = false;
 
         function showActiveQuestion() {
             const allQuestions = document.querySelectorAll('.question-container');
@@ -310,10 +356,89 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         function checkIfLastQuestion() {
             if (currentQuestionIndex === questionsOptions.length - 1) {
                 submitTotalXP(totalXP);
-                // Redirect to the results page using JavaScript
-                window.location.href = 'insert_xp.php';
+                // Result Pop-up 
+                showScorePopup();
             }
 
+        }
+
+        function showScorePopup() {
+            // Create a background overlay
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            document.body.appendChild(overlay);
+
+            // Get a random GIF from your folder
+            const randomGIF = getRandomGIF();
+
+            // Create a pop-up or modal element
+            const popup = document.createElement('div');
+            popup.classList.add('score-popup');
+            popup.innerHTML = `
+            <img src="${randomGIF}" alt="GIF">
+            <p>Your Score: ${totalScore}</p>
+            <button onclick="backToQuizPage()">Back to Quiz Page</button>
+            `;
+            // Append the pop-up to the body
+            document.body.appendChild(popup);
+        }
+
+        function getRandomGIF() {
+            const gifFolder = 'quizpage';
+            const gifs = [
+                '2.gif',
+                '3.gif',
+                '4.gif',
+                '5.gif',
+                '6.gif',
+                '7.gif',
+                '8.gif',
+                '9.gif',
+                '10.gif',
+                '11.gif',
+                '12.gif',
+                '13.gif',
+                '14.gif',
+                '15.gif',
+                '16.gif',
+                '17.gif',
+                '18.gif',
+                '19.gif',
+                '20.gif',
+                '21.gif',
+                '22.gif',
+                '23.gif',
+                '24.gif',
+                '25.gif',
+                '26.gif',
+                '28.gif',
+                '29.gif',
+                '30.gif',
+                '31.gif'
+            ];
+
+            // a random index
+            const randomIndex = Math.floor(Math.random() * gifs.length);
+
+            // Construct the path to the selected GIF
+            return `${gifFolder}/${gifs[randomIndex]}`;
+        }
+
+        function backToQuizPage() {
+            // Remove the overlay
+            const overlay = document.querySelector('.overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+
+            // Remove the blur effect
+            document.body.classList.remove('blur');
+
+            // Set the quizCompleted flag to true
+            quizCompleted = true;
+
+            // Navigate back to the main quiz page
+            window.location.href = 'quiz.php';
         }
 
         function checkOrderTypeOptions() {
@@ -375,7 +500,7 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         });
 
         window.addEventListener('beforeunload', function(e) {
-            if (!userSubmittedAnswer) {
+            if (!quizCompleted) {
                 const confirmationMessage = 'Are you sure you want to leave? Your progress may be lost.';
                 e.returnValue = confirmationMessage;
                 return confirmationMessage;
