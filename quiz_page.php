@@ -400,7 +400,6 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
                 '13.gif',
                 '14.gif',
                 '15.gif',
-                '16.gif',
                 '17.gif',
                 '18.gif',
                 '19.gif',

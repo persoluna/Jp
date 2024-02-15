@@ -8,22 +8,24 @@ include "config/db.php";
 
     <div class="container">
         <h1 class="mb-4">Leaderboard</h1>
-<hr>
-<br>
+        <hr>
+        <br>
         <table id="leaderboard" class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>Rank</th>
                     <th>Profile</th>
                     <th>XP</th>
+                    <th>Streak</th> <!-- Added streak column -->
                 </tr>
             </thead>
 
             <tbody>
                 <?php
-                $sql = "SELECT u.name, u.image, uxp.xp, (@rownum := @rownum + 1) AS rank 
+                $sql = "SELECT u.name, u.image, uxp.xp, us.total_days AS streak, (@rownum := @rownum + 1) AS rank 
                         FROM user u
                         JOIN user_xp uxp ON u.id = uxp.user_id
+                        LEFT JOIN user_streak us ON u.id = us.user_id
                         CROSS JOIN (SELECT @rownum := 0) AS init
                         ORDER BY uxp.xp DESC
                         LIMIT 10";
@@ -33,12 +35,13 @@ include "config/db.php";
                 while ($row = mysqli_fetch_assoc($result)) :
                 ?>
                     <tr>
-                        <td style="font-size: 0.7cm;"><?php echo $row['rank']; ?></td>
+                        <td style="font-size: 0.6cm;"><?php echo $row['rank']; ?></td>
                         <td>
                             <img src="uploads/<?php echo $row['image']; ?>" class="rounded-circle" width="50" height="50">
                             <span style="font-size: 0.5cm;"><?php echo $row['name']; ?></span>
                         </td>
                         <td style="font-size: 0.5cm;"><?php echo $row['xp']; ?></td>
+                        <td style="font-size: 0.5cm;"><?php echo ($row['streak'] > 0) ? $row['streak'] . '' : 'No streak'; ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -94,6 +97,27 @@ include "config/db.php";
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #ddd;
+        }
+
+        #leaderboard {
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: center;
+        }
+
+        .rounded-circle {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ddd;
+        }
+
+        #leaderboard th:first-child,
+        #leaderboard td:first-child {
+            width: 10%;
+            max-width: 10%;
         }
     </style>
 
