@@ -41,7 +41,9 @@ include "config/db.php";
                             <span style="font-size: 0.5cm;"><?php echo $row['name']; ?></span>
                         </td>
                         <td style="font-size: 0.5cm;"><?php echo $row['xp']; ?></td>
-                        <td style="font-size: 0.5cm;"><?php echo ($row['streak'] > 0) ? $row['streak'] . '' : 'No streak'; ?></td>
+                        <td style="font-size: 0.5cm;"><?php echo ($row['streak'] > 0) ? $row['streak'] . '' : 'No streak'; ?>
+                         Day   <img class="fire" src="assets/007.gif">
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -79,6 +81,11 @@ include "config/db.php";
         </script>
     </div>
     <style>
+        .fire {
+            height:50px;
+            width:40px;
+        }
+
         /* scroll bar hiden */
         body::-webkit-scrollbar {
             display: none;

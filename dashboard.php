@@ -37,9 +37,6 @@ include("include/header.php");
                         <div class="text-center">
                             <img src="uploads/<?php echo $profile_pic; ?>" alt="Profile Picture" class="w-50 img-fluid rounded-circle mb-4">
                         </div>
-
-                        <!-- Your additional content goes here -->
-
                     </div>
                 </div>
             </div>
