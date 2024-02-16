@@ -28,109 +28,138 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
 ?>
 
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h2 class="text-center mb-4"><?php echo $quizLesson['title']; ?></h2>
+    <div id="loading-animation" class="loading-animation">
+        <img src="assets/Uond001.gif" alt="Loading...">
+    </div>
 
-                <?php
-                $questionsOptions = [];
+    <div id="quiz-content" style="display: none;">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h2 class="text-center mb-4"><?php echo $quizLesson['title']; ?></h2>
 
-                while ($question = mysqli_fetch_assoc($result_questions)) {
-                    $questionsOptions[] = $question;
-                }
+                    <?php
+                    $questionsOptions = [];
 
-                // Shuffle the array of questions
-                shuffle($questionsOptions);
+                    while ($question = mysqli_fetch_assoc($result_questions)) {
+                        $questionsOptions[] = $question;
+                    }
 
-                foreach ($questionsOptions as $index => $qo) :
-                ?>
-                    <div class="question-container mb-4 <?php echo ($index === 0) ? 'active' : ''; ?>">
-                        <p class="question-text"><?php echo $qo['question_text']; ?></p>
+                    // Shuffle the array of questions
+                    shuffle($questionsOptions);
 
-                        <!-- Display Multiple Choice Options -->
-                        <?php
-                        $sql_mc_options = "SELECT option_id, option_text FROM options_multiple_choice WHERE question_id = {$qo['question_id']}";
-                        $result_mc_options = mysqli_query($con, $sql_mc_options);
+                    foreach ($questionsOptions as $index => $qo) :
+                    ?>
+                        <div class="question-container mb-4 <?php echo ($index === 0) ? 'active' : ''; ?>">
+                            <p class="question-text"><?php echo $qo['question_text']; ?></p>
 
-                        if (!$result_mc_options) {
-                            die('Error: ' . mysqli_error($con));
-                        }
+                            <!-- Display Multiple Choice Options -->
+                            <?php
+                            $sql_mc_options = "SELECT option_id, option_text FROM options_multiple_choice WHERE question_id = {$qo['question_id']}";
+                            $result_mc_options = mysqli_query($con, $sql_mc_options);
+
+                            if (!$result_mc_options) {
+                                die('Error: ' . mysqli_error($con));
+                            }
 
 
-                        // Fetch all options and shuffle them
-                        $options = [];
-                        while ($mc_option = mysqli_fetch_assoc($result_mc_options)) {
-                            $options[] = $mc_option;
-                        }
-                        shuffle($options);
-                        ?>
+                            // Fetch all options and shuffle them
+                            $options = [];
+                            while ($mc_option = mysqli_fetch_assoc($result_mc_options)) {
+                                $options[] = $mc_option;
+                            }
+                            shuffle($options);
+                            ?>
 
-                        <div class="btn-group">
-                            <?php foreach ($options as $mc_option) : ?>
-                                <button type="button" class="btn btn-secondary" data-question-id="<?php echo $qo['question_id']; ?>" data-option-id="<?php echo $mc_option['option_id']; ?>" onclick="selectMultipleChoiceOption(this)">
-                                    <?php echo $mc_option['option_text']; ?>
-                                </button>
-                            <?php endforeach; ?>
-                        </div>
-
-                        <!-- Display Order Type Options -->
-                        <?php
-                        $sql_ot_options = "SELECT * FROM options_order_type WHERE question_id = {$qo['question_id']}";
-                        $result_ot_options = mysqli_query($con, $sql_ot_options);
-
-                        if (!$result_ot_options) {
-                            die('Error: ' . mysqli_error($con));
-                        }
-
-                        // Check if there are order-type options for the current question
-                        $isOrderTypeQuestion = mysqli_num_rows($result_ot_options) > 0;
-                        ?>
-
-                        <?php if ($isOrderTypeQuestion) : ?>
-                            <div class="order-type-drop-area" id="dropped-options-<?php echo $index; ?>">
-                                <ul class="dropped-order-type-options" onclick="unselectOrderTypeOption(event, <?php echo $index; ?>)">
-                                    <!-- The dropped Options for this question -->
-                                </ul>
+                            <div class="btn-group">
+                                <?php foreach ($options as $mc_option) : ?>
+                                    <button type="button" class="btn btn-secondary" data-question-id="<?php echo $qo['question_id']; ?>" data-option-id="<?php echo $mc_option['option_id']; ?>" onclick="selectMultipleChoiceOption(this)">
+                                        <?php echo $mc_option['option_text']; ?>
+                                    </button>
+                                <?php endforeach; ?>
                             </div>
 
-                            <ul class="order-type-options">
-                                <?php while ($ot_option = mysqli_fetch_assoc($result_ot_options)) : ?>
-                                    <?php
-                                    // Create an array of options for the current question
-                                    $options = array(
-                                        $ot_option['option_1'],
-                                        $ot_option['option_2'],
-                                        $ot_option['option_3'],
-                                        $ot_option['option_4'],
-                                        $ot_option['option_5'],
-                                        $ot_option['option_6']
-                                    );
-                                    // Shuffle the array of options
-                                    shuffle($options);
-                                    // Display the shuffled options in the list
-                                    foreach ($options as $option) {
-                                        echo "<li onclick=\"selectOrderTypeOption(this, $index)\">$option</li>";
-                                    }
-                                    ?>
-                                <?php endwhile; ?>
-                            </ul>
-                        <?php endif; ?>
+                            <!-- Display Order Type Options -->
+                            <?php
+                            $sql_ot_options = "SELECT * FROM options_order_type WHERE question_id = {$qo['question_id']}";
+                            $result_ot_options = mysqli_query($con, $sql_ot_options);
 
-                        <!-- Show the "CHECK" button -->
-                        <button type="button" class="btn btn-primary" onclick="<?php echo $isOrderTypeQuestion ? 'checkOrderTypeOptions' : 'checkMultipleChoiceOption'; ?>()">CHECK</button>
+                            if (!$result_ot_options) {
+                                die('Error: ' . mysqli_error($con));
+                            }
 
-                        <!-- Message indicating right or wrong answer -->
-                        <p id="answer-message-<?php echo $index; ?>" class="answer-message"></p>
+                            // Check if there are order-type options for the current question
+                            $isOrderTypeQuestion = mysqli_num_rows($result_ot_options) > 0;
+                            ?>
 
-                        <!-- Show the "Next" button (initially hidden) -->
-                        <button type="button" class="btn btn-primary" onclick="showNextQuestion()" id="next-button-<?php echo $index; ?>" style="display:none;">Next</button>
-                    </div>
-                <?php endforeach; ?>
+                            <?php if ($isOrderTypeQuestion) : ?>
+                                <div class="order-type-drop-area" id="dropped-options-<?php echo $index; ?>">
+                                    <ul class="dropped-order-type-options" onclick="unselectOrderTypeOption(event, <?php echo $index; ?>)">
+                                        <!-- The dropped Options for this question -->
+                                    </ul>
+                                </div>
+
+                                <ul class="order-type-options">
+                                    <?php while ($ot_option = mysqli_fetch_assoc($result_ot_options)) : ?>
+                                        <?php
+                                        // Create an array of options for the current question
+                                        $options = array(
+                                            $ot_option['option_1'],
+                                            $ot_option['option_2'],
+                                            $ot_option['option_3'],
+                                            $ot_option['option_4'],
+                                            $ot_option['option_5'],
+                                            $ot_option['option_6']
+                                        );
+                                        // Shuffle the array of options
+                                        shuffle($options);
+                                        // Display the shuffled options in the list
+                                        foreach ($options as $option) {
+                                            echo "<li onclick=\"selectOrderTypeOption(this, $index)\">$option</li>";
+                                        }
+                                        ?>
+                                    <?php endwhile; ?>
+                                </ul>
+                            <?php endif; ?>
+
+                            <!-- Show the "CHECK" button -->
+                            <button type="button" class="btn btn-primary" onclick="<?php echo $isOrderTypeQuestion ? 'checkOrderTypeOptions' : 'checkMultipleChoiceOption'; ?>()">CHECK</button>
+
+                            <!-- Message indicating right or wrong answer -->
+                            <p id="answer-message-<?php echo $index; ?>" class="answer-message"></p>
+
+                            <!-- Show the "Next" button (initially hidden) -->
+                            <button type="button" class="btn btn-primary" onclick="showNextQuestion()" id="next-button-<?php echo $index; ?>" style="display:none;">Next</button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
     <style>
+        .loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(1px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-gif {
+            max-width: 50%;
+            max-height: 50%;
+        }
+
+        #quiz-content {
+            filter: blur(5px);
+        }
+
         .question-container {
             border: 1px solid #ddd;
             padding: 15px;
@@ -250,6 +279,12 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         let totalScore = 0;
         let totalXP = 0;
         let quizCompleted = false;
+
+        setTimeout(function() {
+            document.getElementById('loading-animation').style.display = 'none';
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('quiz-content').style.filter = 'none';
+        }, 3500);
 
         function showActiveQuestion() {
             const allQuestions = document.querySelectorAll('.question-container');
