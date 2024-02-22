@@ -221,7 +221,6 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
         }
 
         .btn-primary {
-            /* Add your button styles */
             margin-top: 10px;
         }
 

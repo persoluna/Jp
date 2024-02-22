@@ -54,6 +54,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
         die('Error: ' . mysqli_error($con));
     }
 
+    // Insert or update the user's XP in the user_xp_chart table
+    $sql_user_xp_chart = "INSERT INTO user_xp_chart (user_id, xp_earned, date) VALUES ($userId, $score, CURDATE())";
+    $result_user_xp_chart = mysqli_query($con, $sql_user_xp_chart);
+
+    if (!$result_user_xp_chart) {
+        die('Error: ' . mysqli_error($con));
+    }
+
     // Send a response back to the client (optional)
     echo json_encode(['success' => true]);
 } else {
