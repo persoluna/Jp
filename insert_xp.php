@@ -5,20 +5,8 @@ include("config/db.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
     $score = intval($_POST['score']);
     $userId = $_SESSION['user_id'];
-
-    // Retrieve the attempt ID from the session
-    $attemptId = $_SESSION['attempt_id'];
-
-    // Insert end time and score in the quiz_attempt table
-    $endTime = date('Y-m-d H:i:s'); // Current date and time
-
-    $sql_update_attempt = "UPDATE quiz_attempts SET end_time = '$endTime', score = $score WHERE attempt_id = $attemptId";
-    $result_update_attempt = mysqli_query($con, $sql_update_attempt);
-
-    if (!$result_update_attempt) {
-        die('Error: ' . mysqli_error($con));
-    }
-
+    $qlesson_id = $_SESSION['qlesson_id'];
+    
     // Day Streak Logic
     $sql_check_streak = "SELECT * FROM user_streak WHERE user_id = $userId";
     $result_check_streak = mysqli_query($con, $sql_check_streak);
@@ -73,6 +61,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
 
     if (!$result_user_xp_chart) {
         die('Error: ' . mysqli_error($con));
+    }
+
+    // Insert the elapsed time into the database
+    $quiz_start_time = $_SESSION['quiz_start_time'];
+    $current_time = time();
+    $elapsed_time = $current_time - $quiz_start_time;
+
+    $insert_time_query = "INSERT INTO quiz_attempts (user_id, qlesson_id, end_time) VALUES ($userId, $qlesson_id, $elapsed_time)";
+    $result_insert_time = mysqli_query($con, $insert_time_query);
+
+    if (!$result_insert_time) {
+        die('Error inserting elapsed time: ' . mysqli_error($con));
     }
 
     // Send a response back to the client (optional)

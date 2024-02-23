@@ -3,8 +3,12 @@ session_start();
 include("include/header.php");
 include("config/db.php");
 
+// start the timer
+$_SESSION['quiz_start_time'] = time();
+
 if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
     $qlesson_id = $_GET['qlesson_id'];
+    $_SESSION['qlesson_id'] = $_GET['qlesson_id'];
 
     $sql_qlesson = "SELECT * FROM quizlessons WHERE qlesson_id = $qlesson_id";
     $result_qlesson = mysqli_query($con, $sql_qlesson);
