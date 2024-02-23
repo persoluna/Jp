@@ -48,7 +48,7 @@ $horizontalGap = 30;
               $direction *= -1;
             }
             ?>
-            <div class="quiz-lesson" onclick="location.href='quiz_page.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>">
+            <div class="quiz-lesson" onclick="startQuiz(<?php echo $quizLesson['qlesson_id']; ?>)" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>">
               <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
               <span class="quiz-lesson-title"><?php echo $quizLesson['title']; ?></span>
             </div>
@@ -124,6 +124,26 @@ $horizontalGap = 30;
   </style>
 
   <script>
+    function startQuiz(qlesson_id) {
+      fetch('start_quiz.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `qlesson_id=${qlesson_id}`,
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response if needed
+          console.log('Quiz started:', data);
+          // Redirect the user to the quiz page
+          window.location.href = 'quiz_page.php?qlesson_id=' + qlesson_id;
+        })
+        .catch(error => {
+          console.error('Fetch Error:', error);
+        });
+    }
+
     function hoverLesson1(element) {
       element.style.backgroundColor = "black";
     }

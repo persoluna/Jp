@@ -6,6 +6,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
     $score = intval($_POST['score']);
     $userId = $_SESSION['user_id'];
 
+    // Retrieve the attempt ID from the session
+    $attemptId = $_SESSION['attempt_id'];
+
+    // Insert end time and score in the quiz_attempt table
+    $endTime = date('Y-m-d H:i:s'); // Current date and time
+
+    $sql_update_attempt = "UPDATE quiz_attempts SET end_time = '$endTime', score = $score WHERE attempt_id = $attemptId";
+    $result_update_attempt = mysqli_query($con, $sql_update_attempt);
+
+    if (!$result_update_attempt) {
+        die('Error: ' . mysqli_error($con));
+    }
+
     // Day Streak Logic
     $sql_check_streak = "SELECT * FROM user_streak WHERE user_id = $userId";
     $result_check_streak = mysqli_query($con, $sql_check_streak);
