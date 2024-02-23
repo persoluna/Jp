@@ -42,8 +42,8 @@ for ($month = 1; $month <= 12; $month++) {
 
 //! HISTOGRAM OF QUIZ ATTEMPT DURATIONS
 
-// Query to fetch quiz lesson names and attempt durations
-$sql = "SELECT ql.title AS lesson_title, TIMESTAMPDIFF(MINUTE, start_time, end_time) AS duration 
+// Query to fetch quiz lesson titles and their durations
+$sql = "SELECT ql.title AS lesson_title, TIMESTAMPDIFF(MINUTE, qa.start_time, qa.end_time) AS duration 
         FROM quiz_attempts qa
         INNER JOIN quizlessons ql ON qa.qlesson_id = ql.qlesson_id";
 $result = mysqli_query($con, $sql);
@@ -55,15 +55,16 @@ $quizLessonDurations = [];
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $lessonTitle = $row['lesson_title'];
-        $durationInMinutes = $row['duration']; // Duration in minutes
+        $duration = $row['duration'];
 
         // Add duration to the corresponding quiz lesson
         if (!isset($quizLessonDurations[$lessonTitle])) {
             $quizLessonDurations[$lessonTitle] = [];
         }
-        $quizLessonDurations[$lessonTitle][] = $durationInMinutes;
+        $quizLessonDurations[$lessonTitle][] = $duration;
     }
 }
+
 ?>
 
 <body>
@@ -187,32 +188,18 @@ if ($result) {
 
         // Extract lesson titles and durations
         var lessonTitles = Object.keys(quizLessonDurations);
-        var durations = Object.values(quizLessonDurations);
 
-        // Process durations to create the dataset for the histogram
-        var dataset = [];
-        var allDurations = [];
+        // Initialize arrays to store data for the chart
+        var labels = [];
+        var data = [];
 
-        durations.forEach(function(durationsForLesson, index) {
-            var lessonTitle = lessonTitles[index];
-            allDurations = allDurations.concat(durationsForLesson);
+        // Loop through each lesson title and its corresponding durations
+        lessonTitles.forEach(function(lessonTitle) {
+            var durationsForLesson = quizLessonDurations[lessonTitle];
 
-            // Convert durations to dataset format (array of objects)
-            var data = durationsForLesson.map(function(duration) {
-                return {
-                    x: duration,
-                    y: 1 // Frequency (all durations are treated as individual data points)
-                };
-            });
-
-            // Add the dataset for the lesson
-            dataset.push({
-                label: lessonTitle, // Use lesson title as label
-                data: data,
-                backgroundColor: 'rgba(255, 178, 178, 0.6)', // Bar color
-                borderColor: 'rgba(255, 178, 178, 1)', // Border color
-                borderWidth: 1
-            });
+            // Add the lesson title to labels array and durations to data array
+            labels.push(lessonTitle);
+            data.push(durationsForLesson);
         });
 
         // Create a new chart context
@@ -220,27 +207,41 @@ if ($result) {
 
         // Create the histogram
         var quizDurationHistogram = new Chart(ctx, {
-            type: 'bar', // Change to bar chart
+            type: 'bar',
             data: {
-                labels: allDurations, // Set all durations as labels on X-axis
-                datasets: dataset
+                labels: labels,
+                datasets: lessonTitles.map(function(lessonTitle, index) {
+                    return {
+                        label: lessonTitle,
+                        data: data[index],
+                        backgroundColor: 'rgba(255, 178, 178, 0.6)', // Bar color
+                        borderColor: 'rgba(255, 178, 178, 1)', // Border color
+                        borderWidth: 1
+                    };
+                })
             },
             options: {
                 scales: {
-                    xAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Quiz Duration (minutes)'
-                        }
-                    }],
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
-                            stepSize: 1
+                            beginAtZero: true, // Start y-axis at 0
+                            callback: function(value) {
+                                // Convert seconds to hours:minutes:seconds format
+                                var hours = Math.floor(value / 3600);
+                                var minutes = Math.floor((value % 3600) / 60);
+                                var seconds = value % 60;
+                                return hours + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+                            }
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: 'Frequency'
+                            labelString: 'Time (HH:MM:SS)' // Y-axis label
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Quiz Lessons' // X-axis label
                         }
                     }]
                 }
