@@ -9,6 +9,7 @@ if (!isset($_SESSION['admin_id'])) {
     header("location: login.php");
     exit();
 }
+
 ?>
 
 <body>
@@ -28,6 +29,7 @@ if (!isset($_SESSION['admin_id'])) {
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Current Day Streak</th>
+                                        <th>View Attempts</th>
                                     </tr>
                                 </thead>
                                 <tbody id="user_table">
@@ -47,15 +49,16 @@ if (!isset($_SESSION['admin_id'])) {
                                             echo "<td>";
                                             // Check if the streak is zero
                                             if ($user['total_days'] == 0) {
-                                                echo "NOT active";
+                                                echo "0";
                                             } else {
                                                 echo $user['total_days']; // Display streak value
                                             }
                                             echo "</td>";
+                                            echo "<td><button class='btn btn-info btn-sm'  style='width: 100px;' onclick='viewAttempts({$user['id']})'><i class='bi bi-person-lines-fill fs-6'></i></button></td>";
                                             echo "</tr>";
                                         }
                                     } else {
-                                        echo "<tr><td colspan='4'>Error fetching user data and streak.</td></tr>";
+                                        echo "<tr><td colspan='5'>Error fetching user data and streak.</td></tr>";
                                     }
                                     ?>
                                 </tbody>
@@ -66,6 +69,41 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         </div>
     </div>
+
+    <!-- Modal to display attempts -->
+    <div class="modal fade" id="attemptsModal" tabindex="-1" role="dialog" aria-labelledby="attemptsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attemptsModalLabel">User Attempts</h5>
+                </div>
+                <div class="modal-body" id="attemptsContent">
+                    <!-- Attempt details will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function viewAttempts(userId) {
+            // Clear previous attempt content
+            document.getElementById('attemptsContent').innerHTML = '';
+
+            // Fetch attempts for the selected user
+            $.ajax({
+                url: 'fetch_user_attempts.php',
+                type: 'GET',
+                data: { userId: userId },
+                success: function(response) {
+                    $('#attemptsContent').html(response);
+                    $('#attemptsModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    </script>
 
 </body>
 

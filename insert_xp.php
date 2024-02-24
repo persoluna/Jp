@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
     $score = intval($_POST['score']);
     $userId = $_SESSION['user_id'];
     $qlesson_id = $_SESSION['qlesson_id'];
-    
+
     // Day Streak Logic
     $sql_check_streak = "SELECT * FROM user_streak WHERE user_id = $userId";
     $result_check_streak = mysqli_query($con, $sql_check_streak);
@@ -68,7 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'])) {
     $current_time = time();
     $elapsed_time = $current_time - $quiz_start_time;
 
-    $insert_time_query = "INSERT INTO quiz_attempts (user_id, qlesson_id, end_time) VALUES ($userId, $qlesson_id, $elapsed_time)";
+    // Get the current date and time
+    $currentDateTime = date("Y-m-d H:i:s");
+
+    $insert_time_query = "INSERT INTO quiz_attempts (user_id, qlesson_id, end_time, attempt_datetime) VALUES ($userId, $qlesson_id, $elapsed_time, '$currentDateTime')";
     $result_insert_time = mysqli_query($con, $insert_time_query);
 
     if (!$result_insert_time) {

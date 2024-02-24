@@ -28,13 +28,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <body>
     <!-- QUIZ LESSONS TIME PIE CHART -->
-    <div class="chart">
-        <canvas id="pieChart" width="800" height="400"></canvas>
+    <div class="chart-container">
+        <canvas id="pieChart"></canvas>
     </div>
 
     <style>
-        .chart {
-            width: 80%;
+        .chart-container {
+            width: 50%;
             height: 600px;
             margin: 20px auto;
             padding: 10px;
@@ -96,17 +96,17 @@ while ($row = mysqli_fetch_assoc($result)) {
                     animateRotate: true
                 },
                 tooltips: {
-            callbacks: {
-                label: function(tooltipItem, data) {
-                    // Retrieve the quiz lesson title based on the index of the hovered element
-                    const quizLessonTitle = data.labels[tooltipItem.index];
-                    // Retrieve the time taken for the quiz lesson
-                    const timeTaken = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                    // Format the tooltip label to display the quiz lesson title and time taken
-                    return `${quizLessonTitle}: ${timeTaken} minutes`;
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            // Retrieve the quiz lesson title based on the index of the hovered element
+                            const quizLessonTitle = data.labels[tooltipItem.index];
+                            // Retrieve the time taken for the quiz lesson
+                            const timeTaken = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            // Format the tooltip label to display the quiz lesson title and time taken
+                            return `${quizLessonTitle}: ${timeTaken} minutes`;
+                        }
+                    }
                 }
-            }
-        }
             }
         });
     </script>
