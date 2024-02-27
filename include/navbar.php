@@ -30,11 +30,10 @@
                     </li>
                     <li class="nav-item btn-group text-center">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="uploads/<?= $_SESSION['profile_pic']; ?>" alt="User" width="44" height="44"> <?php echo $_SESSION['user_name']; ?>
+                            <img src="uploads/<?= $_SESSION['profile_pic']; ?>" alt="User" width="44" height="44" style="border: 1px solid #ccc;"> <?php echo $_SESSION['user_name']; ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="dashboard.php"><i class="bi bi-person-fill"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear-fill"></i> Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

@@ -35,9 +35,9 @@ if (!isset($_SESSION['admin_id'])) {
                                 <tbody id="user_table">
                                     <?php
                                     // Fetch user data and current day streak from the database
-                                    $userStreakQuery = "SELECT u.id, u.name, u.email, s.total_days 
+                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days 
                                                         FROM user u 
-                                                        LEFT JOIN user_streak s ON u.id = s.user_id AND s.last_completed_date = CURDATE()";
+                                                        LEFT JOIN user_streak s ON u.id = s.user_id";
                                     $userStreakResult = mysqli_query($con, $userStreakQuery);
 
                                     if ($userStreakResult) {
@@ -93,7 +93,9 @@ if (!isset($_SESSION['admin_id'])) {
             $.ajax({
                 url: 'fetch_user_attempts.php',
                 type: 'GET',
-                data: { userId: userId },
+                data: {
+                    userId: userId
+                },
                 success: function(response) {
                     $('#attemptsContent').html(response);
                     $('#attemptsModal').modal('show');

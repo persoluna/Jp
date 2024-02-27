@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container-fluid">
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,8 @@
 
 <style>
   .active-page {
-    color: #007bff;
+    color: white;
+    background-color: blue;
   }
 
   .navbar {
@@ -55,6 +56,7 @@
   }
 
   .nav-link {
+    color: white;
     text-transform: uppercase;
     font-size: 0.9em;
     font-weight: 500;

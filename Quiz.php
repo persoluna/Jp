@@ -73,7 +73,7 @@ $horizontalGap = 30;
       border-radius: 50%;
       width: 11vw;
       height: 11vw;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(128, 128, 0, 0.7);
       box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
@@ -93,7 +93,7 @@ $horizontalGap = 30;
       border-radius: 50%;
       width: 17vw;
       height: 17vw;
-      background-color: black;
+      background-color: rgba(0, 201, 87, 1);
       box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
@@ -124,19 +124,19 @@ $horizontalGap = 30;
 
   <script>
     function hoverLesson1(element) {
-      element.style.backgroundColor = "black";
+      element.style.backgroundColor = "rgba(34, 139, 34, 0.6)";
     }
 
     function unhoverLesson1(element) {
-      element.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+      element.style.backgroundColor = "rgba(128, 128, 0, 0.7)";
     }
 
     function hoverLesson(element) {
-      element.style.backgroundColor = "#2c3e50";
+      element.style.backgroundColor = "rgba(57, 255, 20, 1)";
     }
 
     function unhoverLesson(element) {
-      element.style.backgroundColor = "black";
+      element.style.backgroundColor = "rgba(0, 201, 87, 1)";
     }
   </script>
 </body>
