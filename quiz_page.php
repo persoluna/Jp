@@ -1,35 +1,105 @@
 <?php
 session_start();
-include("include/header.php");
 include("config/db.php");
 
-// start the timer
-$_SESSION['quiz_start_time'] = time();
-
+// Check if qlesson_id is set and is numeric
 if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
     $qlesson_id = $_GET['qlesson_id'];
     $_SESSION['qlesson_id'] = $_GET['qlesson_id'];
 
-    $sql_qlesson = "SELECT * FROM quizlessons WHERE qlesson_id = $qlesson_id";
-    $result_qlesson = mysqli_query($con, $sql_qlesson);
+    // Check if the current quiz lesson ID is the ID of the very first quiz lesson
+    $sql_first_quiz_lesson = "SELECT MIN(qlesson_id) AS first_quiz_lesson FROM quizlessons";
+    $result_first_quiz_lesson = mysqli_query($con, $sql_first_quiz_lesson);
+    $row = mysqli_fetch_assoc($result_first_quiz_lesson);
+    $first_quiz_lesson_id = $row['first_quiz_lesson'];
 
-    if (!$result_qlesson) {
-        die('Error: ' . mysqli_error($con));
-    }
+    if ($qlesson_id == $first_quiz_lesson_id) {
+        // User is accessing the very first quiz lesson, allow access
+        // Start the timer
+        $_SESSION['quiz_start_time'] = time();
 
-    $quizLesson = mysqli_fetch_assoc($result_qlesson);
+        // Fetch quiz lesson details
+        $sql_qlesson = "SELECT * FROM quizlessons WHERE qlesson_id = $qlesson_id";
+        $result_qlesson = mysqli_query($con, $sql_qlesson);
 
-    $sql_questions = "SELECT * FROM questions WHERE qlesson_id = $qlesson_id";
-    $result_questions = mysqli_query($con, $sql_questions);
+        if (!$result_qlesson) {
+            die('Error: ' . mysqli_error($con));
+        }
 
-    if (!$result_questions) {
-        die('Error: ' . mysqli_error($con));
+        $quizLesson = mysqli_fetch_assoc($result_qlesson);
+
+        $sql_questions = "SELECT * FROM questions WHERE qlesson_id = $qlesson_id";
+        $result_questions = mysqli_query($con, $sql_questions);
+
+        if (!$result_questions) {
+            die('Error: ' . mysqli_error($con));
+        }
+    } else {
+        // Fetch unlocked lessons for the current user
+        $userId = $_SESSION['user_id'];
+        $sql_check_unlocked = "SELECT lesson_id FROM lesson_unlocks WHERE user_id = $userId";
+        $result_check_unlocked = mysqli_query($con, $sql_check_unlocked);
+
+        // Store unlocked lesson IDs in an array
+        $unlocked_lessons = [];
+        if ($result_check_unlocked && mysqli_num_rows($result_check_unlocked) > 0) {
+            while ($row = mysqli_fetch_assoc($result_check_unlocked)) {
+                $unlocked_lessons[] = $row['lesson_id'];
+            }
+        }
+
+        // Fetch the next quiz lesson after the highest unlocked lesson
+        $sql_next_quiz_lesson = "SELECT qlesson_id FROM quizlessons WHERE qlesson_id > (SELECT MAX(lesson_id) FROM lesson_unlocks WHERE user_id = $userId) ORDER BY qlesson_id ASC LIMIT 1";
+        $result_next_quiz_lesson = mysqli_query($con, $sql_next_quiz_lesson);
+
+        if ($result_next_quiz_lesson && mysqli_num_rows($result_next_quiz_lesson) > 0) {
+            $row = mysqli_fetch_assoc($result_next_quiz_lesson);
+            $next_quiz_lesson_id = $row['qlesson_id'];
+
+            if (in_array($qlesson_id, $unlocked_lessons) || $qlesson_id == $next_quiz_lesson_id) {
+                // User has unlocked the quiz lesson or it's the next quiz lesson after the highest unlocked lesson, proceed to display the quiz content
+
+                // Start the timer
+                $_SESSION['quiz_start_time'] = time();
+
+                // Fetch quiz lesson details
+                $sql_qlesson = "SELECT * FROM quizlessons WHERE qlesson_id = $qlesson_id";
+                $result_qlesson = mysqli_query($con, $sql_qlesson);
+
+                if (!$result_qlesson) {
+                    die('Error: ' . mysqli_error($con));
+                }
+
+                $quizLesson = mysqli_fetch_assoc($result_qlesson);
+
+                $sql_questions = "SELECT * FROM questions WHERE qlesson_id = $qlesson_id";
+                $result_questions = mysqli_query($con, $sql_questions);
+
+                if (!$result_questions) {
+                    die('Error: ' . mysqli_error($con));
+                }
+            } else {
+                // User has not unlocked the quiz lesson or it's not the next quiz lesson after the highest unlocked lesson, redirect to the main quiz page or display an error message
+                header("Location: quiz.php"); // Redirect to main quiz page
+                exit; // Stop further execution
+            }
+        } else {
+            // No next quiz lesson found, redirect to the main quiz page or display an error message
+            header("Location: quiz.php"); // Redirect to main quiz page
+            exit; // Stop further execution
+        }
     }
 } else {
+    // Invalid or missing qlesson_id, display an error message
     echo "Invalid quiz lesson ID.";
-    exit;
+    exit; // Stop further execution
 }
+include("include/header.php");
+
 ?>
+
+
+
 
 <body>
     <div id="loading-animation" class="loading-animation">

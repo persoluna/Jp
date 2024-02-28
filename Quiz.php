@@ -3,7 +3,7 @@ session_start();
 include("include/header.php");
 include("config/db.php");
 
-// Fetch all quiz lessons
+//! Fetch all quiz lessons
 $sql = "SELECT * FROM quizlessons";
 $result = mysqli_query($con, $sql);
 
@@ -16,7 +16,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $quizLessons[] = $row;
 }
 
-// Fetch unlocked lessons for the current user
+//! Fetch unlocked lessons for the current user
 $userId = $_SESSION['user_id'];
 $unlockedLessons = [];
 $sql_unlocked = "SELECT lesson_id FROM lesson_unlocks WHERE user_id = $userId";
@@ -27,7 +27,7 @@ if ($result_unlocked) {
   }
 }
 
-// Define the vertical and horizontal gaps
+//* Define the vertical and horizontal gaps
 $verticalGap = 40;
 $horizontalGap = 30;
 
@@ -187,27 +187,40 @@ $horizontalGap = 30;
     }
 
     function hoverLesson(element) {
-     //! baki hei karna abhi
+      //! baki hei karna abhi
     }
 
     function unhoverLesson(element) {
-     //! baki hei karna abhi
+      //! baki hei karna abhi
     }
 
     function showDialogueBox(lessonId, lessonTitle) {
       var dialogueBox = document.getElementById('quiz-dialogue-box');
       var startQuizBtn = document.getElementById('start-quiz-btn');
       dialogueBox.style.display = 'block';
+
       // Position the dialogue box near the clicked quiz lesson
       var lessonElement = event.currentTarget;
       var rect = lessonElement.getBoundingClientRect();
       dialogueBox.style.top = rect.bottom + 'px';
       dialogueBox.style.left = rect.left + 'px';
+
       // Update the button text and link
       startQuizBtn.textContent = 'Start ' + lessonTitle + ' Quiz';
-      startQuizBtn.onclick = function() {
-        window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
-      };
+
+      // Check the color of the clicked quiz lesson
+      var lessonColor = lessonElement.style.backgroundColor;
+
+      // Allow or prevent the user from starting the quiz based on the color
+      if (lessonColor === 'green' || lessonColor === 'orange') {
+        startQuizBtn.disabled = false; // Allow starting the quiz
+        startQuizBtn.onclick = function() {
+          window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
+        };
+      } else {
+        startQuizBtn.disabled = true; // Prevent starting the quiz
+        startQuizBtn.onclick = null; // Disable the button click event
+      }
     }
   </script>
 </body>
