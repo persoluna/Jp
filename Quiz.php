@@ -16,6 +16,17 @@ while ($row = mysqli_fetch_assoc($result)) {
   $quizLessons[] = $row;
 }
 
+// Fetch unlocked lessons for the current user
+$userId = $_SESSION['user_id'];
+$unlockedLessons = [];
+$sql_unlocked = "SELECT lesson_id FROM lesson_unlocks WHERE user_id = $userId";
+$result_unlocked = mysqli_query($con, $sql_unlocked);
+if ($result_unlocked) {
+  while ($row = mysqli_fetch_assoc($result_unlocked)) {
+    $unlockedLessons[] = $row['lesson_id'];
+  }
+}
+
 // Define the vertical and horizontal gaps
 $verticalGap = 40;
 $horizontalGap = 30;
@@ -47,14 +58,33 @@ $horizontalGap = 30;
             if (($i + 1) % 2 === 0) {
               $direction *= -1;
             }
+
+            // Determine the color based on user status
+            $lessonColor = "gray"; // Default color
+            if (empty($unlockedLessons)) { // New user
+              if ($i === 0) {
+                $lessonColor = "orange"; // First lesson for new user
+              }
+            } else { // Existing user
+              if (in_array($quizLesson['qlesson_id'], $unlockedLessons)) {
+                $lessonColor = "green"; // Unlocked lesson
+              } elseif ($i === (count($unlockedLessons))) {
+                $lessonColor = "orange"; // Next lesson after last unlocked
+              }
+            }
             ?>
-            <div class="quiz-lesson" onclick="location.href='quiz_page.php?qlesson_id=<?php echo $quizLesson['qlesson_id']; ?>'" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>"> <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
+            <div class="quiz-lesson" onclick="showDialogueBox('<?php echo $quizLesson['qlesson_id']; ?>', '<?php echo $quizLesson['title']; ?>')" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>; background-color: <?php echo $lessonColor; ?>"> <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
               <span class="quiz-lesson-title"><?php echo $quizLesson['title']; ?></span>
             </div>
           <?php endforeach; ?>
         </div>
       </div>
     </div>
+  </div>
+  <!-- Dialogue box for quiz -->
+  <div id="quiz-dialogue-box" class="dialogue-box">
+    <p>Start the quiz:</p>
+    <button id="start-quiz-btn">Start Quiz</button>
   </div>
 
   <style>
@@ -93,7 +123,6 @@ $horizontalGap = 30;
       border-radius: 50%;
       width: 17vw;
       height: 17vw;
-      background-color: rgba(0, 201, 87, 1);
       box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
@@ -120,6 +149,32 @@ $horizontalGap = 30;
       text-align: center;
       color: #fff;
     }
+
+    .dialogue-box {
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      display: none;
+      /* Hide initially */
+    }
+
+    .dialogue-box:after {
+      content: '';
+      position: absolute;
+      border-style: solid;
+      border-width: 10px 10px 0;
+      border-color: #fff transparent;
+      display: block;
+      width: 0;
+      z-index: 1;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   </style>
 
   <script>
@@ -132,11 +187,27 @@ $horizontalGap = 30;
     }
 
     function hoverLesson(element) {
-      element.style.backgroundColor = "rgba(57, 255, 20, 1)";
+     //! baki hei karna abhi
     }
 
     function unhoverLesson(element) {
-      element.style.backgroundColor = "rgba(0, 201, 87, 1)";
+     //! baki hei karna abhi
+    }
+
+    function showDialogueBox(lessonId, lessonTitle) {
+      var dialogueBox = document.getElementById('quiz-dialogue-box');
+      var startQuizBtn = document.getElementById('start-quiz-btn');
+      dialogueBox.style.display = 'block';
+      // Position the dialogue box near the clicked quiz lesson
+      var lessonElement = event.currentTarget;
+      var rect = lessonElement.getBoundingClientRect();
+      dialogueBox.style.top = rect.bottom + 'px';
+      dialogueBox.style.left = rect.left + 'px';
+      // Update the button text and link
+      startQuizBtn.textContent = 'Start ' + lessonTitle + ' Quiz';
+      startQuizBtn.onclick = function() {
+        window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
+      };
     }
   </script>
 </body>

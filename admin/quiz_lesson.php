@@ -21,11 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quizTitle = $_POST['quiz_title'];
     $numMultiQuestions = $_POST['num_multi_questions'];
     $numOrderQuestions = $_POST['num_order_questions'];
+    $timeLimit = $_POST['time_limit'];
 
     // TODO Validate form data
 
     // *Insert quiz lesson data into the database
-    $insertQuizLessonQuery = "INSERT INTO quizlessons (title) VALUES ('$quizTitle')";
+    $insertQuizLessonQuery = "INSERT INTO quizlessons (title, time_limit) VALUES ('$quizTitle', '$timeLimit')";
     $result = mysqli_query($con, $insertQuizLessonQuery);
 
     if ($result) {
@@ -68,6 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3">
                                 <label for="num_order_questions" class="form-label">Number of Order-Type Questions</label>
                                 <input type="number" class="form-control" id="num_order_questions" name="num_order_questions" required value="<?php echo $numOrderQuestions; ?>">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="time_limit" class="form-label">Time Limit (in minutes)</label>
+                                <input type="number" class="form-control" id="time_limit" name="time_limit" required>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Next</button>
