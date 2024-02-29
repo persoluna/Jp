@@ -478,6 +478,19 @@ include("include/header.php");
         }
 
         function showScorePopup() {
+            // Calculate elapsed time
+            const quizStartTime = <?php echo $_SESSION['quiz_start_time']; ?>;
+            const currentTime = Math.floor(Date.now() / 1000); // Convert milliseconds to seconds
+            const elapsedSeconds = currentTime - quizStartTime;
+
+            let timeTaken;
+            if (elapsedSeconds < 60) {
+                timeTaken = `${elapsedSeconds} seconds`;
+            } else {
+                const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+                timeTaken = `${elapsedMinutes} minute${elapsedMinutes > 1 ? 's' : ''}`;
+            }
+
             // Create a background overlay
             const overlay = document.createElement('div');
             overlay.classList.add('overlay');
@@ -492,6 +505,7 @@ include("include/header.php");
             popup.innerHTML = `
             <img src="${randomGIF}" alt="GIF">
             <p>Your Score: ${totalScore}</p>
+            <p>Time Taken: ${timeTaken}</p>
             <button onclick="backToQuizPage()">Back to Quiz Page</button>
             `;
             // Append the pop-up to the body

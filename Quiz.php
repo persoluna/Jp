@@ -276,45 +276,60 @@ $horizontalGap = 30;
     }
 
     function showDialogueBox(lessonId, lessonTitle, event) {
-      var lessonElement = event.currentTarget;
-      var lessonColor = $(lessonElement).css('background-color');
+    var lessonElement = event.currentTarget;
+    var lessonColor = $(lessonElement).css('background-color');
 
-      // Create the dialog content
-      var dialogueContent = "<p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
+    // Fetch last attempt time using AJAX
+    var userId = <?php echo $_SESSION['user_id']; ?>;
+    $.ajax({
+        type: "POST",
+        url: "get_last_attempt_time.php", // PHP file to handle the AJAX request
+        data: { userId: userId, lessonId: lessonId },
+        success: function(response) {
+            var lastAttemptTime = response;
+            // Create the dialog content including last attempt time
+            var dialogueContent = "<p>Last Attempt Time: " + lastAttemptTime + "</p><p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
 
-      // Create the dialog box dynamically and append it to the placeholder div
-      var dialogueBox = $('<div></div>')
-        .html(dialogueContent)
-        .dialog({
-          autoOpen: false,
-          modal: true,
-          title: lessonTitle + ' Quiz',
-          closeOnEscape: false, // Prevent closing dialog on pressing ESC key
-          showCloseButton: false, // Hide the close button in the title bar
-          close: function() {
-            $(this).dialog('destroy').remove();
-          },
-          buttons: [{
-            text: "Cancel",
-            click: function() {
-              $(this).dialog("close");
+            // Create the dialog box dynamically and append it to the placeholder div
+            var dialogueBox = $('<div></div>')
+                .html(dialogueContent)
+                .dialog({
+                    autoOpen: false,
+                    modal: true,
+                    title: lessonTitle + ' Quiz',
+                    closeOnEscape: false, // Prevent closing dialog on pressing ESC key
+                    showCloseButton: false, // Hide the close button in the title bar
+                    close: function() {
+                        $(this).dialog('destroy').remove();
+                    },
+                    buttons: [{
+                        text: "Cancel",
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }]
+                });
+
+            // Set button state based on lesson color
+            if (lessonColor === 'rgb(0, 128, 0)' || lessonColor === 'rgb(255, 165, 0)') {
+                dialogueBox.find("#start-quiz-btn").prop("disabled", false);
+                dialogueBox.find("#start-quiz-btn").click(function() {
+                    window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
+                });
+            } else {
+                dialogueBox.find("#start-quiz-btn").prop("disabled", true);
             }
-          }]
-        });
 
-      // Set button state based on lesson color
-      if (lessonColor === 'rgb(0, 128, 0)' || lessonColor === 'rgb(255, 165, 0)') {
-        dialogueBox.find("#start-quiz-btn").prop("disabled", false);
-        dialogueBox.find("#start-quiz-btn").click(function() {
-          window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
-        });
-      } else {
-        dialogueBox.find("#start-quiz-btn").prop("disabled", true);
-      }
+            // Open the dialog box
+            dialogueBox.dialog('open');
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            // Handle error
+        }
+    });
+}
 
-      // Open the dialog box
-      dialogueBox.dialog('open');
-    }
   </script>
 </body>
 

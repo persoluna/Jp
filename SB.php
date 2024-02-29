@@ -15,7 +15,7 @@ include "config/db.php";
                 <tr>
                     <th>Rank</th>
                     <th>Profile</th>
-                    <th>XP</th>
+                    <th>Points</th>
                     <th>Streak</th> <!-- Added streak column -->
                 </tr>
             </thead>
