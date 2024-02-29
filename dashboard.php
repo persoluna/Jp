@@ -71,8 +71,8 @@ include("include/header.php");
                         <div class="row">
                             <div class="col-md-6 text-center">
                                 <img src="uploads/<?php echo $profile_pic; ?>" alt="Profile Picture" class="profile-pic">
-                                <div>Total XP: <?php echo $total_xp; ?></div>
-                                <div>Day Streak: <?php echo $day_streak; ?></div>
+                                <div class="total-xp">Total Points: <?php echo $total_xp; ?></div>
+                                <div class="day-streak">Day Streak: <?php echo $day_streak; ?></div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -134,6 +134,94 @@ include("include/header.php");
             border-radius: 50%;
             border: 4px solid #ccc;
             object-fit: cover;
+        }
+
+        /* Custom CSS for the Total XP and Day Streak */
+        .total-xp,
+        .day-streak {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            text-align: left;
+            padding: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom CSS for the edit button */
+        #editName {
+            background: #90d93f;
+            /* Change the background color of the edit button */
+            color: #fff;
+            /* Change the text color of the edit button */
+            border: none;
+            /* Remove the border of the edit button */
+            border-radius: 5px;
+            /* Add some rounded corners to the edit button */
+            padding: 5px 10px;
+            /* Add some padding to the edit button */
+            transition: 0.3s;
+            /* Add some transition effect to the edit button */
+        }
+
+        /* Custom CSS for the edit button when hovered */
+        #editName:hover {
+            background: #b0de78;
+            /* Change the background color of the edit button when hovered */
+            transform: scale(1.1);
+            /* Make the edit button slightly larger when hovered */
+        }
+
+        /* Custom CSS for the input group */
+        .input-group {
+            display: flex;
+            /* Use flexbox layout for the input group */
+            align-items: center;
+            /* Align the items vertically */
+            gap: 10px;
+            /* Add some gap between the items */
+        }
+
+        /* Custom CSS for the input fields */
+        .form-control {
+            width: 80%;
+            /* Set a relative width for the input fields */
+            border: 2px solid #90d93f;
+            /* Change the border color of the input fields */
+            border-radius: 5px;
+            /* Add some rounded corners to the input fields */
+            padding: 5px;
+            /* Add some padding to the input fields */
+        }
+
+        /* Custom CSS for the input fields when focused */
+        .form-control:focus {
+            outline: none;
+            /* Remove the default outline of the input fields */
+            border-color: #b0de78;
+            /* Change the border color of the input fields when focused */
+        }
+
+        /* Custom CSS for the save button */
+        #saveChanges {
+            background: #90d93f;
+            /* Change the background color of the save button */
+            color: #fff;
+            /* Change the text color of the save button */
+            border: none;
+            /* Remove the border of the save button */
+            border-radius: 5px;
+            /* Add some rounded corners to the save button */
+            padding: 10px 20px;
+            /* Add some padding to the save button */
+            transition: 0.3s;
+            /* Add some transition effect to the save button */
+        }
+
+        /* Custom CSS for the save button when hovered */
+        #saveChanges:hover {
+            background: #b0de78;
+            /* Change the background color of the save button when hovered */
+            transform: scale(1.1);
+            /* Make the save button slightly larger when hovered */
         }
     </style>
     <script>
