@@ -2,6 +2,13 @@
 session_start();
 include("config/db.php");
 
+
+//* Redirect to login if user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    header("location: login.php");
+    exit();
+}
+
 // Check if qlesson_id is set and is numeric
 if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
     $qlesson_id = $_GET['qlesson_id'];

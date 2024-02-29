@@ -1,7 +1,13 @@
 <?php
 session_start();
-include("include/header.php");
 include("config/db.php");
+
+// Redirect to login if user is not logged in
+if (!isset($_SESSION['user_id'])) {
+  header("location: login.php");
+  exit();
+}
+include("include/header.php");
 
 //! Fetch all quiz lessons
 $sql = "SELECT * FROM quizlessons";
@@ -73,7 +79,8 @@ $horizontalGap = 30;
               }
             }
             ?>
-            <div class="quiz-lesson" onclick="showDialogueBox('<?php echo $quizLesson['qlesson_id']; ?>', '<?php echo $quizLesson['title']; ?>')" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>; background-color: <?php echo $lessonColor; ?>"> <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
+            <div class="quiz-lesson" onclick="showDialogueBox('<?php echo $quizLesson['qlesson_id']; ?>', '<?php echo $quizLesson['title']; ?>', event)" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>; background-color: <?php echo $lessonColor; ?>">
+              <span class="quiz-lesson-number"><?php echo $i + 1; ?></span>
               <span class="quiz-lesson-title"><?php echo $quizLesson['title']; ?></span>
             </div>
           <?php endforeach; ?>
@@ -81,10 +88,11 @@ $horizontalGap = 30;
       </div>
     </div>
   </div>
-  <!-- Dialogue box for quiz -->
-  <div id="quiz-dialogue-box" class="dialogue-box">
-    <p>Start the quiz:</p>
-    <button id="start-quiz-btn">Start Quiz</button>
+
+  <!-- Placeholder div for jQuery dialog -->
+  <div id="quiz-dialogue-box" class="dialogue-box" style="display: none;">
+    <div id="dialogue-box-arrow" class="dialogue-box-arrow"></div>
+    <div id="dialogue-content" class="ui-dialog-content"></div>
   </div>
 
   <style>
@@ -150,30 +158,103 @@ $horizontalGap = 30;
       color: #fff;
     }
 
-    .dialogue-box {
-      position: absolute;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 5px;
+    /* Custom CSS for the dialogue box */
+    .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable.dialogue-box {
+      border: 2px solid #90d93f;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-      display: none;
-      /* Hide initially */
     }
 
-    .dialogue-box:after {
-      content: '';
-      position: absolute;
-      border-style: solid;
-      border-width: 10px 10px 0;
-      border-color: #fff transparent;
-      display: block;
-      width: 0;
-      z-index: 1;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* title bar */
+    .ui-dialog-titlebar {
+      background: #b0de78;
+      color: #fff;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    /* close button */
+    .ui-dialog-titlebar-close {
+      display: none;
+    }
+
+    /* dialogue content */
+    .ui-dialog-content {
+      background: #F9F9F9;
+      color: #222;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    /* the button container */
+    #button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    /* buttons */
+    #button-container button {
+      background: #90d93f;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+      padding: 10px 20px;
+      transition: 0.3s;
+    }
+
+    /* buttons when hovered */
+    #button-container button:hover {
+      background: #b0de78;
+      transform: scale(1.1);
+    }
+
+    /* buttons when disabled */
+    #button-container button:disabled {
+      background: #ccc;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    /* Custom CSS for the cancel button */
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:last-of-type {
+      background: #ff6b6b;
+      /* Change the background color of the cancel button */
+      color: #fff;
+      /* Change the text color of the cancel button */
+      border: none;
+      /* Remove the border of the cancel button */
+      border-radius: 5px;
+      /* Add some rounded corners to the cancel button */
+      cursor: pointer;
+      /* Change the cursor to a pointer when hovering over the cancel button */
+      font-size: 14px;
+      /* Change the font size of the cancel button */
+      padding: 10px 20px;
+      /* Add some padding to the cancel button */
+      transition: 0.3s;
+      /* Add some transition effect to the cancel button */
+    }
+
+    /* Custom CSS for the cancel button when hovered */
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:last-of-type:hover {
+      background: #ff8f8f;
+      /* Change the background color of the cancel button when hovered */
+      transform: scale(1.1);
+      /* Make the cancel button slightly larger when hovered */
+    }
+
+    /* Custom CSS for the cancel button when disabled */
+    .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button:last-of-type:disabled {
+      background: #ccc;
+      /* Change the background color of the cancel button when disabled */
+      color: #999;
+      /* Change the text color of the cancel button when disabled */
+      cursor: not-allowed;
+      /* Change the cursor to a not-allowed sign when hovering over the disabled cancel button */
     }
   </style>
 
@@ -194,33 +275,45 @@ $horizontalGap = 30;
       //! baki hei karna abhi
     }
 
-    function showDialogueBox(lessonId, lessonTitle) {
-      var dialogueBox = document.getElementById('quiz-dialogue-box');
-      var startQuizBtn = document.getElementById('start-quiz-btn');
-      dialogueBox.style.display = 'block';
-
-      // Position the dialogue box near the clicked quiz lesson
+    function showDialogueBox(lessonId, lessonTitle, event) {
       var lessonElement = event.currentTarget;
-      var rect = lessonElement.getBoundingClientRect();
-      dialogueBox.style.top = rect.bottom + 'px';
-      dialogueBox.style.left = rect.left + 'px';
+      var lessonColor = $(lessonElement).css('background-color');
 
-      // Update the button text and link
-      startQuizBtn.textContent = 'Start ' + lessonTitle + ' Quiz';
+      // Create the dialog content
+      var dialogueContent = "<p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
 
-      // Check the color of the clicked quiz lesson
-      var lessonColor = lessonElement.style.backgroundColor;
+      // Create the dialog box dynamically and append it to the placeholder div
+      var dialogueBox = $('<div></div>')
+        .html(dialogueContent)
+        .dialog({
+          autoOpen: false,
+          modal: true,
+          title: lessonTitle + ' Quiz',
+          closeOnEscape: false, // Prevent closing dialog on pressing ESC key
+          showCloseButton: false, // Hide the close button in the title bar
+          close: function() {
+            $(this).dialog('destroy').remove();
+          },
+          buttons: [{
+            text: "Cancel",
+            click: function() {
+              $(this).dialog("close");
+            }
+          }]
+        });
 
-      // Allow or prevent the user from starting the quiz based on the color
-      if (lessonColor === 'green' || lessonColor === 'orange') {
-        startQuizBtn.disabled = false; // Allow starting the quiz
-        startQuizBtn.onclick = function() {
+      // Set button state based on lesson color
+      if (lessonColor === 'rgb(0, 128, 0)' || lessonColor === 'rgb(255, 165, 0)') {
+        dialogueBox.find("#start-quiz-btn").prop("disabled", false);
+        dialogueBox.find("#start-quiz-btn").click(function() {
           window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
-        };
+        });
       } else {
-        startQuizBtn.disabled = true; // Prevent starting the quiz
-        startQuizBtn.onclick = null; // Disable the button click event
+        dialogueBox.find("#start-quiz-btn").prop("disabled", true);
       }
+
+      // Open the dialog box
+      dialogueBox.dialog('open');
     }
   </script>
 </body>
