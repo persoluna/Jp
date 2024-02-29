@@ -29,15 +29,18 @@ if (!isset($_SESSION['admin_id'])) {
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Current Day Streak</th>
+                                        <th>Cleared Quiz</th> <!-- New table header -->
                                         <th>View Attempts</th>
                                     </tr>
                                 </thead>
                                 <tbody id="user_table">
                                     <?php
-                                    // Fetch user data and current day streak from the database
-                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days 
+                                    // Fetch user data, current day streak, and cleared quiz count from the database
+                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days, COUNT(l.user_id) AS cleared_quiz 
                                                         FROM user u 
-                                                        LEFT JOIN user_streak s ON u.id = s.user_id";
+                                                        LEFT JOIN user_streak s ON u.id = s.user_id 
+                                                        LEFT JOIN lesson_unlocks l ON u.id = l.user_id";
+                                    $userStreakQuery .= " GROUP BY u.id"; // Grouping to count cleared quizzes per user
                                     $userStreakResult = mysqli_query($con, $userStreakQuery);
 
                                     if ($userStreakResult) {
@@ -54,11 +57,12 @@ if (!isset($_SESSION['admin_id'])) {
                                                 echo $user['total_days']; // Display streak value
                                             }
                                             echo "</td>";
+                                            echo "<td>{$user['cleared_quiz']}</td>"; // Display cleared quiz count
                                             echo "<td><button class='btn btn-info btn-sm'  style='width: 100px;' onclick='viewAttempts({$user['id']})'><i class='bi bi-person-lines-fill fs-6'></i></button></td>";
                                             echo "</tr>";
                                         }
                                     } else {
-                                        echo "<tr><td colspan='5'>Error fetching user data and streak.</td></tr>";
+                                        echo "<tr><td colspan='6'>Error fetching user data, streak, and cleared quiz count.</td></tr>";
                                     }
                                     ?>
                                 </tbody>
