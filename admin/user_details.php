@@ -17,7 +17,7 @@ if (!isset($_SESSION['admin_id'])) {
         <div class="row">
             <div class="col-md-9 col-lg-10 px-md-4">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card" style="border: none;">
                         <div class="card-header">
                             <h4>All Users</h4>
                         </div>
@@ -87,6 +87,21 @@ if (!isset($_SESSION['admin_id'])) {
             </div>
         </div>
     </div>
+
+    <style>
+        th {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            font-size: 20px;
+            font: bold;
+        }
+
+        h4 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            font-size: 40px;
+        }
+    </style>
 
     <script>
         function viewAttempts(userId) {

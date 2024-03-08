@@ -47,6 +47,27 @@ if (!$result) {
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Quiz Lessons</h1>
+        <hr>
+
+        <?php if (isset($_SESSION['success_message'])) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['success_message']; ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?php unset($_SESSION['success_message']); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error_message'])) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['error_message']; ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?php unset($_SESSION['error_message']); ?>
+        <?php endif; ?>
 
         <table class="table">
             <thead>
@@ -63,13 +84,81 @@ if (!$result) {
                         <td><?php echo $row['num_questions']; ?></td>
                         <td>
                             <a href="edit_quiz.php?id=<?php echo $row['qlesson_id']; ?>" class="btn btn-primary">Edit</a>
-                            <a href="?delete_id=<?php echo $row['qlesson_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this quiz lesson?')">Delete</a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_<?php echo $row['qlesson_id']; ?>">Delete</button>
                         </td>
                     </tr>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="deleteModal_<?php echo $row['qlesson_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_<?php echo $row['qlesson_id']; ?>" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel_<?php echo $row['qlesson_id']; ?>">Confirm Delete</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this quiz lesson?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <a href="?delete_id=<?php echo $row['qlesson_id']; ?>" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
+    <style>
+        h1 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Table style */
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle !important;
+        }
+
+        .table th {
+            background-color: whitesmoke;
+        }
+
+        /* Button style */
+        .btn-primary,
+        .btn-danger {
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+    </style>
 </body>
 
 </html>

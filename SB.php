@@ -7,46 +7,55 @@ include "config/db.php";
 <body>
 
     <div class="container">
-        <h1 class="mb-4">Leaderboard</h1>
+        <h1 class="mb-4" style="color: black; margin-top: 15px;">Leaderboard</h1>
         <hr>
         <br>
         <table id="leaderboard" class="table table-striped table-bordered">
             <thead class="thead-dark">
-                <tr>
-                    <th>Rank</th>
-                    <th>Profile</th>
-                    <th>Points</th>
-                    <th>Streak</th> <!-- Added streak column -->
+                <tr class="table table-dark">
+                    <th class="rank-header">Rank</th>
+                    <th class="profile-header">Profile</th>
+                    <th class="points-header">Points</th>
+                    <th class="streak-header">Streak</th> <!-- Added streak column -->
                 </tr>
             </thead>
 
             <tbody>
+    <?php
+    $sql = "SELECT u.name, u.image, uxp.xp, us.total_days AS streak, (@rownum := @rownum + 1) AS rank 
+            FROM user u
+            JOIN user_xp uxp ON u.id = uxp.user_id
+            LEFT JOIN user_streak us ON u.id = us.user_id
+            CROSS JOIN (SELECT @rownum := 0) AS init
+            ORDER BY uxp.xp DESC
+            LIMIT 10";
+
+    $result = mysqli_query($con, $sql);
+
+    while ($row = mysqli_fetch_assoc($result)) :
+    ?>
+        <tr>
+            <td class="rank"><?php echo $row['rank']; ?></td>
+            <td class="profile">
+                <img src="uploads/<?php echo $row['image']; ?>" class="rounded-circle" width="50" height="50">
+                <span class="profile-name"><?php echo $row['name']; ?></span>
+            </td>
+            <td class="points"><?php echo $row['xp']; ?></td>
+            <td class="streak">
                 <?php
-                $sql = "SELECT u.name, u.image, uxp.xp, us.total_days AS streak, (@rownum := @rownum + 1) AS rank 
-                        FROM user u
-                        JOIN user_xp uxp ON u.id = uxp.user_id
-                        LEFT JOIN user_streak us ON u.id = us.user_id
-                        CROSS JOIN (SELECT @rownum := 0) AS init
-                        ORDER BY uxp.xp DESC
-                        LIMIT 10";
-
-                $result = mysqli_query($con, $sql);
-
-                while ($row = mysqli_fetch_assoc($result)) :
+                if ($row['streak'] > 0) {
+                    echo $row['streak'] . ' Day';
+                    echo '<img class="fire" src="assets/007.gif">';
+                } else {
+                    echo '0 Day';
+                    echo '<img class="zero-streak" src="assets/snow-winter.gif">';
+                }
                 ?>
-                    <tr>
-                        <td style="font-size: 0.6cm;"><?php echo $row['rank']; ?></td>
-                        <td>
-                            <img src="uploads/<?php echo $row['image']; ?>" class="rounded-circle" width="50" height="50">
-                            <span style="font-size: 0.5cm;"><?php echo $row['name']; ?></span>
-                        </td>
-                        <td style="font-size: 0.5cm;"><?php echo $row['xp']; ?></td>
-                        <td style="font-size: 0.5cm;"><?php echo ($row['streak'] > 0) ? $row['streak'] . '' : 'No streak'; ?>
-                            Day <img class="fire" src="assets/007.gif">
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
+            </td>
+        </tr>
+    <?php endwhile; ?>
+</tbody>
+
         </table>
 
         <!-- Add the share button with JavaScript to open a Bootstrap modal -->
@@ -84,7 +93,6 @@ include "config/db.php";
                 </div>
             </div>
         </div>
-
         <script>
             function openImageModal() {
                 // Open Bootstrap modal with the image
@@ -100,14 +108,59 @@ include "config/db.php";
         </script>
     </div>
     <style>
+        body {
+            background-color: #D7E2EE;
+        }
+
         .fire {
             height: 50px;
             width: 40px;
         }
 
-        /* scroll bar hiden */
-        body::-webkit-scrollbar {
-            display: none;
+        .zero-streak {
+            height: 50px;
+            width: 50px;
+        }
+
+        #leaderboard {
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        .rounded-circle {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ddd;
+        }
+
+        .rank-header {
+            width: 10%;
+            max-width: 10%;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: orange;
+        }
+
+        .profile-header,
+        .points-header,
+        .streak-header {
+            width: 30%;
+        }
+
+        .profile-name {
+            font-size: 1.1em;
+        }
+
+        .streak {
+            font-weight: bold;
+            color: orange;
         }
 
         #leaderboard {
@@ -127,17 +180,9 @@ include "config/db.php";
 
         #leaderboard {
             width: 100%;
-        }
-
-        th,
-        td {
-            text-align: center;
-        }
-
-        .rounded-circle {
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ddd;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            /* Adjust the second value to increase or decrease spacing */
         }
 
         #leaderboard th:first-child,
@@ -145,6 +190,7 @@ include "config/db.php";
             width: 10%;
             max-width: 10%;
         }
+
 
         .share-btn {
             position: relative;
@@ -252,6 +298,11 @@ include "config/db.php";
             opacity: 1;
             transition: .5s;
             transition-delay: .5s;
+        }
+
+        /* scroll bar hiden */
+        body::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </body>

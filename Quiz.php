@@ -66,7 +66,7 @@ $horizontalGap = 30;
             }
 
             // Determine the color based on user status
-            $lessonColor = "gray"; // Default color
+            $lessonColor = "#4D555A"; // Default color
             if (empty($unlockedLessons)) { // New user
               if ($i === 0) {
                 $lessonColor = "orange"; // First lesson for new user
@@ -79,7 +79,7 @@ $horizontalGap = 30;
               }
             }
             // Determine the content to display (number or lock icon)
-            $content = ($lessonColor === "gray") ? "<i class='fas fa-lock'></i>" : ($i + 1);
+            $content = ($lessonColor === "#4D555A") ? "<i class='fas fa-lock'></i>" : ($i + 1);
             ?>
             <div class="quiz-lesson" onclick="showDialogueBox('<?php echo $quizLesson['qlesson_id']; ?>', '<?php echo $quizLesson['title']; ?>', event)" onmouseover="hoverLesson(this)" onmouseout="unhoverLesson(this)" style="top: <?php echo $yPos; ?>vh; left: <?php echo $xPos; ?>vw; z-index: <?php echo $i + 1; ?>; background-color: <?php echo $lessonColor; ?>">
               <span class="quiz-lesson-number"><?php echo $content; ?></span>
@@ -98,6 +98,10 @@ $horizontalGap = 30;
   </div>
 
   <style>
+    body {
+      background-color: white;
+    }
+
     /* scroll bar hiden */
     body::-webkit-scrollbar {
       display: none;
@@ -278,68 +282,67 @@ $horizontalGap = 30;
     }
 
     function showDialogueBox(lessonId, lessonTitle, event) {
-    var lessonElement = event.currentTarget;
-    var lessonColor = $(lessonElement).css('background-color');
+      var lessonElement = event.currentTarget;
+      var lessonColor = $(lessonElement).css('background-color');
 
-    // Fetch last attempt time and time limit using AJAX
-    var userId = <?php echo $_SESSION['user_id']; ?>;
-    $.ajax({
+      // Fetch last attempt time and time limit using AJAX
+      var userId = <?php echo $_SESSION['user_id']; ?>;
+      $.ajax({
         type: "POST",
         url: "get_last_attempt_time.php", // PHP file to handle the AJAX request
         data: {
-            userId: userId,
-            lessonId: lessonId
+          userId: userId,
+          lessonId: lessonId
         },
         success: function(response) {
-            var data = JSON.parse(response);
-            var lastAttemptTime = data.lastAttemptTime;
-            var timeLimit = data.timeLimit;
+          var data = JSON.parse(response);
+          var lastAttemptTime = data.lastAttemptTime;
+          var timeLimit = data.timeLimit;
 
-            // Create the dialog content including last attempt time and time limit
-            var dialogueContent = "<p>Last Attempt Time: " + lastAttemptTime + "</p>";
-            dialogueContent += "<p>Time Limit: " + timeLimit + " minutes</p>";
-            dialogueContent += "<p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
+          // Create the dialog content including last attempt time and time limit
+          var dialogueContent = "<p>Last Attempt Time: " + lastAttemptTime + "</p>";
+          dialogueContent += "<p>Time Limit: " + timeLimit + " minutes</p>";
+          dialogueContent += "<p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
 
-            // Create the dialog box dynamically and append it to the placeholder div
-            var dialogueBox = $('<div></div>')
-                .html(dialogueContent)
-                .dialog({
-                    autoOpen: false,
-                    modal: true,
-                    title: lessonTitle + ' Quiz',
-                    closeOnEscape: false, // Prevent closing dialog on pressing ESC key
-                    showCloseButton: false, // Hide the close button in the title bar
-                    close: function() {
-                        $(this).dialog('destroy').remove();
-                    },
-                    buttons: [{
-                        text: "Cancel",
-                        click: function() {
-                            $(this).dialog("close");
-                        }
-                    }]
-                });
+          // Create the dialog box dynamically and append it to the placeholder div
+          var dialogueBox = $('<div></div>')
+            .html(dialogueContent)
+            .dialog({
+              autoOpen: false,
+              modal: true,
+              title: lessonTitle + ' Quiz',
+              closeOnEscape: false, // Prevent closing dialog on pressing ESC key
+              showCloseButton: false, // Hide the close button in the title bar
+              close: function() {
+                $(this).dialog('destroy').remove();
+              },
+              buttons: [{
+                text: "Cancel",
+                click: function() {
+                  $(this).dialog("close");
+                }
+              }]
+            });
 
-            // Set button state based on lesson color
-            if (lessonColor === 'rgb(0, 128, 0)' || lessonColor === 'rgb(255, 165, 0)') {
-                dialogueBox.find("#start-quiz-btn").prop("disabled", false);
-                dialogueBox.find("#start-quiz-btn").click(function() {
-                    window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
-                });
-            } else {
-                dialogueBox.find("#start-quiz-btn").prop("disabled", true);
-            }
+          // Set button state based on lesson color
+          if (lessonColor === 'rgb(0, 128, 0)' || lessonColor === 'rgb(255, 165, 0)') {
+            dialogueBox.find("#start-quiz-btn").prop("disabled", false);
+            dialogueBox.find("#start-quiz-btn").click(function() {
+              window.location.href = 'quiz_page.php?qlesson_id=' + lessonId;
+            });
+          } else {
+            dialogueBox.find("#start-quiz-btn").prop("disabled", true);
+          }
 
-            // Open the dialog box
-            dialogueBox.dialog('open');
+          // Open the dialog box
+          dialogueBox.dialog('open');
         },
         error: function(xhr, status, error) {
-            console.error(error);
-            // Handle error
+          console.error(error);
+          // Handle error
         }
-    });
-}
-
+      });
+    }
   </script>
 </body>
 
