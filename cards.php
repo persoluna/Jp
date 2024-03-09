@@ -120,7 +120,7 @@ if (isset($_GET['chapters'])) {
                     height: 100%;
                     -webkit-backface-visibility: hidden;
                     backface-visibility: hidden;
-                    border: 2px solid black;
+                    border: 1.5px solid black;
                     border-radius: 1rem;
                 }
 
