@@ -88,25 +88,25 @@ if (!isset($_SESSION['user_id'])) {
           <div class="w3-third w3-margin-bottom">
             <img src="assets/japan/quiz.png" alt="New York" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
-              <p><b>New York</b></p>
-              <p class="w3-opacity">Fri 27 Nov 2016</p>
-              <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+              <p><b>Quiz Lesson</b></p>
+              <p class="w3-opacity">Beginner friendly </p>
+              <p>We have a great number of beginner friendly quiz leassons for you!!!</p>
             </div>
           </div>
           <div class="w3-third w3-margin-bottom">
-            <img src="assets/japan/flash.png" alt="Paris" style="width:100%" class="w3-hover-opacity">
+            <img src="assets/japan/flash001.jpg" alt="Paris" style="width:100%" class="w3-hover-opacity">
             <div class="w3-container w3-white">
-              <p><b>Paris</b></p>
-              <p class="w3-opacity">Sat 28 Nov 2016</p>
-              <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+              <p><b>Flashcards</b></p>
+              <p class="w3-opacity">Vocabulary Chapters</p>
+              <p>Learn and remember essential vocabulary to perform better in quiz.</p>
             </div>
           </div>
           <div class="w3-third w3-margin-bottom">
-            <img src="assets/japan/score.png" alt="San Francisco" style="width:100%" class="w3-hover-opacity">
+            <img src="assets/japan/score.png" alt="San Francisco" style="width:100%; background-color: white;" class="w3-hover-opacity">
             <div class="w3-container w3-white">
-              <p><b>San Francisco</b></p>
-              <p class="w3-opacity">Sun 29 Nov 2016</p>
-              <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+              <p><b>ScoreBoard</b></p>
+              <p class="w3-opacity">Get in the top 10 players!</p>
+              <p>Perform well in the quiz lessons to get into the top 10 players!!!</p>
             </div>
           </div>
         </div>

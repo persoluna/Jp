@@ -1,33 +1,43 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container-fluid">
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'admin_dash.php') ? 'active-page' : ''; ?>" href="admin_dash.php">Dashboard</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'quiz.php') ? 'active-page' : ''; ?>" href="quiz.php">All Quiz</a>
+        <li class="nav-item dropdown hover-dropdown">
+          <a class="nav-link dropdown-toggle">
+            Quiz
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="quizDropdown">
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'quiz.php') ? 'active-page' : ''; ?>" href="quiz.php">All Quiz</a></li>
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'quiz_lesson.php') ? 'active-page' : ''; ?>" href="quiz_lesson.php">Add Quiz Lesson</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'all_chapters.php') ? 'active-page' : ''; ?>" href="all_chapters.php">All Chapters</a>
+        <li class="nav-item dropdown hover-dropdown">
+          <a class="nav-link dropdown-toggle">
+            Chapters
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="chapterDropdown">
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'all_chapters.php') ? 'active-page' : ''; ?>" href="all_chapters.php">All Chapters</a></li>
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'add_chapter.php') ? 'active-page' : ''; ?>" href="add_chapter.php">Add Chapter</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'flashcards.php') ? 'active-page' : ''; ?>" href="flashcards.php">All Flashcards</a>
+        <li class="nav-item dropdown hover-dropdown">
+          <a class="nav-link dropdown-toggle">
+            Flashcards
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="flashcardDropdown">
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'flashcards.php') ? 'active-page' : ''; ?>" href="flashcards.php">All Flashcards</a></li>
+            <li><a class="dropdown-item <?= (basename($_SERVER['PHP_SELF']) == 'add_flashcard.php') ? 'active-page' : ''; ?>" href="add_flashcard.php">Add Flashcard</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'add_chapter.php') ? 'active-page' : ''; ?>" href="add_chapter.php">Add Chapter</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'add_flashcard.php') ? 'active-page' : ''; ?>" href="add_flashcard.php">Add Flashcard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'quiz_lesson.php') ? 'active-page' : ''; ?>" href="quiz_lesson.php">Add Quiz Lesson</a>
-        </li>
+      </ul>
+      <ul class="navbar-nav">
         <li class="nav-item">
           <form method="post" action="logout.php">
             <button type="submit" name="logout" class="btn btn-outline-primary">Logout</button>
@@ -35,10 +45,8 @@
         </li>
       </ul>
     </div>
-
   </div>
 </nav>
-
 
 <style>
   .active-page {
@@ -75,11 +83,18 @@
   }
 
   @media (min-width: 992px) {
-
     .navbar-expand-lg .navbar-nav .nav-link {
       padding-right: 2rem;
       padding-left: 2rem;
     }
 
+    /* Hover dropdown styles */
+    .hover-dropdown:hover > .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu {
+      margin-top: 0;
+    }
   }
 </style>

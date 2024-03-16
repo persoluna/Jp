@@ -18,28 +18,31 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="col-md-9 col-lg-10 px-md-4">
                 <div class="col-md-12">
                     <div class="card" style="border: none;">
-                        <div class="card-header">
+                        <div class="card-header" style="width: 1200px;">
                             <h4>All Users</h4>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" style="width: 1200px;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Current Day Streak</th>
-                                        <th>Cleared Quiz</th> <!-- New table header -->
+                                        <th>Cleared Quiz</th>
+                                        <th>Total Time Spend Learning</th>
                                         <th>View Attempts</th>
                                     </tr>
                                 </thead>
                                 <tbody id="user_table">
                                     <?php
                                     // Fetch user data, current day streak, and cleared quiz count from the database
-                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days, COUNT(l.user_id) AS cleared_quiz 
-                                                        FROM user u 
-                                                        LEFT JOIN user_streak s ON u.id = s.user_id 
-                                                        LEFT JOIN lesson_unlocks l ON u.id = l.user_id";
+                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days, COUNT(l.user_id) AS cleared_quiz, 
+                                                        IFNULL(SUM(ROUND(qa.end_time / 60, 2)), 0) AS total_time_taken
+                                                        FROM user u
+                                                        LEFT JOIN user_streak s ON u.id = s.user_id
+                                                        LEFT JOIN lesson_unlocks l ON u.id = l.user_id
+                                                        LEFT JOIN quiz_attempts qa ON u.id = qa.user_id";
                                     $userStreakQuery .= " GROUP BY u.id"; // Grouping to count cleared quizzes per user
                                     $userStreakResult = mysqli_query($con, $userStreakQuery);
 
@@ -58,6 +61,7 @@ if (!isset($_SESSION['admin_id'])) {
                                             }
                                             echo "</td>";
                                             echo "<td>{$user['cleared_quiz']}</td>"; // Display cleared quiz count
+                                            echo "<td>" . round($user['total_time_taken'], 2) . "</td>"; // Display total time taken in minutes
                                             echo "<td><button class='btn btn-info btn-sm'  style='width: 100px;' onclick='viewAttempts({$user['id']})'><i class='bi bi-person-lines-fill fs-6'></i></button></td>";
                                             echo "</tr>";
                                         }
