@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("include/header.php");
 include("include/sidebar.php");
 include("../config/db.php");
 
@@ -44,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error inserting quiz lesson data: " . mysqli_error($con);
     }
 }
+include("include/header.php");
 ?>
 
 <body>

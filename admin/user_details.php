@@ -30,7 +30,7 @@ if (!isset($_SESSION['admin_id'])) {
                                         <th>Email</th>
                                         <th>Current Day Streak</th>
                                         <th>Cleared Quiz</th>
-                                        <th>Total Time Spend Learning</th>
+                                        <th>Total Time (minutes)</th>
                                         <th>View Attempts</th>
                                     </tr>
                                 </thead>

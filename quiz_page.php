@@ -213,11 +213,21 @@ include("include/header.php");
                             <button type="button" class="btn btn-primary" onclick="showNextQuestion()" id="next-button-<?php echo $index; ?>" style="display:none;">Next</button>
                         </div>
                     <?php endforeach; ?>
+                    <video id="result-video" style="display: none;">
+                        <source src="assets\Japan\pop_up.mp3" type="audio/mpeg">
+                    </video>
                 </div>
             </div>
         </div>
     </div>
     <style>
+        body {
+            background-image: url('assets/japan/quiz_bg002.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
         .loading-animation {
             position: fixed;
             top: 0;
@@ -239,6 +249,11 @@ include("include/header.php");
 
         #quiz-content {
             filter: blur(5px);
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
         }
 
         .question-container {
@@ -510,6 +525,14 @@ include("include/header.php");
             `;
             // Append the pop-up to the body
             document.body.appendChild(popup);
+
+            playResultSound();
+        }
+
+        function playResultSound() {
+            const resultVideo = document.getElementById('result-video');
+            resultVideo.currentTime = 0; // Reset to the beginning
+            resultVideo.play();
         }
 
         function getRandomGIF() {
