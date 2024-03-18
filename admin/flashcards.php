@@ -9,32 +9,30 @@ if (!isset($_SESSION['admin_id'])) {
     header("location: login.php");
     exit();
 }
-
-// Check for success message and display it
+// Check for and display added message
 if (isset($_SESSION['added_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['added_message'] . '</div>';
-    unset($_SESSION['added_message']);
+    echo "<script>toastr.success('" . $_SESSION['added_message'] . "', '', { positionClass: 'toast-bottom-left' });</script>";    unset($_SESSION['added_message']);
 }
-// Check for success message and display it
+
+// Check for and display updated message
 if (isset($_SESSION['updated_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['updated_message'] . '</div>';
-    unset($_SESSION['updated_message']);
+    echo "<script>toastr.success('" . $_SESSION['updated_message'] . "', '', { positionClass: 'toast-bottom-left' });</script>";    unset($_SESSION['updated_message']);
 }
-// Check for success message and display it
+
+// Check for and display error message
 if (isset($_SESSION['error_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['error_message'] . '</div>';
-    unset($_SESSION['error_message']);
+    echo "<script>toastr.error('" . $_SESSION['error_message'] . "', '', { positionClass: 'toast-bottom-right', toastClass: 'toast-red' });</script>";    unset($_SESSION['error_message']);
 }
-// Check for success message and display it
+
+// Check for and display deleted message
 if (isset($_SESSION['deleted_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['deleted_message'] . '</div>';
-    unset($_SESSION['deleted_message']);
+    echo "<script>toastr.success('" . $_SESSION['deleted_message'] . "', '', { positionClass: 'toast-bottom-right', toastClass: 'toast-red' });</script>";    unset($_SESSION['deleted_message']);
 }
-// Check for success message and display it
+
+// Check for and display problem message         
 if (isset($_SESSION['problem_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['problem_message'] . '</div>';
-    unset($_SESSION['problem_message']);
-}
+    echo "<script>toastr.error('" . $_SESSION['problem_message'] . "', '', { positionClass: 'toast-bottom-right', toastClass: 'toast-red' });</script>";    unset($_SESSION['problem_message']);
+} 
 ?>
 
 <body>

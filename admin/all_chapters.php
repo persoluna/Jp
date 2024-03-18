@@ -13,21 +13,20 @@ if (!isset($_SESSION['admin_id'])) {
 
 // Check for success message and display it
 if (isset($_SESSION['updated_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['updated_message'] . '</div>';
+    echo "<script>toastr.success('" . $_SESSION['updated_message'] . "', '', { positionClass: 'toast-bottom-left' });</script>";
     unset($_SESSION['updated_message']); // Remove the message after displaying it
 }
 // Check for success message and display it
 if (isset($_SESSION['deleted_message'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['deleted_message'] . '</div>';
+    echo "<script>toastr.success('" . $_SESSION['deleted_message'] . "', '', { positionClass: 'toast-bottom-right', toastClass: 'toast-red' });</script>";
     unset($_SESSION['deleted_message']); // Remove the message after displaying it
 }
 
 // Check for error message and display it
 if (isset($_SESSION['error_message'])) {
-    echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+    echo "<script>toastr.error('" . $_SESSION['error_message'] . "');</script>";
     unset($_SESSION['error_message']); // Remove the message after displaying it
 }
-
 ?>
 
 <body>

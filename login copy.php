@@ -42,6 +42,13 @@ if (isset($_POST['submit'])) {
     }
 }
 
+// If the error session variable is set, display the error message
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+    echo "<div class='alert alert-danger'>$error</div>";
+}
+
 include("include/header.php");
 ?>
 
@@ -79,20 +86,6 @@ include("include/header.php");
             </div>
         </div>
     </section>
-    <!-- Include Toastr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <?php if (isset($_SESSION['error'])) : ?>
-        <script>
-            // Set toastr options before displaying the error message
-            toastr.options = {
-                "positionClass": "toast-bottom-left", // Change position to top center
-                "preventDuplicates": true // Prevent duplicate toasts
-            };
-            toastr.error("<?php echo $_SESSION['error']; ?>");
-        </script>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-
     <style>
         /* scroll bar hiden */
         body::-webkit-scrollbar {

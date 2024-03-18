@@ -18,11 +18,11 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="col-md-9 col-lg-10 px-md-4">
                 <div class="col-md-12">
                     <div class="card" style="border: none;">
-                        <div class="card-header" style="width: 1200px;">
+                        <div class="card-header" style="width: 1100px;">
                             <h4>All Users</h4>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered table-striped" style="width: 1200px;">
+                            <table class="table table-bordered table-striped" style="width: 1100px;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>

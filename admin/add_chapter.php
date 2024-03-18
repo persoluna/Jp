@@ -10,13 +10,15 @@ if (!isset($_SESSION['admin_id'])) {
   exit();
 }
 
+// Check for success message and display it
 if (isset($_SESSION['success_message'])) {
-  echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
+  echo "<script>toastr.success('" . $_SESSION['success_message'] . "', '', { positionClass: 'toast-bottom-left' });</script>";
   unset($_SESSION['success_message']);
 }
 
+// Check for error message and display it
 if (isset($_SESSION['error_message'])) {
-  echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+  echo "<script>toastr.error('" . $_SESSION['error_message'] . "', '', { positionClass: 'toast-bottom-right', toastClass: 'toast-red' });</script>";
   unset($_SESSION['error_message']);
 }
 ?>

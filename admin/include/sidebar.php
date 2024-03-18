@@ -49,6 +49,10 @@
 </nav>
 
 <style>
+  .toast-red {
+    background-color: red;
+  }
+
   .active-page {
     color: white;
     background-color: blue;
@@ -89,7 +93,7 @@
     }
 
     /* Hover dropdown styles */
-    .hover-dropdown:hover > .dropdown-menu {
+    .hover-dropdown:hover>.dropdown-menu {
       display: block;
     }
 
