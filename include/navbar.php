@@ -68,7 +68,6 @@
         font-family: 'Roboto', sans-serif;
         background-color: #E0F2F1;
         text-align: center;
-
     }
 
     .nav-link {
@@ -128,6 +127,6 @@
     }
 
     .container {
-        color: #004d00;
+        color: black;
     }
 </style>

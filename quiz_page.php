@@ -114,7 +114,7 @@ include("include/header.php");
     </div>
 
     <div id="quiz-content" style="display: none;">
-        <div class="container mt-5">
+        <div class="container" style="margin-top: 60px;">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <h2 class="text-center mb-4"><?php echo $quizLesson['title']; ?></h2>
@@ -210,7 +210,7 @@ include("include/header.php");
                             <p id="answer-message-<?php echo $index; ?>" class="answer-message"></p>
 
                             <!-- Show the "Next" button (initially hidden) -->
-                            <button type="button" class="btn btn-primary" onclick="showNextQuestion()" id="next-button-<?php echo $index; ?>" style="display:none;">Next</button>
+                            <button type="button" class="btn btn-success" onclick="showNextQuestion()" id="next-button-<?php echo $index; ?>" style="display:none;">Next</button>
                         </div>
                     <?php endforeach; ?>
                     <video id="result-video" style="display: none;">

@@ -86,6 +86,9 @@ $horizontalGap = 30;
               <span class="quiz-lesson-title"><?php echo $quizLesson['title']; ?></span>
             </div>
           <?php endforeach; ?>
+          <audio id="dialogue-sound" preload="auto">
+            <source src="assets\Japan\pop_up001.mp3" type="audio/mpeg">
+          </audio>
         </div>
       </div>
     </div>
@@ -301,7 +304,7 @@ $horizontalGap = 30;
 
           // Create the dialog content including last attempt time and time limit
           var dialogueContent = "<p>Last Attempt Time: " + lastAttemptTime + "</p>";
-          dialogueContent += "<p>Time Limit: " + timeLimit + " minutes</p>";
+          dialogueContent += "<p>Time Limit: " + timeLimit + " minutes</p><br>";
           dialogueContent += "<p>Start the quiz:</p><div id='button-container'><button id='start-quiz-btn'>Start " + lessonTitle + " Quiz</button></div>";
 
           // Create the dialog box dynamically and append it to the placeholder div
@@ -336,6 +339,8 @@ $horizontalGap = 30;
 
           // Open the dialog box
           dialogueBox.dialog('open');
+
+          document.getElementById('dialogue-sound').play();
         },
         error: function(xhr, status, error) {
           console.error(error);
