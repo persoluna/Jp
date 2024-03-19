@@ -87,6 +87,7 @@ if (isset($_GET['qlesson_id']) && is_numeric($_GET['qlesson_id'])) {
                 }
             } else {
                 // User has not unlocked the quiz lesson or it's not the next quiz lesson after the highest unlocked lesson, redirect to the main quiz page or display an error message
+                $_SESSION['notification'] = "Please complete the above chapters to unlock this quiz lesson.";
                 header("Location: quiz.php"); // Redirect to main quiz page
                 exit; // Stop further execution
             }

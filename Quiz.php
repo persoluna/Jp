@@ -100,6 +100,19 @@ $horizontalGap = 30;
     <div id="dialogue-content" class="ui-dialog-content"></div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <?php if (isset($_SESSION['notification'])) : ?>
+        <script>
+            // Set toastr options before displaying the error message
+            toastr.options = {
+                "positionClass": "toast-bottom-left", // Change position to top center
+                "preventDuplicates": true // Prevent duplicate toasts
+            };
+            toastr.warning("<?php echo $_SESSION['notification']; ?>");
+        </script>
+        <?php unset($_SESSION['notification']); ?>
+    <?php endif; ?>
+
   <style>
     body {
       background-color: white;
