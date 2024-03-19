@@ -105,6 +105,7 @@ include("include/header.php");
         <canvas id="xpChart" width="400" height="200"></canvas>
     </div>
 
+
     <style>
         /* scroll bar hidden */
         body::-webkit-scrollbar {
@@ -328,6 +329,19 @@ include("include/header.php");
             saveBtn.style.display = 'none';
         });
     </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <?php if (isset($_SESSION['notification'])) : ?>
+        <script>
+            // Set toastr options before displaying the error message
+            toastr.options = {
+                "positionClass": "toast-bottom-right", // Change position to top center
+                "preventDuplicates": true // Prevent duplicate toasts
+            };
+            toastr.success("<?php echo $_SESSION['notification']; ?>");
+        </script>
+        <?php unset($_SESSION['notification']); ?>
+    <?php endif; ?>
 </body>
 
 </html>

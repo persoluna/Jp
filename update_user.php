@@ -27,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_query($con, $updateQuery)) {
         // Update successful
         http_response_code(200);
+        // Update successful
+        $_SESSION['notification'] = "User details updated successfully";
         exit("User details updated successfully");
     } else {
         // Update failed
