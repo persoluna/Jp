@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("include/header.php");
-include("include/sidebar.php");
 include("../config/db.php");
 
 // *Get quiz lesson ID and number of questions from session
@@ -75,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("location: quiz.php");
     exit();
 }
+include("include/sidebar.php");
 ?>
 
 <body>

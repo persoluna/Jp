@@ -2,7 +2,6 @@
 session_start();
 include("include/header.php");
 include("../config/db.php");
-include("include/sidebar.php");
 
 if (!isset($_SESSION['admin_id'])) {
     $_SESSION['login_redirect_message'] = 'You need to log in to access the dashboard';
@@ -50,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("location: quiz.php");
     exit();
 }
+include("include/sidebar.php");
 
 ?>
 

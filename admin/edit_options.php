@@ -2,7 +2,6 @@
 session_start();
 include("include/header.php");
 include("../config/db.php");
-include("include/sidebar.php");
 
 // Check if question_id is provided in the URL
 if (isset($_GET['question_id'])) {
@@ -57,6 +56,7 @@ if (isset($_GET['question_id'])) {
     header("location: $quizQuestionPageUrl");
     exit();
 }
+include("include/sidebar.php");
 ?>
 
 <body>
