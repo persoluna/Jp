@@ -9,7 +9,9 @@ if (!isset($_SESSION['admin_id'])) {
     header("location: login.php");
     exit();
 }
+/*
 
+*/
 ?>
 
 <body>
@@ -37,7 +39,7 @@ if (!isset($_SESSION['admin_id'])) {
                                 <tbody id="user_table">
                                     <?php
                                     // Fetch user data, current day streak, and cleared quiz count from the database
-                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days, COUNT(l.user_id) AS cleared_quiz, 
+                                    $userStreakQuery = "SELECT u.id, u.name, u.email, IFNULL(s.total_days, 0) AS total_days, COUNT(DISTINCT l.lesson_id) AS cleared_quiz, 
                                                         IFNULL(SUM(ROUND(qa.end_time / 60, 2)), 0) AS total_time_taken
                                                         FROM user u
                                                         LEFT JOIN user_streak s ON u.id = s.user_id

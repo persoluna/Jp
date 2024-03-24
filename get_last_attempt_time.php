@@ -10,15 +10,21 @@ if (isset($_POST['userId']) && isset($_POST['lessonId'])) {
 
     // Function to get the last attempt time
     function getLastAttemptTime($userId, $lessonId, $con)
-    {
-        $sql = "SELECT end_time FROM quiz_attempts WHERE user_id = $userId AND qlesson_id = $lessonId ORDER BY attempt_id DESC LIMIT 1";
-        $result = mysqli_query($con, $sql);
-        if ($result && mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            return $row['end_time'];
+{
+    $sql = "SELECT end_time FROM quiz_attempts WHERE user_id = $userId AND qlesson_id = $lessonId ORDER BY attempt_id DESC LIMIT 1";
+    $result = mysqli_query($con, $sql);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $endTimeSeconds = $row['end_time'];
+        if ($endTimeSeconds < 60) {
+            return $endTimeSeconds . " seconds";
+        } else {
+            $endTimeMinutes = floor($endTimeSeconds / 60);
+            return $endTimeMinutes . " minutes";
         }
-        return null;
     }
+    return "None";
+}
 
     // Function to get the time limit for a lesson
     function getTimeLimit($lessonId, $con)
