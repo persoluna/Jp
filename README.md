@@ -1,2 +1,3 @@
 # japanese learning is highly recommended
-ggs
+
+Live Project - https://github.com/persoluna/Jp
